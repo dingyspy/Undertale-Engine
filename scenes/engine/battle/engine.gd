@@ -20,6 +20,7 @@ var menu_no = 0
 var menu_posx = 0
 var menu_posy = 0
 var prev_menu_posx = 0
+var page = 0
 
 var buttons = []
 
@@ -63,12 +64,51 @@ func _process(delta: float) -> void:
 		1:
 			# this is where extra button functions can be implemented
 			# another one is below in the "accept" section
-			match menu_posx:
+			match prev_menu_posx:
 				0,1:
 					menu_posy = posmod(menu_posy + menu_y, enemies.get_children().size())
 					soul.position = border.position + Vector2(42,36 + menu_posy * 32)
 					
 					if menu_y != 0 and enemies.get_children().size() != 1: Audio.play('move')
+				2:
+					var pages = int(ceil(Global.items.size() / 4.0))
+					
+					if pages > 1:
+						if page >= 1 and page < pages:
+							if menu_posx + menu_x >= 2:
+								for item in menuitems.get_children(): item.queue_free()
+								
+								page += 1
+								
+								var column = 0
+								var endrange = page * 4 - 1
+								if page == pages: endrange = Global.items.size()
+								
+								for i in range((page - 1) * 4, endrange):
+									create_menuitem('* ' + Global.items[i][0], Vector2(70 + (i % 2) * 250,20 + column * 32)); i += 1
+									if (i - 1) % 2 == 1: column += 1
+								create_menuitem('  PAGE ' + str(page), Vector2(70 + 1 * 250,20 + 2 * 32))
+								Audio.play('move')
+								menu_posx = 1
+					var limitx = 2
+					var limity = 0
+					var end_items = Global.items.size() - (page - 1) * 4
+					print(end_items)
+					if end_items > 2: limity = 2
+					elif end_items > -1 and end_items <= 2: limitx = end_items
+					else:
+						limitx = 2
+						limity = 2
+					
+					if end_items == 3 and menu_posy == 1 and menu_posx == 1: limity = 1
+					print(limity)
+					menu_posx = posmod(menu_posx + menu_x, limitx)
+					menu_posy = posmod(menu_posy + menu_y, limity)
+					
+					soul.position = border.position + Vector2(42 + menu_posx * 250,36 + menu_posy * 32)
+					
+					if menu_y != 0 and Global.items.size() != 1: if end_items > 2 or end_items < 0: Audio.play('move')
+					if menu_x != 0 and Global.items.size() != 1: if end_items >= 2 or end_items < 0: Audio.play('move')
 				3:
 					var i = 1 + int(can_flee)
 					
@@ -89,13 +129,14 @@ func _process(delta: float) -> void:
 				menu_no = 1
 				
 				set_current_text(false)
+				prev_menu_posx = menu_posx
 				
 				# extra button functions can be implemented
 				match menu_posx:
 					0:
 						var i = 0
 						for enemy in enemies.get_children():
-							create_menuitem(enemy.name, Vector2(70,20 + i * 32))
+							create_menuitem('* ' + enemy.name, Vector2(70,20 + i * 32))
 							
 							var rect_back = ColorRect.new()
 							rect_back.size = Vector2(95,16)
@@ -113,24 +154,27 @@ func _process(delta: float) -> void:
 					1:
 						var i = 0
 						for enemy in enemies.get_children():
-							create_menuitem(enemy.name, Vector2(70,20 + i * 32))
+							create_menuitem('* ' + enemy.name, Vector2(70,20 + i * 32))
 							i += 1
 					2:
+						menu_posx = 0
 						var column = 0
 						for i in 4:
-							create_menuitem(Global.items[i][0], Vector2(70 + (i % 2) * 200,20 + column * 32)); i += 1
+							create_menuitem('* ' + Global.items[i][0], Vector2(70 + (i % 2) * 250,20 + column * 32)); i += 1
 							if i - 1 % 2 == 1: column += 1
+						create_menuitem('  PAGE 1', Vector2(70 + 1 * 250,20 + 2 * 32))
+						page = 1
 					3:
 						var i = 0
 						var spare = false
 						
 						for enemy in enemies.get_children(): if enemy.sparable: spare = true
 						
-						if spare: create_menuitem('Spare', Vector2(70,20 + i * 32), Color(1,1,0))
-						else: create_menuitem('Spare', Vector2(70,20 + i * 32), Color(1,1,1))
+						if spare: create_menuitem('* ' + 'Spare', Vector2(70,20 + i * 32), Color(1,1,0))
+						else: create_menuitem('* ' + 'Spare', Vector2(70,20 + i * 32), Color(1,1,1))
 						i += 1
 						if can_flee:
-							create_menuitem('Flee', Vector2(70,20 + i * 32)); i += 1
+							create_menuitem('* ' + 'Flee', Vector2(70,20 + i * 32)); i += 1
 	
 	if cancel and buffer < 0:
 		buffer = 2
@@ -152,7 +196,7 @@ func create_menuitem(text, position, color=Color(1,1,1)):
 	var inst = menuitem.instantiate()
 	inst.position = position
 	inst.font = border_text.font
-	inst.text = '* ' + text
+	inst.text = text
 	inst.rdy = true
 	inst.modulate = color
 	menuitems.add_child(inst)

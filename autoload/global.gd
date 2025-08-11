@@ -11,6 +11,8 @@ var items = [
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 ]
 
 # used for font changing & audio with text blitter
