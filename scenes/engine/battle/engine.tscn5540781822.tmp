@@ -262,8 +262,7 @@ script = ExtResource("20_ew1je")
 
 [node name="items" type="Node2D" parent="attacks/border"]
 
-[node name="soul" parent="attacks/border" instance=ExtResource("21_grdfn")]
-position = Vector2(-32, -250)
+[node name="soul" parent="attacks" instance=ExtResource("21_grdfn")]
 
 [node name="enemies" type="CanvasLayer" parent="."]
 

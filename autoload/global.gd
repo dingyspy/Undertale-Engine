@@ -13,6 +13,9 @@ var items = [
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
 ]
 
 # used for font changing & audio with text blitter
@@ -28,3 +31,6 @@ var blitter_info = {
 	'toriel' : ['res://fonts/main.ttf', 'res://audio/blitter/snd_txttor.wav', 32],
 	'undyne' : ['res://fonts/main.ttf', 'res://audio/blitter/snd_txtund.wav', 32],
 }
+
+func _ready() -> void:
+	Engine.max_fps = 30

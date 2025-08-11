@@ -96,9 +96,5 @@ func reset() -> void:
 	var blitter_info = Global.blitter_info[font]
 	audio.stream = load(blitter_info[1])
 	
-	var _font = FontFile.new()
-	_font.load_dynamic_font(blitter_info[0])
-	add_theme_font_override("normal_font", _font)
-	add_theme_font_size_override("normal_font_size", blitter_info[2])
-	
+	Utility.load_font(self, blitter_info[0], blitter_info[2])
 	timer.start(speed)
