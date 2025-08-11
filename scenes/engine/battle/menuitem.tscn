@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnky4m6afsodn"]
+
+[ext_resource type="Script" uid="uid://bb1pnjlrrpgkq" path="res://scenes/engine/battle/menuitem.gd" id="1_afdil"]
+
+[node name="menuitem" type="RichTextLabel"]
+offset_right = 219.0
+offset_bottom = 57.0
+bbcode_enabled = true
+script = ExtResource("1_afdil")

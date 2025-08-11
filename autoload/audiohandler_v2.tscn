@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://e1408yvmnnp1"]
+
+[ext_resource type="Script" uid="uid://bhkyg0lbhs1kl" path="res://autoload/audiohandler_v2.gd" id="1_legfn"]
+
+[node name="audio" type="Node"]
+script = ExtResource("1_legfn")
+
+[node name="temp" type="Node" parent="."]
+
+[node name="stored" type="Node" parent="."]

@@ -1,0 +1,283 @@
+[gd_scene load_steps=28 format=3 uid="uid://fdexliguoa86"]
+
+[ext_resource type="Script" uid="uid://c37u5xys7bhlx" path="res://scenes/engine/battle/engine_test.gd" id="1_wsk5h"]
+[ext_resource type="Texture2D" uid="uid://dyfwm2pemm3ew" path="res://sprites/engine/battle/core/hud/buttons/act0.png" id="1_xxrhl"]
+[ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
+[ext_resource type="Texture2D" uid="uid://dkg1w1tmq6rbb" path="res://sprites/engine/battle/core/hud/buttons/act1.png" id="2_kd86g"]
+[ext_resource type="Script" uid="uid://b8c2gx7tfj6uj" path="res://scenes/engine/battle/settings.gd" id="2_uudvl"]
+[ext_resource type="Texture2D" uid="uid://cd7podbdxhh1x" path="res://sprites/engine/battle/core/hud/buttons/fight0.png" id="3_1bl4g"]
+[ext_resource type="Texture2D" uid="uid://cmt1qv3tnaajw" path="res://sprites/engine/battle/core/hud/buttons/fight1.png" id="4_0q235"]
+[ext_resource type="Texture2D" uid="uid://jlpop0mk8sl4" path="res://sprites/engine/battle/core/hud/buttons/item0.png" id="5_3poqr"]
+[ext_resource type="Texture2D" uid="uid://brd3w6lojn3sg" path="res://sprites/engine/battle/core/hud/buttons/item1.png" id="6_82ikh"]
+[ext_resource type="Texture2D" uid="uid://dbkhdjcm3rwis" path="res://sprites/engine/battle/core/hud/buttons/mercy0.png" id="7_4agdu"]
+[ext_resource type="Texture2D" uid="uid://pxbqxpf5ift2" path="res://sprites/engine/battle/core/hud/buttons/mercy1.png" id="8_sy3gx"]
+[ext_resource type="FontFile" uid="uid://chg323x8130px" path="res://fonts/health.ttf" id="10_3poqr"]
+[ext_resource type="Texture2D" uid="uid://cycakjn8w0ykc" path="res://sprites/engine/battle/core/hud/hp_icon.png" id="11_82ikh"]
+[ext_resource type="Texture2D" uid="uid://iotrifosqmbo" path="res://sprites/engine/battle/core/hud/kr_icon.png" id="12_4agdu"]
+[ext_resource type="Script" uid="uid://bjuby6s35bt4i" path="res://scenes/engine/battle/border.gd" id="13_4agdu"]
+[ext_resource type="Texture2D" uid="uid://cwup6bhyreq58" path="res://sprites/engine/battle/core/border.png" id="13_82ikh"]
+[ext_resource type="Texture2D" uid="uid://io66d4n7cyc5" path="res://sprites/engine/battle/core/border_mask.png" id="14_4agdu"]
+[ext_resource type="Texture2D" uid="uid://ov82xmymsypo" path="res://icon.svg" id="14_sy3gx"]
+[ext_resource type="Shader" uid="uid://cdmjg4j0y76lk" path="res://shaders/mask.gdshader" id="15_apoaa"]
+[ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="20_ew1je"]
+[ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="20_x5pbi"]
+[ext_resource type="PackedScene" uid="uid://d37thgp607y66" path="res://scenes/unique/enemies/enemy.tscn" id="21_bro1y"]
+[ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="21_grdfn"]
+[ext_resource type="Texture2D" uid="uid://btx45kwubku3y" path="res://sprites/engine/battle/back.png" id="22_qogft"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_apoaa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xxrhl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kd86g")
+}],
+"loop": false,
+"name": &"act",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1bl4g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0q235")
+}],
+"loop": false,
+"name": &"fight",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_3poqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_82ikh")
+}],
+"loop": false,
+"name": &"item",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_4agdu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_sy3gx")
+}],
+"loop": false,
+"name": &"mercy",
+"speed": 0.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wsk5h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uudvl"]
+shader = ExtResource("15_apoaa")
+
+[node name="engine" type="Node2D"]
+script = ExtResource("1_wsk5h")
+
+[node name="engine" type="Node" parent="."]
+script = ExtResource("2_4tewb")
+
+[node name="settings" type="Node" parent="engine"]
+script = ExtResource("2_uudvl")
+
+[node name="attack_scripts" type="Node" parent="engine"]
+
+[node name="background" type="CanvasLayer" parent="."]
+
+[node name="color" type="ColorRect" parent="background"]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Back" type="Sprite2D" parent="background"]
+visible = false
+modulate = Color(1, 1, 1, 0.415686)
+position = Vector2(320, 240)
+texture = ExtResource("22_qogft")
+
+[node name="menu" type="CanvasLayer" parent="."]
+
+[node name="buttons" type="Node2D" parent="menu"]
+
+[node name="button0" type="AnimatedSprite2D" parent="menu/buttons"]
+position = Vector2(48, 453)
+sprite_frames = SubResource("SpriteFrames_apoaa")
+animation = &"fight"
+offset = Vector2(39, 0)
+
+[node name="button1" type="AnimatedSprite2D" parent="menu/buttons"]
+position = Vector2(516, 454)
+sprite_frames = SubResource("SpriteFrames_apoaa")
+animation = &"mercy"
+offset = Vector2(39, -1)
+
+[node name="button2" type="AnimatedSprite2D" parent="menu/buttons"]
+position = Vector2(360, 454)
+sprite_frames = SubResource("SpriteFrames_apoaa")
+animation = &"item"
+offset = Vector2(40, -1)
+
+[node name="button3" type="AnimatedSprite2D" parent="menu/buttons"]
+position = Vector2(202, 453)
+sprite_frames = SubResource("SpriteFrames_apoaa")
+animation = &"act"
+offset = Vector2(38, 0)
+
+[node name="stats" type="Node2D" parent="menu"]
+
+[node name="health" type="Node2D" parent="menu/stats"]
+
+[node name="bar" type="Node2D" parent="menu/stats/health"]
+
+[node name="back" type="ColorRect" parent="menu/stats/health/bar"]
+offset_left = 255.0
+offset_top = 400.0
+offset_right = 366.0
+offset_bottom = 421.0
+color = Color(1, 0, 0, 1)
+
+[node name="kr" type="ColorRect" parent="menu/stats/health/bar"]
+offset_left = 255.0
+offset_top = 400.0
+offset_right = 256.0
+offset_bottom = 421.0
+color = Color(1, 0, 1, 1)
+
+[node name="front" type="ColorRect" parent="menu/stats/health/bar"]
+offset_left = 255.0
+offset_top = 400.0
+offset_right = 366.0
+offset_bottom = 421.0
+color = Color(1, 1, 0, 1)
+
+[node name="hp" type="RichTextLabel" parent="menu/stats/health"]
+offset_left = 415.0
+offset_top = 400.0
+offset_right = 534.0
+offset_bottom = 426.0
+theme_override_fonts/normal_font = ExtResource("10_3poqr")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "92 / 92"
+
+[node name="name" type="RichTextLabel" parent="menu/stats/health"]
+offset_left = 32.0
+offset_top = 400.0
+offset_right = 203.0
+offset_bottom = 426.0
+theme_override_fonts/normal_font = ExtResource("10_3poqr")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "NAME"
+
+[node name="lv" type="RichTextLabel" parent="menu/stats/health"]
+offset_left = 121.0
+offset_top = 400.0
+offset_right = 292.0
+offset_bottom = 426.0
+theme_override_fonts/normal_font = ExtResource("10_3poqr")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "LV 19"
+
+[node name="hp_spr" type="Sprite2D" parent="menu/stats"]
+position = Vector2(235, 410)
+texture = ExtResource("11_82ikh")
+
+[node name="kr_spr" type="Sprite2D" parent="menu/stats"]
+position = Vector2(387, 410)
+texture = ExtResource("12_4agdu")
+
+[node name="attacks" type="CanvasLayer" parent="."]
+
+[node name="border" type="NinePatchRect" parent="attacks"]
+offset_left = 32.0
+offset_top = 250.0
+offset_right = 607.0
+offset_bottom = 390.0
+texture = ExtResource("13_82ikh")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+script = ExtResource("13_4agdu")
+
+[node name="staticbody" type="StaticBody2D" parent="attacks/border"]
+
+[node name="collisions" type="CollisionPolygon2D" parent="attacks/border/staticbody"]
+
+[node name="backbuffer" type="BackBufferCopy" parent="attacks/border"]
+copy_mode = 2
+
+[node name="bullets" type="Node2D" parent="attacks/border/backbuffer"]
+
+[node name="Sprite2D" type="Sprite2D" parent="attacks/border/backbuffer/bullets"]
+position = Vector2(412, 5)
+texture = ExtResource("14_sy3gx")
+
+[node name="mask" type="Node2D" parent="attacks/border/backbuffer"]
+material = SubResource("ShaderMaterial_wsk5h")
+
+[node name="corner0" type="Sprite2D" parent="attacks/border/backbuffer/mask"]
+material = SubResource("ShaderMaterial_uudvl")
+position = Vector2(5, 5)
+scale = Vector2(1000, 1000)
+texture = ExtResource("14_4agdu")
+metadata/_edit_lock_ = true
+
+[node name="corner1" type="Sprite2D" parent="attacks/border/backbuffer/mask"]
+material = SubResource("ShaderMaterial_uudvl")
+position = Vector2(570, 135)
+scale = Vector2(1000, 1000)
+texture = ExtResource("14_4agdu")
+flip_h = true
+flip_v = true
+metadata/_edit_lock_ = true
+
+[node name="text" type="Node2D" parent="attacks/border"]
+
+[node name="bullet" type="RichTextLabel" parent="attacks/border/text"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 411.0
+offset_bottom = 128.0
+theme_override_fonts/normal_font = ExtResource("20_x5pbi")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "*"
+
+[node name="text" type="RichTextLabel" parent="attacks/border/text"]
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 556.0
+offset_bottom = 121.0
+theme_override_fonts/normal_font = ExtResource("20_x5pbi")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "You"
+script = ExtResource("20_ew1je")
+
+[node name="items" type="Node2D" parent="attacks/border"]
+
+[node name="soul" parent="attacks" instance=ExtResource("21_grdfn")]
+
+[node name="enemies" type="CanvasLayer" parent="."]
+
+[node name="enemy" parent="enemies" instance=ExtResource("21_bro1y")]
+
+[node name="enemy2" parent="enemies" instance=ExtResource("21_bro1y")]
+
+[node name="enemy3" parent="enemies" instance=ExtResource("21_bro1y")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(510, 219)
+texture = ExtResource("14_sy3gx")

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0ppdoevm1fqo"]
+
+[ext_resource type="Texture2D" uid="uid://lulxjlcbvvy" path="res://sprites/engine/battle/core/soul/soul0.png" id="1_rnrdv"]
+[ext_resource type="Texture2D" uid="uid://sx266bge084f" path="res://sprites/engine/battle/core/soul/soul1.png" id="2_3dese"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qmmok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rnrdv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_3dese")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="soul" type="CharacterBody2D"]
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+sprite_frames = SubResource("SpriteFrames_qmmok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
