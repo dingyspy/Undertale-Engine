@@ -113,10 +113,10 @@ animation = &"fight"
 offset = Vector2(39, 0)
 
 [node name="button1" type="AnimatedSprite2D" parent="menu/buttons"]
-position = Vector2(516, 454)
+position = Vector2(202, 453)
 sprite_frames = SubResource("SpriteFrames_apoaa")
-animation = &"mercy"
-offset = Vector2(39, -1)
+animation = &"act"
+offset = Vector2(38, 0)
 
 [node name="button2" type="AnimatedSprite2D" parent="menu/buttons"]
 position = Vector2(360, 454)
@@ -125,10 +125,10 @@ animation = &"item"
 offset = Vector2(40, -1)
 
 [node name="button3" type="AnimatedSprite2D" parent="menu/buttons"]
-position = Vector2(202, 453)
+position = Vector2(516, 454)
 sprite_frames = SubResource("SpriteFrames_apoaa")
-animation = &"act"
-offset = Vector2(38, 0)
+animation = &"mercy"
+offset = Vector2(39, -1)
 
 [node name="stats" type="Node2D" parent="menu"]
 

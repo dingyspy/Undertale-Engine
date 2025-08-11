@@ -1,5 +1,18 @@
 extends Node
 
+var atk = 0
+var def = 0
+
+# items for both in-game and overworld
+# formatted: [abbreviated name, full name, [text, text1, ...], heal, atk gain, def gain, buy price, sell price]
+var items = [
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+	['L. Hero', 'Legendary Hero', ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'], 40, 4, 0, 300, 40],
+]
+
 # used for font changing & audio with text blitter
 # formatted {name : [font path, audio path, font size]}
 var blitter_info = {
