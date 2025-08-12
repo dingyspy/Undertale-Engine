@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://ioegg4nctkrv"]
+
+[ext_resource type="Texture2D" uid="uid://clgn8c8y8ikat" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_patch.png" id="1_m6vx7"]
+[ext_resource type="Script" uid="uid://bufg1uvjpf252" path="res://scenes/engine/battle/dialogbox.gd" id="1_ub08i"]
+[ext_resource type="Texture2D" uid="uid://btji6cna3wpbn" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_tail.png" id="2_gcwso"]
+[ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="3_8w6uk"]
+[ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="4_tkl58"]
+
+[node name="dialogbox" type="Node2D"]
+script = ExtResource("1_ub08i")
+
+[node name="box" type="NinePatchRect" parent="."]
+offset_left = 26.0
+offset_top = -28.0
+offset_right = 73.0
+offset_bottom = 32.0
+texture = ExtResource("1_m6vx7")
+region_rect = Rect2(0.47839, 0.313125, 43.1661, 41.7272)
+patch_margin_left = 15
+patch_margin_top = 16
+patch_margin_right = 20
+patch_margin_bottom = 19
+
+[node name="text" type="RichTextLabel" parent="box"]
+offset_left = 12.0
+offset_top = 9.0
+offset_right = 33.0
+offset_bottom = 51.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_8w6uk")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "You"
+script = ExtResource("4_tkl58")
+
+[node name="tail" type="Sprite2D" parent="."]
+position = Vector2(14, 0)
+texture = ExtResource("2_gcwso")

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
 [ext_resource type="Texture2D" uid="uid://dkg1w1tmq6rbb" path="res://sprites/engine/battle/core/hud/buttons/act1.png" id="2_kd86g"]
 [ext_resource type="Texture2D" uid="uid://cd7podbdxhh1x" path="res://sprites/engine/battle/core/hud/buttons/fight0.png" id="3_1bl4g"]
+[ext_resource type="Script" uid="uid://ddgb6i176x81o" path="res://scenes/engine/battle/attacks.gd" id="3_qogft"]
 [ext_resource type="Texture2D" uid="uid://cmt1qv3tnaajw" path="res://sprites/engine/battle/core/hud/buttons/fight1.png" id="4_0q235"]
 [ext_resource type="Texture2D" uid="uid://jlpop0mk8sl4" path="res://sprites/engine/battle/core/hud/buttons/item0.png" id="5_3poqr"]
 [ext_resource type="Texture2D" uid="uid://brd3w6lojn3sg" path="res://sprites/engine/battle/core/hud/buttons/item1.png" id="6_82ikh"]
@@ -16,11 +17,10 @@
 [ext_resource type="Script" uid="uid://bjuby6s35bt4i" path="res://scenes/engine/battle/border.gd" id="13_4agdu"]
 [ext_resource type="Texture2D" uid="uid://cwup6bhyreq58" path="res://sprites/engine/battle/core/border.png" id="13_82ikh"]
 [ext_resource type="Texture2D" uid="uid://io66d4n7cyc5" path="res://sprites/engine/battle/core/border_mask.png" id="14_4agdu"]
-[ext_resource type="Texture2D" uid="uid://ov82xmymsypo" path="res://icon.svg" id="14_sy3gx"]
 [ext_resource type="Shader" uid="uid://cdmjg4j0y76lk" path="res://shaders/mask.gdshader" id="15_apoaa"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="20_ew1je"]
 [ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="20_x5pbi"]
-[ext_resource type="PackedScene" uid="uid://d37thgp607y66" path="res://scenes/unique/enemies/enemy.tscn" id="21_bro1y"]
+[ext_resource type="PackedScene" uid="uid://d37thgp607y66" path="res://scenes/unique/enemies/example/enemy.tscn" id="21_bro1y"]
 [ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="21_grdfn"]
 [ext_resource type="Texture2D" uid="uid://btx45kwubku3y" path="res://sprites/engine/battle/back.png" id="22_qogft"]
 
@@ -82,7 +82,9 @@ script = ExtResource("1_wsk5h")
 [node name="engine" type="Node" parent="."]
 script = ExtResource("2_4tewb")
 
-[node name="attack_scripts" type="Node" parent="engine"]
+[node name="attacks" type="Node" parent="engine"]
+script = ExtResource("3_qogft")
+attack_paths = ["res://scenes/unique/attacks/example/attack0.gd"]
 
 [node name="background" type="CanvasLayer" parent="."]
 
@@ -214,10 +216,6 @@ copy_mode = 2
 
 [node name="bullets" type="Node2D" parent="attacks/border/backbuffer"]
 
-[node name="Sprite2D" type="Sprite2D" parent="attacks/border/backbuffer/bullets"]
-position = Vector2(412, 5)
-texture = ExtResource("14_sy3gx")
-
 [node name="mask" type="Node2D" parent="attacks/border/backbuffer"]
 material = SubResource("ShaderMaterial_wsk5h")
 
@@ -248,6 +246,7 @@ theme_override_fonts/normal_font = ExtResource("20_x5pbi")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "*"
+metadata/_edit_lock_ = true
 
 [node name="text" type="RichTextLabel" parent="attacks/border/text"]
 offset_left = 50.0
@@ -259,6 +258,7 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "You"
 script = ExtResource("20_ew1je")
+metadata/_edit_lock_ = true
 
 [node name="items" type="Node2D" parent="attacks/border"]
 
@@ -272,9 +272,3 @@ position = Vector2(-32, -250)
 [node name="enemy2" parent="enemies" instance=ExtResource("21_bro1y")]
 
 [node name="enemy3" parent="enemies" instance=ExtResource("21_bro1y")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(510, 219)
-texture = ExtResource("14_sy3gx")

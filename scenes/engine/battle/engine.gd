@@ -1,15 +1,17 @@
 extends Node
 
+# only change stuff here if you know what youre doing!!
+# theres some info below on how to change stuff
+
 @onready var menu = $'../menu'
 @onready var enemies = $'../enemies'
-
 @onready var attacks = $'../attacks'
+@onready var attack_script = $attacks
 @onready var border = $'../attacks/border'
 @onready var border_text = $'../attacks/border/text/text'
 @onready var bullet_point = $'../attacks/border/text/bullet'
 @onready var soul = $'../attacks/border/soul'
 @onready var menuitems = $'../attacks/border/items'
-
 @onready var buttons_node = $'../menu/buttons'
 
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
@@ -29,9 +31,7 @@ var page = 0
 var limitx = 0
 var limity = 0
 var soul_index_toggle = true
-
 var buttons = []
-
 var buffer = 0
 
 func _ready() -> void:
@@ -60,6 +60,11 @@ func _process(delta: float) -> void:
 		Utility.load_font(bullet_point, blitter_info[0], blitter_info[2])
 	
 	# process menu_no
+	# this is where extra button functions can be implemented
+	# more can be found in the match statements below
+	# handles fight, act, item, mercy moving / pages
+	# this specific section is for soul movement and page handling
+	if menu_no == -1: return
 	match menu_no:
 		0:
 			menu_posx = posmod(menu_posx + menu_x, buttons.size())
@@ -69,9 +74,6 @@ func _process(delta: float) -> void:
 				else: button.frame = 0
 			soul.z_index = -1
 		1:
-			# this is where extra button functions can be implemented
-			# more can be found in the match statements below
-			# handles fight, act, item, mercy moving / pages
 			soul.z_index = 0
 			match prev_menu_posx:
 				0,1:
@@ -128,6 +130,16 @@ func _process(delta: float) -> void:
 		
 		Audio.play('select')
 		menu_posy = 0
+		
+		# extra button functions can be implemented
+		# shows the fight, act, item, mercy options
+		
+		# menu_no is pretty simple, it goes:
+		# 0: the bottom buttons (fight, act, ...)
+		# 1: the selected button's function (fight: lists enemy names and health, etc)
+		# 2: in this case is only used for acts since it
+		#    displays the enemy names in menu_no = 1 and
+		#    shows acts in menu_no = 2
 		match menu_no:
 			0:
 				for button in buttons: button.frame = 0
@@ -137,8 +149,6 @@ func _process(delta: float) -> void:
 				toggle_soul_index()
 				prev_menu_posx = menu_posx
 				
-				# extra button functions can be implemented
-				# shows the fight, act, item, mercy options
 				match menu_posx:
 					0: show_enemies(true)
 					1: show_enemies(false)
@@ -163,7 +173,7 @@ func _process(delta: float) -> void:
 				menu_no = 2
 				
 				match prev_menu_posx:
-					0: pass # fight
+					0: $attacks.setup() # fight
 					1:
 						prev_menu_posy = menu_posy
 						menu_posx = 0
@@ -196,6 +206,12 @@ func _process(delta: float) -> void:
 				for item in menuitems.get_children(): item.queue_free()
 				show_enemies(false)
 
+# 2 modes
+# when soul_index_toggle is true, the soul is removed from the
+# border and added to the border parent node instead. this is
+# so the soul is able to smoothly position itself on the buttons
+# without process function lag
+# the second mode is pretty much the opposite and adds the soul to the border
 func toggle_soul_index():
 	soul.visible = false
 	soul.position = Vector2(-2000,-2000)
@@ -213,6 +229,7 @@ func toggle_soul_index():
 		new_soul.visible = true
 	soul_index_toggle = !soul_index_toggle
 
+# simple function to help redundancy, shows enemy names in the menu
 func show_enemies(health=false):
 	var i = 0
 	for enemy in enemies.get_children():
@@ -234,6 +251,7 @@ func show_enemies(health=false):
 		
 		i += 1
 
+# also helps redundancy, updates the menu item pages
 func update_page(pages):
 	var endrange = page * 4
 	if page == pages: endrange = Global.items.size()
@@ -241,6 +259,8 @@ func update_page(pages):
 	for i in range((page - 1) * 4, endrange): create_menuitem('* ' + Global.items[i][0], Vector2(70 + (i % 2) * 250,20 + floor((i - (page - 1) * 4) / 2) * 32)); i += 1
 	create_menuitem('  PAGE ' + str(page), Vector2(70 + 1 * 250,20 + 2 * 32))
 
+# a function used for the soul positioning in menus
+# with 1-3 selectable items
 func limit(items, menu_x):
 	limitx = 2
 	limity = 1
@@ -257,6 +277,7 @@ func limit(items, menu_x):
 		limity = 1
 		menu_posy = 0
 
+# pretty simple, literally creates menu options
 func create_menuitem(text, position, color=Color(1,1,1)):
 	var inst = menuitem.instantiate()
 	inst.position = position
@@ -267,6 +288,7 @@ func create_menuitem(text, position, color=Color(1,1,1)):
 	menuitems.add_child(inst)
 	return inst
 
+# sets the border's blitter text
 func set_current_text(enabled=true):
 	if enabled:
 		border_text.reset()

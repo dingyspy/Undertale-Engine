@@ -10,6 +10,8 @@ var stored_audios = {}
 # stream can either be an audiostream or a path
 func store_audio(dict : Dictionary):
 	for _name in dict:
+		if stored_audios.has(_name): continue
+		
 		var audio = AudioStreamPlayer.new()
 		audio.name = _name
 		
