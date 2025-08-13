@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 	if !manual_override:
 		var vec2speed = Vector2(speed * delta,speed * delta)
 		
-		#rotation_degrees += delta * 5
+		#rotation_degrees = 2
 		var calculated_size = Vector2(Utility.calculate_diff(size.x, new_size.x, vec2speed.x), Utility.calculate_diff(size.y, new_size.y, vec2speed.y))
 		var calculated_pos = Vector2(Utility.calculate_diff(position.x, new_position.x - calculated_size.x / 2, vec2speed.x), Utility.calculate_diff(position.y, new_position.y - calculated_size.y / 2, vec2speed.y))
 		position = calculated_pos

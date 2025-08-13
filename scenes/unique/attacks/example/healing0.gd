@@ -10,6 +10,6 @@ var bullets
 var attack
 
 func _ready() -> void:
-	print('attacking')
+	print('turn forfeit attack')
 	await get_tree().create_timer(1).timeout
 	end.emit()

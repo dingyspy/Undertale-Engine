@@ -12,6 +12,7 @@ signal dialog_finished
 @onready var border = $'../attacks/border'
 @onready var border_text = $'../attacks/border/text/text'
 @onready var bullet_point = $'../attacks/border/text/bullet'
+@onready var bullet_points = $'../attacks/border/text/bullets'
 @onready var soul = $'../attacks/border/soul'
 @onready var menuitems = $'../attacks/border/items'
 @onready var buttons_node = $'../menu/buttons'
@@ -37,12 +38,16 @@ var soul_index_toggle = true
 var buttons = []
 var buffer = 0
 
+var prev_atk = Global.atk
+var prev_def = Global.def
+
 func _ready() -> void:
 	for button in buttons_node.get_children(): buttons.append(button)
 	limitx = buttons.size()
 	Audio.store_audio({
 		'move' : 'res://audio/engine/snd_squeak.wav',
-		'select' : 'res://audio/engine/snd_select.wav'
+		'select' : 'res://audio/engine/snd_select.wav',
+		'heal' : 'res://audio/engine/snd_heal_c.wav'
 	})
 	
 	await get_tree().process_frame
@@ -195,11 +200,15 @@ func _process(delta: float) -> void:
 						inst.start()
 						
 						await inst.bordersetup
+						if inst.dmg == -1:
+							attack_script.turn_skip(3)
+							if !attack_script._randomize: return
+						else: attack_script.current_attack += 1
 						attack_script.setup()
 						
 						var dialog
 						if enemies.dialog.is_empty() == false:
-							if attack_script._randomize: dialog = enemies.dialog[randi_range(0,enemies.dialog.size())]
+							if attack_script._randomize: dialog = enemies.dialog[randi_range(0,enemies.dialog.size() - 1)]
 							else:
 								if attack_script.current_attack <= enemies.dialog.size() - 1: dialog = enemies.dialog[attack_script.current_attack]
 							if dialog: create_dialog_box(dialog)
@@ -213,7 +222,38 @@ func _process(delta: float) -> void:
 						
 						var i = 0
 						for act in enemy.acts: create_menuitem('* ' + act['name'], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
-					2: pass # heal
+					2:
+						for item in menuitems.get_children(): item.queue_free()
+						menu_no = -1
+						soul.visible = false
+						border_text.position.x -= 28
+						
+						Audio.play('heal')
+						
+						var item = items[(page - 1) * 4 + menu_posx + menu_posy * 2]
+						Global.hp = clamp(Global.hp + item['item_params']['health'], 0, Global.maxhp)
+						Global.atk += item['item_params']['atk']
+						Global.atk += item['item_params']['def']
+						
+						var text = '* You eat the ' + item['full_name'] + '.'
+						if item['item_params']['atk'] > 0: text += '\n* ATTACK increased by ' + str(item['item_params']['atk']) + '!'
+						if item['item_params']['def'] > 0: text += '\n* DEFENSE increased by ' + str(item['item_params']['def']) + '!'
+						if Global.hp == Global.maxhp: text += '\n* Your HP was maxed out.'
+						else: text += '\n* You recovered ' + str(item['item_params']['health']) + 'HP!'
+						Global.items.erase(item)
+						border_text.reset()
+						border_text.text = text
+						
+						await border_text.completed
+						while true:
+							var _accept = Input.is_action_just_pressed("accept")
+							if _accept and buffer <= 0:
+								buffer = 2
+								break
+							await get_tree().process_frame
+						set_current_text(false)
+						border_text.position.x += 20
+						attack_script.turn_skip(1)
 					3: pass # spare / flee
 			2:
 				if prev_menu_posx == 1:

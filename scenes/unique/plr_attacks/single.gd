@@ -79,6 +79,13 @@ func _process(delta: float) -> void:
 			enemy.miss()
 			dmg = -1
 			slider.visible = false
+			var t = get_tree().create_tween().set_parallel(true)
+			t.tween_property(target, 'scale:x', 0.3, 0.5).set_trans(Tween.TRANS_LINEAR)
+			t.tween_property(target, 'modulate:a', 0, 0.5).set_trans(Tween.TRANS_LINEAR)
+			bordersetup.emit()
+			
+			await t.finished
+			queue_free()
 	
 	if pressed == 1:
 		pressed = 2

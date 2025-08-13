@@ -75,3 +75,6 @@ func hit(dmg):
 	await get_tree().create_timer(0.5).timeout
 	
 	healthbar.visible = false
+
+func miss():
+	pass
