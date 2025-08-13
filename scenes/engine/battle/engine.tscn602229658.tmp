@@ -1,5 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://fdexliguoa86"]
+[gd_scene load_steps=27 format=3 uid="uid://fdexliguoa86"]
 
+[ext_resource type="Script" uid="uid://c37u5xys7bhlx" path="res://scenes/engine/battle/engine_test.gd" id="1_wsk5h"]
 [ext_resource type="Texture2D" uid="uid://dyfwm2pemm3ew" path="res://sprites/engine/battle/core/hud/buttons/act0.png" id="1_xxrhl"]
 [ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
 [ext_resource type="Texture2D" uid="uid://dkg1w1tmq6rbb" path="res://sprites/engine/battle/core/hud/buttons/act1.png" id="2_kd86g"]
@@ -16,10 +17,10 @@
 [ext_resource type="Script" uid="uid://bjuby6s35bt4i" path="res://scenes/engine/battle/border.gd" id="13_4agdu"]
 [ext_resource type="Texture2D" uid="uid://cwup6bhyreq58" path="res://sprites/engine/battle/core/border.png" id="13_82ikh"]
 [ext_resource type="Texture2D" uid="uid://io66d4n7cyc5" path="res://sprites/engine/battle/core/border_mask.png" id="14_4agdu"]
-[ext_resource type="Script" uid="uid://cytxrut2nn0ct" path="res://scenes/engine/battle/enemies.gd" id="15_4tewb"]
 [ext_resource type="Shader" uid="uid://cdmjg4j0y76lk" path="res://shaders/mask.gdshader" id="15_apoaa"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="20_ew1je"]
 [ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="20_x5pbi"]
+[ext_resource type="PackedScene" uid="uid://d37thgp607y66" path="res://scenes/unique/enemies/example/dummy.tscn" id="21_bro1y"]
 [ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="21_grdfn"]
 [ext_resource type="Texture2D" uid="uid://btx45kwubku3y" path="res://sprites/engine/battle/back.png" id="22_qogft"]
 
@@ -76,6 +77,7 @@ animations = [{
 shader = ExtResource("15_apoaa")
 
 [node name="engine" type="Node2D"]
+script = ExtResource("1_wsk5h")
 
 [node name="engine" type="Node" parent="."]
 script = ExtResource("2_4tewb")
@@ -192,8 +194,15 @@ position = Vector2(387, 410)
 texture = ExtResource("12_4agdu")
 
 [node name="enemies" type="CanvasLayer" parent="."]
-script = ExtResource("15_4tewb")
-enemy_paths = ["res://scenes/unique/enemies/example/dummy.tscn", "res://scenes/unique/enemies/example/dummy.tscn"]
+
+[node name="enemy" parent="enemies" instance=ExtResource("21_bro1y")]
+position = Vector2(130, 188)
+
+[node name="enemy2" parent="enemies" instance=ExtResource("21_bro1y")]
+position = Vector2(493, 187)
+
+[node name="enemy3" parent="enemies" instance=ExtResource("21_bro1y")]
+position = Vector2(321, 188)
 
 [node name="attacks" type="CanvasLayer" parent="."]
 
@@ -259,7 +268,7 @@ offset_bottom = 121.0
 theme_override_fonts/normal_font = ExtResource("20_x5pbi")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "Border text"
+text = "You"
 script = ExtResource("20_ew1je")
 metadata/_edit_lock_ = true
 

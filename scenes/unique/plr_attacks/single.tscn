@@ -1,0 +1,68 @@
+[gd_scene load_steps=13 format=3 uid="uid://cm64h34jxhrps"]
+
+[ext_resource type="Script" uid="uid://cmtv8pu7fj8b1" path="res://scenes/unique/plr_attacks/single.gd" id="1_b5uug"]
+[ext_resource type="Texture2D" uid="uid://5dumlvh66n26" path="res://sprites/engine/battle/core/hud/target.png" id="2_kl6oi"]
+[ext_resource type="Texture2D" uid="uid://tflks3skag6h" path="res://sprites/engine/battle/core/hud/taget_choice_0.png" id="3_5kno2"]
+[ext_resource type="Texture2D" uid="uid://5os05bjnoe6y" path="res://sprites/engine/battle/core/hud/taget_choice_1.png" id="4_13pbk"]
+[ext_resource type="Texture2D" uid="uid://drenvqrbji3k2" path="res://sprites/engine/battle/attacks/strike/0.png" id="5_saefu"]
+[ext_resource type="Texture2D" uid="uid://da66ujcewndxy" path="res://sprites/engine/battle/attacks/strike/1.png" id="6_lvvgh"]
+[ext_resource type="Texture2D" uid="uid://2w5ga2h4ro2i" path="res://sprites/engine/battle/attacks/strike/2.png" id="7_1rjmj"]
+[ext_resource type="Texture2D" uid="uid://ciqf8ewx3wyj3" path="res://sprites/engine/battle/attacks/strike/3.png" id="8_tbcav"]
+[ext_resource type="Texture2D" uid="uid://de6ebds6jfnbf" path="res://sprites/engine/battle/attacks/strike/4.png" id="9_s7iti"]
+[ext_resource type="Texture2D" uid="uid://bpahqwqlr4son" path="res://sprites/engine/battle/attacks/strike/5.png" id="10_er07e"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0x57y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_5kno2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_13pbk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_76d5h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_saefu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_lvvgh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1rjmj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tbcav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_s7iti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_er07e")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="single" type="Node2D"]
+script = ExtResource("1_b5uug")
+
+[node name="target" type="Sprite2D" parent="."]
+texture = ExtResource("2_kl6oi")
+
+[node name="slider" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_0x57y")
+
+[node name="strike" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_76d5h")
+frame = 5
+frame_progress = 0.930491

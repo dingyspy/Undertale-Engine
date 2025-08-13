@@ -14,12 +14,16 @@ var override_pause = {}
 # format is {character position : speed, character position : speed}
 var override_speed = {}
 # false means you can't skip the text
-var can_cancel = true
-# the time before timeout, aka how fast the blitter is
-var speed = 0.033
+@export var can_cancel = true
+# the time before timeout, aka how fast the blitter is. gets reset back to 0.02 when .reset() is used
+var speed = 0.02
 # references Global.blitter_info
 # must be changed BEFORE using .reset()
-var font = 'main1'
+@export var font = 'main1'
+# in case you dont want the font to be automatically modified based on the font var
+@export var ignore_auto_font = false
+# custom font size, doesnt follow Global.blitter_info's font size
+@export var override_font_size = -1
 
 # pauses for [character_pause_time] time on the characters listed in array
 var character_pause_time = 0.2
@@ -96,5 +100,7 @@ func reset() -> void:
 	var blitter_info = Global.blitter_info[font]
 	audio.stream = load(blitter_info[1])
 	
-	Utility.load_font(self, blitter_info[0], blitter_info[2])
+	var font_size = blitter_info[2]
+	if override_font_size != -1: font_size = override_font_size
+	if !ignore_auto_font: Utility.load_font(self, blitter_info[0], font_size)
 	timer.start(speed)

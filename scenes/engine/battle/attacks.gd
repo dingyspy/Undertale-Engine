@@ -3,6 +3,11 @@ extends Node
 # for debugging purposes usually
 # this is the attack that is currently being played
 @export var current_attack = 0
+# used for if you dont want attacks to be in chronological order,
+# but instead are in a randomized order
+# usefull for "filler" enemies
+# also randomizes dialog in the enemy script / node
+@export var _randomize = false
 # since the var is exported you dont need to change the code, but you can if desired
 # put the paths of attacks in chronological order
 # takes Strings
@@ -17,6 +22,7 @@ extends Node
 
 # this sets up attacks
 func setup():
+	if _randomize: current_attack = randi_range(0,attack_paths.size() - 1)
 	if current_attack > attack_paths.size() - 1: return
 	
 	var to_pos = [null,[140,140]]
@@ -30,7 +36,14 @@ func setup():
 	
 	await get_tree().process_frame
 	engine.soul.position = Vector2(320,320)
+	engine.soul.visible = true
 	engine.soul.mode = 0
+
+func start():
+	print('yay')
+
+func end():
+	current_attack += 1
 
 # this is for when you use acts, spare, items, etc. value is passed from the engine
 # 0: turn after acting
@@ -38,6 +51,11 @@ func setup():
 # 2: turn after a failed spare
 func turn_skip(value):
 	match value:
-		0: pass
+		0:
+			engine.menu_no = 0
+			engine.menu_posx = engine.prev_menu_posx
+			engine.menu_posy = 0
+			engine.set_current_text()
+			engine.toggle_soul_index()
 		1: pass
 		2: pass

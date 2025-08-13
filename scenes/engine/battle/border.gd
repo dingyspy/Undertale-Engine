@@ -3,7 +3,7 @@ extends NinePatchRect
 # emits when border is done moving / sizing
 signal finished
 
-var speed = 500
+var speed = 800
 # if true, position, size, and rotation can be manually controlled through code
 var manual_override = false
 
@@ -63,11 +63,12 @@ func _process(delta: float) -> void:
 	if !manual_override:
 		var vec2speed = Vector2(speed * delta,speed * delta)
 		
-		pivot_offset = size / 2
-		position.x = calculate_diff(position.x, new_position.x - size.x / 2, vec2speed.x)
-		position.y = calculate_diff(position.y, new_position.y - size.y / 2, vec2speed.y)
-		size.x = calculate_diff(size.x, new_size.x, vec2speed.x)
-		size.y = calculate_diff(size.y, new_size.y, vec2speed.y)
+		#rotation_degrees += delta * 5
+		var calculated_size = Vector2(Utility.calculate_diff(size.x, new_size.x, vec2speed.x), Utility.calculate_diff(size.y, new_size.y, vec2speed.y))
+		var calculated_pos = Vector2(Utility.calculate_diff(position.x, new_position.x - calculated_size.x / 2, vec2speed.x), Utility.calculate_diff(position.y, new_position.y - calculated_size.y / 2, vec2speed.y))
+		position = calculated_pos
+		size = calculated_size
+		pivot_offset = calculated_size / 2
 		
 		if position == new_position - size / 2 and size == new_size and !_finished:
 			_finished = true
@@ -85,9 +86,3 @@ func _process(delta: float) -> void:
 	else:
 		corner0.position = position + Vector2(5,5)
 		corner1.position = position + size - Vector2(5,5)
-
-func calculate_diff(val, newval, add):
-	if abs(val - newval) <= add: val = newval
-	elif val > newval: val -= add
-	else: val += add
-	return val

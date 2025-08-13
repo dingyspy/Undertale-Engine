@@ -3,6 +3,8 @@ extends Node
 # only change stuff here if you know what youre doing!!
 # theres some info below on how to change stuff
 
+signal dialog_finished
+
 @onready var menu = $'../menu'
 @onready var enemies = $'../enemies'
 @onready var attacks = $'../attacks'
@@ -15,6 +17,7 @@ extends Node
 @onready var buttons_node = $'../menu/buttons'
 
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
+@onready var dialogbox = preload('res://scenes/engine/battle/dialogbox.tscn')
 
 var current_text = 'Menu text! :)'
 var can_flee = true
@@ -80,7 +83,8 @@ func _process(delta: float) -> void:
 					menu_posy = posmod(menu_posy + menu_y, enemies.get_children().size())
 					soul.position = Vector2(42,36 + menu_posy * 32)
 				2:
-					var pages = int(ceil(Global.items.size() / 4.0))
+					var items = clean_items()
+					var pages = int(ceil(items.size() / 4.0))
 					
 					if pages > 1:
 						if page >= 1 and page < pages:
@@ -97,7 +101,7 @@ func _process(delta: float) -> void:
 								
 								update_page(pages)
 								menu_posx = 2
-					var end_items = Global.items.size() - (page - 1) * 4
+					var end_items = items.size() - (page - 1) * 4
 					
 					limit(end_items, menu_x)
 					menu_posx = posmod(menu_posx + menu_x, limitx)
@@ -126,10 +130,11 @@ func _process(delta: float) -> void:
 	
 	# accept
 	if accept and buffer < 0:
-		buffer = 2
+		var items = clean_items()
+		if menu_posx == 2 and items.is_empty() == true: return
 		
-		Audio.play('select')
-		menu_posy = 0
+		buffer = 2
+		if menu_no != -1: Audio.play('select')
 		
 		# extra button functions can be implemented
 		# shows the fight, act, item, mercy options
@@ -154,7 +159,9 @@ func _process(delta: float) -> void:
 					1: show_enemies(false)
 					2:
 						menu_posx = 0
-						for i in 4: create_menuitem('* ' + Global.items[i][0], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
+						for i in 4:
+							if i > items.size() - 1: continue
+							create_menuitem('* ' + items[i]['abv_name'], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
 						create_menuitem('  PAGE 1', Vector2(70 + 1 * 250,20 + 2 * 32))
 						page = 1
 					3:
@@ -173,19 +180,68 @@ func _process(delta: float) -> void:
 				menu_no = 2
 				
 				match prev_menu_posx:
-					0: $attacks.setup() # fight
+					0:
+						menu_no = -1
+						soul.visible = false
+						
+						var enemy = enemies.get_children()[menu_posy]
+						var loaded = load(Global.weapon_equipped['item_params']['script_path'])
+						var inst = loaded.instantiate()
+						
+						inst.enemy = enemy
+						inst.border = border
+						inst.position = border.size / 2
+						border.add_child(inst)
+						inst.start()
+						
+						await inst.bordersetup
+						attack_script.setup()
+						
+						var dialog
+						if enemies.dialog.is_empty() == false:
+							if attack_script._randomize: dialog = enemies.dialog[randi_range(0,enemies.dialog.size())]
+							else:
+								if attack_script.current_attack <= enemies.dialog.size() - 1: dialog = enemies.dialog[attack_script.current_attack]
+							if dialog: create_dialog_box(dialog)
+						
+						if dialog: await dialog_finished
+						attack_script.start()
 					1:
 						prev_menu_posy = menu_posy
 						menu_posx = 0
 						var enemy = enemies.get_children()[prev_menu_posy]
 						
 						var i = 0
-						for act in enemy.acts: create_menuitem('* ' + act[0], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
+						for act in enemy.acts: create_menuitem('* ' + act['name'], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
 					2: pass # heal
 					3: pass # spare / flee
 			2:
 				if prev_menu_posx == 1:
-					pass # act
+					for item in menuitems.get_children(): item.queue_free()
+					menu_no = -1
+					
+					var enemy = enemies.get_children()[prev_menu_posy]
+					var act = enemy.acts[menu_posx + menu_posy * 2]
+					
+					bullet_point.visible = true
+					soul.visible = false
+					for msg in act['msg']:
+						border_text.reset()
+						border_text.text = msg['text']
+						border_text.override_pause = msg['override_pause']
+						border_text.override_speed = msg['override_speed']
+						
+						await border_text.completed
+						while true:
+							var _accept = Input.is_action_just_pressed("accept")
+							if _accept and buffer <= 0:
+								buffer = 2
+								break
+							await get_tree().process_frame
+					if act['callback'] != null: act['callback'].call()
+					set_current_text(false)
+					attack_script.turn_skip(0)
+		menu_posy = 0
 	
 	if cancel and buffer < 0:
 		buffer = 2
@@ -195,6 +251,7 @@ func _process(delta: float) -> void:
 				Audio.play('move')
 				menu_no = 0
 				menu_posx = prev_menu_posx
+				prev_menu_posx = 0
 				
 				for item in menuitems.get_children(): item.queue_free()
 				set_current_text()
@@ -205,6 +262,13 @@ func _process(delta: float) -> void:
 				
 				for item in menuitems.get_children(): item.queue_free()
 				show_enemies(false)
+
+# returns only healing / stat items
+func clean_items():
+	var items = Global.items
+	var nitems = []
+	for i in items: if i['item_type'] == 0: nitems.append(i)
+	return nitems
 
 # 2 modes
 # when soul_index_toggle is true, the soul is removed from the
@@ -233,8 +297,8 @@ func toggle_soul_index():
 func show_enemies(health=false):
 	var i = 0
 	for enemy in enemies.get_children():
-		if enemy.sparable: create_menuitem('* ' + enemy.name, Vector2(70,20 + i * 32), Color(1,1,0))
-		else: create_menuitem('* ' + enemy.name, Vector2(70,20 + i * 32))
+		if enemy.sparable: create_menuitem('* ' + enemy._name, Vector2(70,20 + i * 32), Color(1,1,0))
+		else: create_menuitem('* ' + enemy._name, Vector2(70,20 + i * 32))
 		
 		if health:
 			var rect_back = ColorRect.new()
@@ -254,9 +318,11 @@ func show_enemies(health=false):
 # also helps redundancy, updates the menu item pages
 func update_page(pages):
 	var endrange = page * 4
-	if page == pages: endrange = Global.items.size()
 	
-	for i in range((page - 1) * 4, endrange): create_menuitem('* ' + Global.items[i][0], Vector2(70 + (i % 2) * 250,20 + floor((i - (page - 1) * 4) / 2) * 32)); i += 1
+	var items = clean_items()
+	if page == pages: endrange = items.size()
+	
+	for i in range((page - 1) * 4, endrange): create_menuitem('* ' + items[i]['abv_name'], Vector2(70 + (i % 2) * 250,20 + floor((i - (page - 1) * 4) / 2) * 32)); i += 1
 	create_menuitem('  PAGE ' + str(page), Vector2(70 + 1 * 250,20 + 2 * 32))
 
 # a function used for the soul positioning in menus
@@ -273,6 +339,7 @@ func limit(items, menu_x):
 	if items == 3 and menu_posx == 0:
 		limity = 2
 		if menu_posx + menu_x == 1: limity = 1
+		if menu_posx + menu_x == -1: limity = 1
 	elif items == 3:
 		limity = 1
 		menu_posy = 0
@@ -298,3 +365,47 @@ func set_current_text(enabled=true):
 		border_text.stop()
 		border_text.text = ''
 		bullet_point.visible = false
+
+# used for enemy dialog, called in attacks script
+# text should be formatted: [{'text' : 'text', 'override_pause' : {}, 'override_speed' : {0:0.02}}, ...]
+# automatic goes through the text automatically with a delay inbetween
+# oneshot only creates the dialog box and plays the first like of the array. note: you must queue free manually after using
+func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : bool = false):
+	var prev_enemy
+	var text
+	var inst
+	
+	for dict in text_array:
+		var enemy = enemies.get_node(dict['enemy'])
+		var enemy_pos = enemy.position
+		var enemy_dialogbox_pos = enemy.get_node('positions/dialogbox').position
+		
+		if enemy != prev_enemy:
+			enemy = prev_enemy
+			
+			if inst: enemies.remove_child(inst)
+			inst = dialogbox.instantiate()
+			inst.position = enemy_pos + enemy_dialogbox_pos
+			enemies.add_child(inst)
+	
+			text = inst.get_node('box/text')
+		
+		text.override_font_size = 16
+		text.reset()
+		text.text = dict['text']
+		text.override_pause = dict['override_pause']
+		text.override_speed = dict['override_speed']
+			
+		if oneshot: return
+		await text.completed
+		if automatic:
+			await get_tree().create_timer(text.text.length() / 0.35).timeout
+			continue
+		while true:
+			var accept = Input.is_action_just_pressed("accept")
+			if accept and buffer <= 0:
+				buffer = 2
+				break
+			await get_tree().process_frame
+	if inst: enemies.remove_child(inst)
+	dialog_finished.emit()

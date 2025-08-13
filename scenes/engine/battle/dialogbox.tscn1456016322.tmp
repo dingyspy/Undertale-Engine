@@ -31,21 +31,8 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_8w6uk")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "feafesw"
+text = "You"
 script = ExtResource("4_tkl58")
-override_font_size = 16
-
-[node name="ref" type="RichTextLabel" parent="box"]
-visible = false
-layout_mode = 0
-offset_left = 12.0
-offset_top = 9.0
-offset_right = 33.0
-offset_bottom = 51.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("3_8w6uk")
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
 
 [node name="tail" type="Sprite2D" parent="."]
 position = Vector2(14, 0)
