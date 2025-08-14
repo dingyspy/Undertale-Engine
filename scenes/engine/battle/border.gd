@@ -17,6 +17,12 @@ var _finished = true
 @onready var corner1 = $backbuffer/mask/corner1
 @onready var bullets = $backbuffer/bullets
 @onready var attacks = $'../'
+var LEFT = 0
+var RIGHT = 0
+var UP = 0
+var DOWN = 0
+var CENTER = 0
+var DISTANCE = 0
 
 # moves / sizes the border to array value
 # formatted [pos.x, pos.y], [size.x,size.y]
@@ -42,7 +48,7 @@ func toggle_attack_render():
 		add_child(new_buffer)
 		new_buffer.position = Vector2(0,0)
 		
-		attacks.remove_child(backbuffer)
+		backbuffer.queue_free()
 		backbuffer = new_buffer
 		corner0 = backbuffer.get_node('mask/corner0')
 		corner1 = backbuffer.get_node('mask/corner1')
@@ -52,7 +58,7 @@ func toggle_attack_render():
 		new_buffer.position = Vector2(0,0)
 		attacks.add_child(new_buffer)
 		
-		remove_child(backbuffer)
+		backbuffer.queue_free()
 		backbuffer = new_buffer
 		corner0 = backbuffer.get_node('mask/corner0')
 		corner1 = backbuffer.get_node('mask/corner1')
@@ -69,6 +75,13 @@ func _process(delta: float) -> void:
 		position = calculated_pos
 		size = calculated_size
 		pivot_offset = calculated_size / 2
+		
+		LEFT = calculated_pos.x + 5
+		RIGHT = calculated_pos.x + calculated_size.x - 5
+		UP = calculated_pos.y + 5
+		DOWN = calculated_pos.y + calculated_size.y - 5
+		CENTER = calculated_size / 2
+		DISTANCE = Vector2(RIGHT - LEFT, DOWN - UP)
 		
 		if position == new_position - size / 2 and size == new_size and !_finished:
 			_finished = true

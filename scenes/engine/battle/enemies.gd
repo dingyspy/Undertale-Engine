@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var border = $'../attacks/border'
 @onready var attack_script = $'../engine/attacks'
+@onready var alive = $alive
 
 # if you dont want to add the enemies into the scene, you can do it here by putting their
 # paths in the export var. useful for transitioning from overworld to battle
@@ -23,7 +24,7 @@ func _ready() -> void:
 			var inst = load(enemy_paths[i])
 			inst = inst.instantiate()
 			inst.name = inst.name + str(i)
-			add_child(inst)
+			alive.add_child(inst)
 			
 			checked_arr.append(enemy_paths[i])
 			

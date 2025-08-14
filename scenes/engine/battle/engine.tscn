@@ -194,6 +194,10 @@ texture = ExtResource("12_4agdu")
 script = ExtResource("15_4tewb")
 enemy_paths = ["res://scenes/unique/enemies/example/dummy.tscn", "res://scenes/unique/enemies/example/dummy.tscn"]
 
+[node name="ignore" type="Node2D" parent="enemies"]
+
+[node name="alive" type="Node2D" parent="enemies"]
+
 [node name="attacks" type="CanvasLayer" parent="."]
 
 [node name="border" type="NinePatchRect" parent="attacks"]
@@ -208,6 +212,9 @@ patch_margin_right = 5
 patch_margin_bottom = 5
 script = ExtResource("13_4agdu")
 
+[node name="soul" parent="attacks/border" instance=ExtResource("21_grdfn")]
+position = Vector2(-32, -250)
+
 [node name="staticbody" type="StaticBody2D" parent="attacks/border"]
 
 [node name="collisions" type="CollisionPolygon2D" parent="attacks/border/staticbody"]
@@ -217,6 +224,7 @@ copy_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="bullets" type="Node2D" parent="attacks/border/backbuffer"]
+z_index = 1
 
 [node name="mask" type="Node2D" parent="attacks/border/backbuffer"]
 material = SubResource("ShaderMaterial_wsk5h")
@@ -258,11 +266,23 @@ offset_bottom = 121.0
 theme_override_fonts/normal_font = ExtResource("20_x5pbi")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "Border text"
+text = "* You earned 0 EXP and 022 gold."
 script = ExtResource("20_ew1je")
 metadata/_edit_lock_ = true
 
 [node name="items" type="Node2D" parent="attacks/border"]
 
-[node name="soul" parent="attacks/border" instance=ExtResource("21_grdfn")]
-position = Vector2(-32, -250)
+[node name="overlay" type="CanvasLayer" parent="."]
+
+[node name="fade" type="ColorRect" parent="overlay"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="flash" type="ColorRect" parent="overlay"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 640.0
+offset_bottom = 480.0
+metadata/_edit_lock_ = true

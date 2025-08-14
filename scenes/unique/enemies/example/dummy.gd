@@ -12,16 +12,14 @@ signal finished_player_attack
 @export var max_health = 20
 @export var def = 0
 # whether they can be spared. when using spared from the menu, itll spare any enemy with sparable as true
-@export var sparable = true
-# used for enemy dialog, called in attacks script, function is found in engine
-# text should be formatted: [{'text' : 'text', 'override_pause' : {}, 'override_speed' : {0:0.02}}, ...]
-# this is used in chronological order unless randomized is set to true in attacks
-@export var dialog = [
-	[
-		{'text' : 'hello i am testing the dialog box', 'override_pause' : {}, 'override_speed' : {}},
-		{'text' : 'second dialog', 'override_pause' : {}, 'override_speed' : {}},
-	]
-]
+@export var spareable = false
+# gold you get when killing / sparing
+@export var gold = 25
+# xp you get from killing
+@export var xp = 75
+# used for making animations
+# match statement is found in process
+@export var anim = 1
 # formatted: {name : name, msg : [{text : text, override_pause : {}, override_speed : {}}], callback : function in here that you want to be called after the check}
 # callback is used if you want a function to be called when acting
 @export var acts = [
@@ -41,24 +39,52 @@ signal finished_player_attack
 		'callback' : Callable(self, 'test_act')
 	},
 ]
+# used to shake the enemy
+var shake = 0
 
 @onready var healthbar = $healthbar
 @onready var num = healthbar.get_node('num')
 @onready var front = healthbar.get_node('front')
 @onready var grey = healthbar.get_node('grey')
+@onready var spare_particle = $particles/spare
+@onready var dust_particle = $particles/dust
+@onready var character = $character
 var health = max_health
+var shake_flip = 1
+var shake_buffer = 0
 
 func _ready() -> void:
 	healthbar.visible = false
-	Audio.store_audio({'hit':'res://audio/engine/snd_damage.wav'})
+
+var animation_siner = 0.0
+func _process(delta: float) -> void:
+	animation_siner += delta * 30
+	
+	match anim:
+		# MUST make all character sprites invisible for spare function to work
+		0:
+			for i in character.get_children(): i.visible = false
+		1:
+			for i in character.get_children(): i.visible = true
+			$character/dummy.position.x = 0 + sin(animation_siner / 4) * 2
+	
+	character.position.x = shake * shake_flip
+	shake -= delta * 8
+	if shake_buffer > -1: shake_buffer -= delta * 30
+	if shake > 0 and shake_buffer <= 0:
+		shake_buffer = 1.5
+		shake_flip = -shake_flip
+	elif shake <= 0: shake = 0
 
 func test_act():
 	print('test act works!')
+	spareable = true
 
 # is called when the player finished attacking
 func hit(dmg):
 	Audio.play('hit')
 	health -= dmg
+	shake = 8
 	
 	healthbar.visible = true
 	num.text = '[center]' + str(int(dmg))
@@ -78,3 +104,36 @@ func hit(dmg):
 
 func miss():
 	pass
+
+func spare():
+	var sprpart = spare_particle.get_node('spare')
+	var sprspr = spare_particle.get_node('spare_spr')
+	anim = 0
+	sprspr.visible = true
+	sprpart.restart()
+	sprpart.emitting = true
+	
+	Audio.play('vapor')
+	
+	for i in 4:
+		var text = load('res://sprites/engine/battle/core/spare/sprite_' + str(i) + '.png')
+		sprpart.texture = text
+		await get_tree().create_timer(0.15).timeout
+
+func dust():
+	anim = 0
+	dust_particle.restart()
+	dust_particle.emitting = true
+	dust_particle.one_shot = true
+	dust_particle.process_material.set('shader_parameter/progress', 0.0)
+	dust_particle.visible = true
+	
+	Audio.play('vapor')
+	
+	var t = get_tree().create_tween()
+	t.tween_property(dust_particle, 'process_material:shader_parameter/progress', 1.0, 0.8)
+	await t.finished
+	
+	await get_tree().create_timer(1).timeout
+	dust_particle.emitting = false
+	dust_particle.visible = false

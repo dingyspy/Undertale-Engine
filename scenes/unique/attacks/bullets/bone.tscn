@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://g81xjj1e17fv"]
+
+[ext_resource type="Texture2D" uid="uid://cu6bvougqv4gf" path="res://sprites/engine/battle/bullets/bone/bone_sans.png" id="1_pilli"]
+[ext_resource type="Script" uid="uid://c7innd3tw7asf" path="res://scenes/unique/attacks/bullets/bone.gd" id="2_4um0e"]
+
+[node name="bone" type="NinePatchRect" groups=["bullets"]]
+offset_right = 12.0
+offset_bottom = 13.0
+texture = ExtResource("1_pilli")
+patch_margin_top = 6
+patch_margin_bottom = 6
+script = ExtResource("2_4um0e")

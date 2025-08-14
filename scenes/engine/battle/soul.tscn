@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0ppdoevm1fqo"]
+[gd_scene load_steps=9 format=3 uid="uid://b0ppdoevm1fqo"]
 
 [ext_resource type="Script" uid="uid://dyy6m3nwhr7j6" path="res://scenes/engine/battle/soul.gd" id="1_3dese"]
 [ext_resource type="Texture2D" uid="uid://lulxjlcbvvy" path="res://sprites/engine/battle/core/soul/soul0.png" id="1_rnrdv"]
 [ext_resource type="Texture2D" uid="uid://sx266bge084f" path="res://sprites/engine/battle/core/soul/soul1.png" id="2_3dese"]
+[ext_resource type="Texture2D" uid="uid://boclwj1bvpaeg" path="res://sprites/engine/battle/core/flee/flee0.png" id="4_c5kue"]
+[ext_resource type="Texture2D" uid="uid://bfifgcwlcvxut" path="res://sprites/engine/battle/core/flee/flee1.png" id="5_btori"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qmmok"]
 animations = [{
@@ -16,7 +18,24 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_c5kue")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_btori")
+}],
+"loop": true,
+"name": &"flee",
+"speed": 15.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5kue"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btori"]
+size = Vector2(6, 6)
 
 [node name="soul" type="CharacterBody2D"]
 script = ExtResource("1_3dese")
@@ -25,4 +44,10 @@ script = ExtResource("1_3dese")
 modulate = Color(1, 0, 0, 1)
 sprite_frames = SubResource("SpriteFrames_qmmok")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c5kue")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_btori")

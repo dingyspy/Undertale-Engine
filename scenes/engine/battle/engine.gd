@@ -4,9 +4,12 @@ extends Node
 # theres some info below on how to change stuff
 
 signal dialog_finished
+signal battle_finished
 
 @onready var menu = $'../menu'
-@onready var enemies = $'../enemies'
+@onready var real_enemies = $'../enemies'
+@onready var enemies = $'../enemies/alive'
+@onready var ignore_enemies = $'../enemies/ignore'
 @onready var attacks = $'../attacks'
 @onready var attack_script = $attacks
 @onready var border = $'../attacks/border'
@@ -16,6 +19,15 @@ signal dialog_finished
 @onready var soul = $'../attacks/border/soul'
 @onready var menuitems = $'../attacks/border/items'
 @onready var buttons_node = $'../menu/buttons'
+@onready var overlay = $'../overlay'
+
+@onready var stats = $'../menu/stats'
+@onready var stats_hp = $'../menu/stats/hp'
+@onready var stats_name = $'../menu/stats/name'
+@onready var stats_lv = $'../menu/stats/lv'
+@onready var stats_health_front = $'../menu/stats/health/bar/front'
+@onready var stats_health_kr = $'../menu/stats/health/bar/kr'
+@onready var stats_health_back = $'../menu/stats/health/bar/back'
 
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
 @onready var dialogbox = preload('res://scenes/engine/battle/dialogbox.tscn')
@@ -37,6 +49,8 @@ var limity = 0
 var soul_index_toggle = true
 var buttons = []
 var buffer = 0
+var xp_won = 0
+var gold_won = 0
 
 var prev_atk = Global.atk
 var prev_def = Global.def
@@ -47,7 +61,12 @@ func _ready() -> void:
 	Audio.store_audio({
 		'move' : 'res://audio/engine/snd_squeak.wav',
 		'select' : 'res://audio/engine/snd_select.wav',
-		'heal' : 'res://audio/engine/snd_heal_c.wav'
+		'heal' : 'res://audio/engine/snd_heal_c.wav',
+		'bell' : 'res://audio/engine/snd_bell.wav',
+		'hit' : 'res://audio/engine/snd_damage.wav',
+		'vapor' : 'res://audio/engine/snd_vaporized.wav',
+		'laz' : 'res://audio/engine/snd_laz.wav',
+		'flee' : 'res://audio/engine/snd_escaped.wav'
 	})
 	
 	await get_tree().process_frame
@@ -66,6 +85,8 @@ func _process(delta: float) -> void:
 	if bullet_point.get_theme_font("normal_font") != border_text.get_theme_font("normal_font"):
 		var blitter_info = Global.blitter_info[border_text.font]
 		Utility.load_font(bullet_point, blitter_info[0], blitter_info[2])
+	
+	update_health()
 	
 	# process menu_no
 	# this is where extra button functions can be implemented
@@ -173,7 +194,7 @@ func _process(delta: float) -> void:
 						var i = 0
 						var spare = false
 						
-						for enemy in enemies.get_children(): if enemy.sparable: spare = true
+						for enemy in enemies.get_children(): if enemy.spareable: spare = true
 						
 						if spare: create_menuitem('* ' + 'Spare', Vector2(70,20 + i * 32), Color(1,1,0))
 						else: create_menuitem('* ' + 'Spare', Vector2(70,20 + i * 32), Color(1,1,1))
@@ -199,7 +220,21 @@ func _process(delta: float) -> void:
 						border.add_child(inst)
 						inst.start()
 						
-						await inst.bordersetup
+						await inst.finished
+						if enemy.health <= 0:
+							var new_enemy = enemy.duplicate()
+							ignore_enemies.add_child(new_enemy)
+							inst.enemy = new_enemy
+							enemy.queue_free()
+							new_enemy.dust()
+							gold_won += new_enemy.gold
+							xp_won += new_enemy.xp
+						
+						await get_tree().process_frame
+						if enemies.get_children().is_empty():
+							win()
+							return
+						
 						if inst.dmg == -1:
 							attack_script.turn_skip(3)
 							if !attack_script._randomize: return
@@ -207,10 +242,10 @@ func _process(delta: float) -> void:
 						attack_script.setup()
 						
 						var dialog
-						if enemies.dialog.is_empty() == false:
-							if attack_script._randomize: dialog = enemies.dialog[randi_range(0,enemies.dialog.size() - 1)]
+						if real_enemies.dialog.is_empty() == false:
+							if attack_script._randomize: dialog = real_enemies.dialog[randi_range(0,real_enemies.dialog.size() - 1)]
 							else:
-								if attack_script.current_attack <= enemies.dialog.size() - 1: dialog = enemies.dialog[attack_script.current_attack]
+								if attack_script.current_attack <= real_enemies.dialog.size() - 1: dialog = real_enemies.dialog[attack_script.current_attack]
 							if dialog: create_dialog_box(dialog)
 						
 						if dialog: await dialog_finished
@@ -254,7 +289,37 @@ func _process(delta: float) -> void:
 						set_current_text(false)
 						border_text.position.x += 20
 						attack_script.turn_skip(1)
-					3: pass # spare / flee
+					3:
+						match menu_posy:
+							0:
+								for enemy in enemies.get_children(): if enemy.spareable:
+									var new_enemy = enemy.duplicate()
+									ignore_enemies.add_child(new_enemy)
+									enemy.queue_free()
+									new_enemy.spare()
+									gold_won += new_enemy.gold
+								
+								if enemies.get_children().is_empty(): win(true)
+								else:
+									set_current_text(false)
+									attack_script.turn_skip(2)
+							1:
+								menu_no = -1
+								for item in menuitems.get_children(): item.queue_free()
+								soul.get_node('sprite').play('flee')
+								
+								var t = get_tree().create_tween()
+								t.tween_property(soul, 'global_position:x', -40, 1.3)
+								
+								create_menuitem('* Escaped...', Vector2(70,20))
+								Audio.play('flee')
+								
+								await t.finished
+								t = get_tree().create_tween()
+								t.tween_property(overlay.get_node('fade'), 'modulate:a', 1, 0.5)
+								await t.finished
+								
+								battle_finished.emit()
 			2:
 				if prev_menu_posx == 1:
 					for item in menuitems.get_children(): item.queue_free()
@@ -303,6 +368,31 @@ func _process(delta: float) -> void:
 				for item in menuitems.get_children(): item.queue_free()
 				show_enemies(false)
 
+# function that gets called when all enemies are dead / spared
+func win(spared = false):
+	for item in menuitems.get_children(): item.queue_free()
+	
+	menu_no = -1
+	border_text.reset()
+	border_text.position.x -= 28
+	border_text.text = '* YOU WON!'
+	
+	Global.gold += gold_won
+	Global.xp += xp_won
+	
+	var text = '\n* You earned ' + str(xp_won) +  ' EXP and ' + str(gold_won) + ' gold.'
+	if text.length() >= 33: text = '\n* You earned ' + str(xp_won) +  ' EXP and ' + str(gold_won) + '\n  gold.'
+	border_text.text += text
+	soul.visible = false
+	
+	await border_text.finished
+	while true:
+		var _accept = Input.is_action_just_pressed("accept")
+		if _accept:
+			battle_finished.emit()
+			break
+		await get_tree().process_frame
+
 # returns only healing / stat items
 func clean_items():
 	var items = Global.items
@@ -322,13 +412,13 @@ func toggle_soul_index():
 	if soul_index_toggle:
 		var new_soul = soul.duplicate()
 		attacks.add_child(new_soul)
-		border.remove_child(soul)
+		soul.queue_free()
 		soul = new_soul
 		new_soul.visible = true
 	else:
 		var new_soul = soul.duplicate()
 		border.add_child(new_soul)
-		attacks.remove_child(soul)
+		soul.queue_free()
 		soul = new_soul
 		new_soul.visible = true
 	soul_index_toggle = !soul_index_toggle
@@ -337,7 +427,7 @@ func toggle_soul_index():
 func show_enemies(health=false):
 	var i = 0
 	for enemy in enemies.get_children():
-		if enemy.sparable: create_menuitem('* ' + enemy._name, Vector2(70,20 + i * 32), Color(1,1,0))
+		if enemy.spareable: create_menuitem('* ' + enemy._name, Vector2(70,20 + i * 32), Color(1,1,0))
 		else: create_menuitem('* ' + enemy._name, Vector2(70,20 + i * 32))
 		
 		if health:
@@ -397,6 +487,12 @@ func create_menuitem(text, position, color=Color(1,1,1)):
 
 # sets the border's blitter text
 func set_current_text(enabled=true):
+	randomize()
+	if !attack_script._randomize:
+		if attack_script.current_attack > attack_script.menu_blitter_texts.size() - 1: current_text = 'blitter not found'
+		else: current_text = attack_script.menu_blitter_texts[attack_script.current_attack]
+	else: current_text = attack_script.menu_blitter_texts[randi_range(0,attack_script.menu_blitter_texts.size() - 1)]
+	
 	if enabled:
 		border_text.reset()
 		border_text.text = current_text
@@ -417,13 +513,14 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 	
 	for dict in text_array:
 		var enemy = enemies.get_node(dict['enemy'])
+		if enemy == null: continue
 		var enemy_pos = enemy.position
 		var enemy_dialogbox_pos = enemy.get_node('positions/dialogbox').position
 		
 		if enemy != prev_enemy:
 			enemy = prev_enemy
 			
-			if inst: enemies.remove_child(inst)
+			if inst: inst.queue_free()
 			inst = dialogbox.instantiate()
 			inst.position = enemy_pos + enemy_dialogbox_pos
 			enemies.add_child(inst)
@@ -447,5 +544,12 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 				buffer = 2
 				break
 			await get_tree().process_frame
-	if inst: enemies.remove_child(inst)
+	if inst: inst.queue_free()
 	dialog_finished.emit()
+
+# updates the player stats
+func update_health():
+	var size = floor(Global.maxhp * 1.2) + 1
+	stats_health_back.size.x = size
+	stats_health_front.size.x = size
+	stats_health_kr.size.x = size

@@ -4,8 +4,11 @@ extends Node
 var lv = 1
 var maxhp = 16 + (4 * lv)
 var hp = maxhp
+var kr = 0
 var atk = -2 + (2 * lv)
 var def = floor((lv - 1) / 4)
+var gold = 0
+var xp = 0
 
 # items for both in-game and overworld
 # formatted: [abbreviated name, full name, [text, text1, ...], heal, atk gain, def gain, buy price, sell price, type (0:item,1:weapon,2:armor)]
@@ -100,7 +103,7 @@ var weapon_equipped = {
 	'item_params' : {
 		'use_text' : ['You threw the stick away. Then picked it back up.'],
 		'atk' : 4,
-		'script_path' : 'res://scenes/unique/plr_attacks/single.tscn'
+		'script_path' : 'res://scenes/unique/attacks/player/single.tscn'
 	},
 	'buy_price' : 0,
 	'sell_price' : 150,

@@ -4,7 +4,7 @@ extends Node2D
 #       * you must use queue_free when finished
 
 # emit this when the attack is finished
-signal bordersetup
+signal finished
 
 # tells the engine how much damage the enemy should take
 # -1 == miss
@@ -22,7 +22,6 @@ var pressed = 0
 
 func _ready():
 	target.modulate.a = 0
-	Audio.store_audio({'laz':'res://audio/engine/snd_laz.wav'})
 	start()
 
 # start() is called through the engine
@@ -59,7 +58,7 @@ func hit_enemy():
 	var t = get_tree().create_tween().set_parallel(true)
 	t.tween_property(target, 'scale:x', 0.3, 0.5)
 	t.tween_property(target, 'modulate:a', 0, 0.5)
-	bordersetup.emit()
+	finished.emit()
 	
 	await t.finished
 	queue_free()
@@ -82,7 +81,7 @@ func _process(delta: float) -> void:
 			var t = get_tree().create_tween().set_parallel(true)
 			t.tween_property(target, 'scale:x', 0.3, 0.5).set_trans(Tween.TRANS_LINEAR)
 			t.tween_property(target, 'modulate:a', 0, 0.5).set_trans(Tween.TRANS_LINEAR)
-			bordersetup.emit()
+			finished.emit()
 			
 			await t.finished
 			queue_free()

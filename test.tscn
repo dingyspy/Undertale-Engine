@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdkesiljudhp5"]
+
+[ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="1_37kl0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8uh7m"]
+size = Vector2(442, 72)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="soul" parent="." instance=ExtResource("1_37kl0")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(187, 248)
+shape = SubResource("RectangleShape2D_8uh7m")

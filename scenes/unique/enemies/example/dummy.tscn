@@ -1,8 +1,56 @@
-[gd_scene load_steps=4 format=3 uid="uid://d37thgp607y66"]
+[gd_scene load_steps=9 format=3 uid="uid://d37thgp607y66"]
 
 [ext_resource type="Script" uid="uid://narwtmpfs7gw" path="res://scenes/unique/enemies/example/dummy.gd" id="1_rvvhe"]
 [ext_resource type="Texture2D" uid="uid://pd41wqtmceby" path="res://sprites/engine/battle/enemies/dummy/sprite.png" id="2_plrll"]
 [ext_resource type="FontFile" uid="uid://cuqp77o5pucir" path="res://fonts/damage.ttf" id="3_2bt8m"]
+[ext_resource type="Shader" uid="uid://cev2a3pl0nxji" path="res://shaders/dust.tres" id="4_sw0ox"]
+
+[sub_resource type="Gradient" id="Gradient_w6r75"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.552941)
+
+[sub_resource type="Gradient" id="6"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="7"]
+gradient = SubResource("6")
+fill_to = Vector2(0.17094, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_21evv"]
+shader = ExtResource("4_sw0ox")
+shader_parameter/direction = Vector3(0, -1, 0)
+shader_parameter/spread = 180.0
+shader_parameter/flatness = 0.0
+shader_parameter/initial_linear_velocity = 30.0
+shader_parameter/initial_angle = 0.0
+shader_parameter/angular_velocity = 0.0
+shader_parameter/orbit_velocity = 0.0
+shader_parameter/linear_accel = 0.0
+shader_parameter/radial_accel = 0.0
+shader_parameter/tangent_accel = 0.0
+shader_parameter/damping = 0.0
+shader_parameter/scale = 1.0
+shader_parameter/hue_variation = 0.0
+shader_parameter/anim_speed = 0.0
+shader_parameter/anim_offset = 0.0
+shader_parameter/initial_linear_velocity_random = 0.5
+shader_parameter/initial_angle_random = 0.0
+shader_parameter/angular_velocity_random = 0.0
+shader_parameter/orbit_velocity_random = 0.0
+shader_parameter/linear_accel_random = 0.0
+shader_parameter/radial_accel_random = 0.0
+shader_parameter/tangent_accel_random = 0.0
+shader_parameter/damping_random = 0.0
+shader_parameter/scale_random = 0.0
+shader_parameter/hue_variation_random = 0.0
+shader_parameter/anim_speed_random = 0.0
+shader_parameter/anim_offset_random = 0.0
+shader_parameter/lifetime_randomness = 0.3
+shader_parameter/trail_divisor = 1
+shader_parameter/gravity = Vector3(0, -20, 0)
+shader_parameter/color_ramp = SubResource("7")
+shader_parameter/sprite = ExtResource("2_plrll")
+shader_parameter/progress = 0.0
+shader_parameter/particle_lifetime_fraction = 1.0
 
 [node name="dummy" type="Node2D"]
 script = ExtResource("1_rvvhe")
@@ -17,9 +65,45 @@ position = Vector2(36, -65)
 
 [node name="character" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="character"]
+[node name="dummy" type="Sprite2D" parent="character"]
 position = Vector2(0, -51)
 texture = ExtResource("2_plrll")
+
+[node name="particles" type="Node2D" parent="."]
+
+[node name="spare" type="Node2D" parent="particles"]
+
+[node name="spare_spr" type="Sprite2D" parent="particles/spare"]
+visible = false
+modulate = Color(0.533036, 0.533037, 0.533037, 1)
+position = Vector2(0, -51)
+texture = ExtResource("2_plrll")
+
+[node name="spare" type="CPUParticles2D" parent="particles/spare"]
+position = Vector2(1, -52)
+emitting = false
+amount = 10
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+direction = Vector2(1, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 80.0
+linear_accel_max = 20.0
+damping_min = 75.0
+damping_max = 75.0
+color_ramp = SubResource("Gradient_w6r75")
+
+[node name="dust" type="GPUParticles2D" parent="particles"]
+visible = false
+position = Vector2(-48, -104)
+emitting = false
+amount = 12000
+lifetime = 3.0
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_21evv")
 
 [node name="healthbar" type="Node2D" parent="."]
 position = Vector2(0, -121)

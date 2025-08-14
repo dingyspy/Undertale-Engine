@@ -39,9 +39,23 @@ func remove_audio_from_stored(_name : String):
 func play(_name : String, pitch : float = 1.0, seek : float = 0.0, volume : float = 0.0):
 	if stored_audios.has(_name):
 		var audio = stored_audios[_name]
+		if audio.stream_paused == true:
+			audio.stream_paused = false
+			return
 		audio.pitch_scale = pitch
 		audio.volume_db = volume
 		audio.play(seek)
+
+# provide the same name used for store_audio, plays the audio
+func pause(_name : String):
+	if stored_audios.has(_name):
+		var audio = stored_audios[_name]
+		audio.stream_paused = true
+
+# returns the node
+# provide the same name used for store_audio, plays the audio
+func return_node(_name : String):
+	if stored_audios.has(_name): return stored_audios[_name]
 
 # this function is for if you want audio to overlap
 # the audio plays once and gets destroyed
