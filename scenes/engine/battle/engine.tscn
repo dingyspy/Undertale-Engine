@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://fdexliguoa86"]
+[gd_scene load_steps=27 format=3 uid="uid://fdexliguoa86"]
 
 [ext_resource type="Texture2D" uid="uid://dyfwm2pemm3ew" path="res://sprites/engine/battle/core/hud/buttons/act0.png" id="1_xxrhl"]
 [ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
@@ -22,6 +22,7 @@
 [ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="20_x5pbi"]
 [ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="21_grdfn"]
 [ext_resource type="Texture2D" uid="uid://btx45kwubku3y" path="res://sprites/engine/battle/back.png" id="22_qogft"]
+[ext_resource type="Script" uid="uid://djp32purlac1h" path="res://scenes/engine/battle/camera.gd" id="23_4tewb"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_apoaa"]
 animations = [{
@@ -83,7 +84,7 @@ script = ExtResource("2_4tewb")
 [node name="attacks" type="Node" parent="engine"]
 script = ExtResource("3_qogft")
 
-[node name="background" type="CanvasLayer" parent="."]
+[node name="background" type="Node2D" parent="."]
 
 [node name="color" type="ColorRect" parent="background"]
 offset_right = 640.0
@@ -97,7 +98,7 @@ modulate = Color(1, 1, 1, 0.415686)
 position = Vector2(320, 240)
 texture = ExtResource("22_qogft")
 
-[node name="menu" type="CanvasLayer" parent="."]
+[node name="menu" type="Node2D" parent="."]
 
 [node name="buttons" type="Node2D" parent="menu"]
 
@@ -190,7 +191,7 @@ texture = ExtResource("11_82ikh")
 position = Vector2(387, 410)
 texture = ExtResource("12_4agdu")
 
-[node name="enemies" type="CanvasLayer" parent="."]
+[node name="enemies" type="Node2D" parent="."]
 script = ExtResource("15_4tewb")
 enemy_paths = ["res://scenes/unique/enemies/example/dummy.tscn", "res://scenes/unique/enemies/example/dummy.tscn"]
 
@@ -198,7 +199,7 @@ enemy_paths = ["res://scenes/unique/enemies/example/dummy.tscn", "res://scenes/u
 
 [node name="alive" type="Node2D" parent="enemies"]
 
-[node name="attacks" type="CanvasLayer" parent="."]
+[node name="attacks" type="Node2D" parent="."]
 
 [node name="border" type="NinePatchRect" parent="attacks"]
 offset_left = 32.0
@@ -287,3 +288,8 @@ modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 metadata/_edit_lock_ = true
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2(320, 240)
+ignore_rotation = false
+script = ExtResource("23_4tewb")

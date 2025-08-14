@@ -43,6 +43,7 @@ func setup():
 	var to_pos = [null,[140,140]]
 	if current_attack != -1 and current_attack <= attack_border_start.size() - 1: to_pos = [attack_border_start[current_attack][0],attack_border_start[current_attack][1]]
 	
+	engine.border.speed = 800
 	engine.border.to(to_pos[0],to_pos[1])
 	
 	engine.toggle_soul_index()
@@ -86,6 +87,9 @@ func end():
 	engine.toggle_soul_index()
 	engine.soul.change_mode(0)
 	engine.soul.visible = false
+	
+	engine.border.rotation_degrees = 0
+	engine.border.speed = 800
 	engine.border.to(null,null)
 	
 	await engine.border.finished
@@ -122,12 +126,12 @@ func turn_skip(value):
 			
 			start(healing_attacks[randi_range(0,healing_attacks.size() - 1)])
 
-func spawn(type, params : Dictionary, add_child : bool = true):
+func spawn(type, params : Dictionary, _add_child : bool = true):
 	var inst = load(type)
 	inst = inst.instantiate()
 	
 	for i in params.size(): if params.keys()[i] in inst: inst.set(params.keys()[i], params.values()[i])
 	if inst.has_method('setup'): inst.setup()
 	
-	if add_child: engine.border.bullets.add_child(inst)
+	if _add_child: engine.border.bullets.add_child(inst)
 	return inst

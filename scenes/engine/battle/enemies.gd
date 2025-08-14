@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Node2D
 
 @onready var border = $'../attacks/border'
 @onready var attack_script = $'../engine/attacks'

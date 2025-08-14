@@ -11,8 +11,18 @@ var attack
 
 func _ready() -> void:
 	soul.change_mode(2)
-	print('attacking')
-	await get_tree().create_timer(2).timeout
+	
+	engine.border.speed = 200
+	border.to([null,200],[150,150])
+	
+	soul.throw(Vector2.UP)
+	
+	await get_tree().create_timer(1).timeout
+	border.to([null,400],[150,150])
+	
+	var t = get_tree().create_tween()
+	t.tween_property(border, 'rotation_degrees', 90, 1)
+	
 	attack.spawn(attack.bullets.BONE, {
 		_position = border.CENTER,
 		_size = border.DISTANCE.y,
@@ -22,5 +32,6 @@ func _ready() -> void:
 		_direction = Vector2.RIGHT,
 		_speed = 100,
 	}, true)
+	
 	await get_tree().create_timer(2).timeout
 	end.emit()

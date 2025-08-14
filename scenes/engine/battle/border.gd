@@ -65,7 +65,7 @@ func toggle_attack_render():
 		bullets = backbuffer.get_node('bullets')
 	border_attack_render = !border_attack_render
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if !manual_override:
 		var vec2speed = Vector2(speed * delta,speed * delta)
 		

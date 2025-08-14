@@ -15,11 +15,12 @@ signal battle_finished
 @onready var border = $'../attacks/border'
 @onready var border_text = $'../attacks/border/text/text'
 @onready var bullet_point = $'../attacks/border/text/bullet'
-@onready var bullet_points = $'../attacks/border/text/bullets'
 @onready var soul = $'../attacks/border/soul'
 @onready var menuitems = $'../attacks/border/items'
 @onready var buttons_node = $'../menu/buttons'
 @onready var overlay = $'../overlay'
+@onready var camera = $'../camera'
+@onready var bg_color = $'../background/color'
 
 @onready var stats = $'../menu/stats'
 @onready var stats_hp_spr = $'../menu/stats/hp_spr'
@@ -74,12 +75,19 @@ func _ready() -> void:
 		'laz' : 'res://audio/engine/snd_laz.wav',
 		'flee' : 'res://audio/engine/snd_escaped.wav',
 		'hurt' : 'res://audio/engine/snd_hurt1.wav',
+		'impact' : 'res://audio/engine/snd_impact.wav',
 	})
 	
 	await get_tree().process_frame
 	border_text.font = 'main2'
 	set_current_text()
 	toggle_soul_index()
+	
+	soul.engine = self
+	
+	if bg_color:
+		bg_color.size *= 10
+		bg_color.position -= bg_color.size / 2
 
 func _process(delta: float) -> void:
 	var accept = Input.is_action_just_pressed("accept")
@@ -108,7 +116,7 @@ func _process(delta: float) -> void:
 			for button in buttons:
 				if button == buttons[menu_posx]: button.frame = 1
 				else: button.frame = 0
-			soul.z_index = -1
+			soul.z_index = 1
 		1:
 			soul.z_index = 0
 			match prev_menu_posx:

@@ -17,8 +17,10 @@ var iframes = 0
 var iframes_toggle = false
 var kr_time = 0
 var dmg_time = 0
+var in_air = false
+var engine
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var menu_x = -(int(Input.is_action_pressed("left")) - int(Input.is_action_pressed("right")))
 	var menu_y = -(int(Input.is_action_pressed("up")) - int(Input.is_action_pressed("down")))
 	var input_vector = Vector2(menu_x,menu_y).normalized()
@@ -29,7 +31,7 @@ func _process(delta: float) -> void:
 		0: velocity = Vector2(0,0)
 		1: velocity = input_vector * speed / cancel_div
 		2:
-			var ang = int(round(rad_to_deg(rotation))) % 360
+			var rot = int(sprite.rotation_degrees) % 360
 			var jump_input = false
 			
 			# 100% accurate... sob sob
@@ -38,25 +40,32 @@ func _process(delta: float) -> void:
 			elif fall_spd > -120: fall_spd += 450 * delta
 			else: fall_spd += 180 * delta
 			
-			match ang:
+			print(rot)
+			match rot:
 				0:
 					jump_dir = Vector2.UP
-					velocity = Vector2(Input.get_axis("left","right") * speed / cancel_div, fall_spd)
+					velocity = Vector2(input_vector.x * speed / cancel_div, fall_spd)
 					jump_input = Input.is_action_pressed("up")
 				180:
 					jump_dir = Vector2.DOWN
-					velocity = Vector2(Input.get_axis("left","right") * speed / cancel_div, -fall_spd)
+					velocity = Vector2(input_vector.x * speed / cancel_div, -fall_spd)
 					jump_input = Input.is_action_pressed("down")
 				90:
 					jump_dir = Vector2.RIGHT
-					velocity = Vector2(-fall_spd, Input.get_axis("up","down") * speed / cancel_div)
+					velocity = Vector2(-fall_spd, input_vector.x * speed / cancel_div)
 					jump_input = Input.is_action_pressed("right")
 				270:
 					jump_dir = Vector2.LEFT
-					velocity = Vector2(fall_spd, Input.get_axis("up","down") * speed / cancel_div)
+					velocity = Vector2(fall_spd, input_vector.x * speed / cancel_div)
 					jump_input = Input.is_action_pressed("left")
 			
+			print(fall_spd)
 			if is_on_floor() or (is_on_ceiling() and fall_spd <= 0):
+				if in_air:
+					in_air = false
+					Audio.play('impact')
+					if engine: engine.camera.shake(5)
+				
 				fall_spd = 0
 				if is_on_floor() and jump_input:
 					fall_spd = jump_force
@@ -116,13 +125,27 @@ func _process(delta: float) -> void:
 				break
 		Global.hp = clamp(Global.hp, 1, Global.maxhp)
 
-func change_mode(_mode : int):
+func change_mode(_mode : int, rot : int = 0):
 	mode = _mode
 	
 	match _mode:
 		0,1: sprite.modulate = Color(1,0,0)
 		2: sprite.modulate = Color(0,0,1)
 	if _mode != 0: Audio.play('bell')
+	sprite.rotation_degrees = rot
+
+func throw(vector, speed : int = 300):
+	var rot = 0
+	match vector:
+		Vector2.LEFT: rot = 90
+		Vector2.UP: rot = 180
+		Vector2.LEFT: rot = 270
+	
+	change_mode(2,rot)
+	
+	await get_tree().process_frame
+	fall_spd = speed
+	in_air = true
 
 # if kr is -1, its basically inactive
 func take_damage(damage, kr_damage):
