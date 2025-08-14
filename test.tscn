@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdkesiljudhp5"]
+[gd_scene load_steps=4 format=3 uid="uid://cdkesiljudhp5"]
 
 [ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="1_37kl0"]
+[ext_resource type="PackedScene" uid="uid://g81xjj1e17fv" path="res://scenes/unique/attacks/bullets/bone.tscn" id="2_8uh7m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8uh7m"]
 size = Vector2(442, 72)
@@ -14,3 +15,9 @@ size = Vector2(442, 72)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(187, 248)
 shape = SubResource("RectangleShape2D_8uh7m")
+
+[node name="bone" parent="." instance=ExtResource("2_8uh7m")]
+offset_left = 77.0
+offset_top = 130.0
+offset_right = 89.0
+offset_bottom = 220.0

@@ -17,8 +17,10 @@ func _ready() -> void:
 		_position = border.CENTER,
 		_size = border.DISTANCE.y,
 		_rotation = 0,
-		pivot = 'center',
-		type = 'papyrus'
+		_pivot = 'center',
+		_bone_type = 'papyrus',
+		_direction = Vector2.RIGHT,
+		_speed = 100,
 	}, true)
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(2).timeout
 	end.emit()

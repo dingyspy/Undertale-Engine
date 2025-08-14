@@ -41,7 +41,7 @@ func hit_enemy():
 	var b = 0
 	if slider.position.x >= target.position.x - 12 and slider.position.x <= target.position.x + 12: b = 2.2
 	else: b = clamp(1 - abs(target.position.x - slider.position.x) / 275, 0, 1)
-	dmg = round((Global.atk + Global.weapon_equipped['item_params']['atk'] - enemy.def + randi_range(0,2)) * b)
+	dmg = round((Global.atk + Global.weapon_equipped.item_params.atk - enemy.def + randi_range(0,2)) * b)
 	
 	strike.frame = 0
 	strike.play("default")

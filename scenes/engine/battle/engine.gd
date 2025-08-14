@@ -22,9 +22,11 @@ signal battle_finished
 @onready var overlay = $'../overlay'
 
 @onready var stats = $'../menu/stats'
-@onready var stats_hp = $'../menu/stats/hp'
-@onready var stats_name = $'../menu/stats/name'
-@onready var stats_lv = $'../menu/stats/lv'
+@onready var stats_hp_spr = $'../menu/stats/hp_spr'
+@onready var stats_kr_spr = $'../menu/stats/kr_spr'
+@onready var stats_hp = $'../menu/stats/health/hp'
+@onready var stats_name = $'../menu/stats/health/name'
+@onready var stats_lv = $'../menu/stats/health/lv'
 @onready var stats_health_front = $'../menu/stats/health/bar/front'
 @onready var stats_health_kr = $'../menu/stats/health/bar/kr'
 @onready var stats_health_back = $'../menu/stats/health/bar/back'
@@ -32,7 +34,10 @@ signal battle_finished
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
 @onready var dialogbox = preload('res://scenes/engine/battle/dialogbox.tscn')
 
-var current_text = 'Menu text! :)'
+# if false, the stats bar will start from the left
+# otherwise itll be centered
+var center_stats = true
+# if false, the flee option will be removed
 var can_flee = true
 
 # engine values
@@ -51,6 +56,7 @@ var buttons = []
 var buffer = 0
 var xp_won = 0
 var gold_won = 0
+var current_text = 'Menu text! :)'
 
 var prev_atk = Global.atk
 var prev_def = Global.def
@@ -66,7 +72,8 @@ func _ready() -> void:
 		'hit' : 'res://audio/engine/snd_damage.wav',
 		'vapor' : 'res://audio/engine/snd_vaporized.wav',
 		'laz' : 'res://audio/engine/snd_laz.wav',
-		'flee' : 'res://audio/engine/snd_escaped.wav'
+		'flee' : 'res://audio/engine/snd_escaped.wav',
+		'hurt' : 'res://audio/engine/snd_hurt1.wav',
 	})
 	
 	await get_tree().process_frame
@@ -187,7 +194,7 @@ func _process(delta: float) -> void:
 						menu_posx = 0
 						for i in 4:
 							if i > items.size() - 1: continue
-							create_menuitem('* ' + items[i]['abv_name'], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
+							create_menuitem('* ' + items[i].abv_name, Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
 						create_menuitem('  PAGE 1', Vector2(70 + 1 * 250,20 + 2 * 32))
 						page = 1
 					3:
@@ -211,7 +218,7 @@ func _process(delta: float) -> void:
 						soul.visible = false
 						
 						var enemy = enemies.get_children()[menu_posy]
-						var loaded = load(Global.weapon_equipped['item_params']['script_path'])
+						var loaded = load(Global.weapon_equipped.item_params.script_path)
 						var inst = loaded.instantiate()
 						
 						inst.enemy = enemy
@@ -256,7 +263,7 @@ func _process(delta: float) -> void:
 						var enemy = enemies.get_children()[prev_menu_posy]
 						
 						var i = 0
-						for act in enemy.acts: create_menuitem('* ' + act['name'], Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
+						for act in enemy.acts: create_menuitem('* ' + act.name, Vector2(70 + (i % 2) * 250,20 + floor(i / 2) * 32)); i += 1
 					2:
 						for item in menuitems.get_children(): item.queue_free()
 						menu_no = -1
@@ -266,15 +273,15 @@ func _process(delta: float) -> void:
 						Audio.play('heal')
 						
 						var item = items[(page - 1) * 4 + menu_posx + menu_posy * 2]
-						Global.hp = clamp(Global.hp + item['item_params']['health'], 0, Global.maxhp)
-						Global.atk += item['item_params']['atk']
-						Global.atk += item['item_params']['def']
+						Global.hp = clamp(Global.hp + item.item_params.health, 0, Global.maxhp)
+						Global.atk += item.item_params.atk
+						Global.def += item.item_params.def
 						
-						var text = '* You eat the ' + item['full_name'] + '.'
-						if item['item_params']['atk'] > 0: text += '\n* ATTACK increased by ' + str(item['item_params']['atk']) + '!'
-						if item['item_params']['def'] > 0: text += '\n* DEFENSE increased by ' + str(item['item_params']['def']) + '!'
+						var text = '* You eat the ' + item.full_name + '.'
+						if item.item_params.atk > 0: text += '\n* ATTACK increased by ' + str(item.item_params.atk) + '!'
+						if item.item_params.def > 0: text += '\n* DEFENSE increased by ' + str(item.item_params.def) + '!'
 						if Global.hp == Global.maxhp: text += '\n* Your HP was maxed out.'
-						else: text += '\n* You recovered ' + str(item['item_params']['health']) + 'HP!'
+						else: text += '\n* You recovered ' + str(item.item_params.health) + 'HP!'
 						Global.items.erase(item)
 						border_text.reset()
 						border_text.text = text
@@ -307,6 +314,7 @@ func _process(delta: float) -> void:
 								menu_no = -1
 								for item in menuitems.get_children(): item.queue_free()
 								soul.get_node('sprite').play('flee')
+								soul.z_index = 1
 								
 								var t = get_tree().create_tween()
 								t.tween_property(soul, 'global_position:x', -40, 1.3)
@@ -330,11 +338,11 @@ func _process(delta: float) -> void:
 					
 					bullet_point.visible = true
 					soul.visible = false
-					for msg in act['msg']:
+					for msg in act.msg:
 						border_text.reset()
-						border_text.text = msg['text']
-						border_text.override_pause = msg['override_pause']
-						border_text.override_speed = msg['override_speed']
+						border_text.text = msg.text
+						border_text.override_pause = msg.override_pause
+						border_text.override_speed = msg.override_speed
 						
 						await border_text.completed
 						while true:
@@ -343,7 +351,7 @@ func _process(delta: float) -> void:
 								buffer = 2
 								break
 							await get_tree().process_frame
-					if act['callback'] != null: act['callback'].call()
+					if act.callback != null: act.callback.call()
 					set_current_text(false)
 					attack_script.turn_skip(0)
 		menu_posy = 0
@@ -397,7 +405,7 @@ func win(spared = false):
 func clean_items():
 	var items = Global.items
 	var nitems = []
-	for i in items: if i['item_type'] == 0: nitems.append(i)
+	for i in items: if i.item_type == 0: nitems.append(i)
 	return nitems
 
 # 2 modes
@@ -452,7 +460,7 @@ func update_page(pages):
 	var items = clean_items()
 	if page == pages: endrange = items.size()
 	
-	for i in range((page - 1) * 4, endrange): create_menuitem('* ' + items[i]['abv_name'], Vector2(70 + (i % 2) * 250,20 + floor((i - (page - 1) * 4) / 2) * 32)); i += 1
+	for i in range((page - 1) * 4, endrange): create_menuitem('* ' + items[i].abv_name, Vector2(70 + (i % 2) * 250,20 + floor((i - (page - 1) * 4) / 2) * 32)); i += 1
 	create_menuitem('  PAGE ' + str(page), Vector2(70 + 1 * 250,20 + 2 * 32))
 
 # a function used for the soul positioning in menus
@@ -512,7 +520,7 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 	var inst
 	
 	for dict in text_array:
-		var enemy = enemies.get_node(dict['enemy'])
+		var enemy = enemies.get_node(dict.enemy)
 		if enemy == null: continue
 		var enemy_pos = enemy.position
 		var enemy_dialogbox_pos = enemy.get_node('positions/dialogbox').position
@@ -529,9 +537,9 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 		
 		text.override_font_size = 16
 		text.reset()
-		text.text = dict['text']
-		text.override_pause = dict['override_pause']
-		text.override_speed = dict['override_speed']
+		text.text = dict.text
+		text.override_pause = dict.override_pause
+		text.override_speed = dict.override_speed
 			
 		if oneshot: return
 		await text.completed
@@ -549,7 +557,27 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 
 # updates the player stats
 func update_health():
-	var size = floor(Global.maxhp * 1.2) + 1
-	stats_health_back.size.x = size
-	stats_health_front.size.x = size
-	stats_health_kr.size.x = size
+	var back_size = floor(Global.maxhp * 1.2) + 1
+	stats_health_back.size.x = back_size
+	stats_health_front.size.x = floor(back_size * Global.hp / Global.maxhp)
+	stats_health_kr.size.x = ceil(back_size * Global.kr / Global.maxhp)
+	stats_health_back.position.x = stats_hp_spr.position.x + 20
+	stats_health_front.position.x = stats_health_back.position.x
+	stats_health_kr.position.x = stats_health_back.position.x + back_size * (Global.hp - Global.kr) / Global.maxhp
+	
+	stats_lv.position.x = stats_name.position.x + stats_name.size.x
+	stats_hp_spr.position.x = stats_lv.position.x + stats_lv.size.x + 20
+	if Global.kr > -1:
+		stats_kr_spr.visible = true
+		stats_kr_spr.position.x = stats_health_back.position.x + stats_health_back.size.x + 20
+	else:
+		stats_kr_spr.visible = false
+		stats_kr_spr.position.x = stats_health_back.position.x + stats_health_back.size.x
+	stats_hp.position.x = stats_kr_spr.position.x + 30
+	stats_name.text = Global.player_name
+	stats_name.size.x = Global.player_name.length() * 20
+	if center_stats: stats_name.position.x = 32 + back_size / 2
+	
+	stats_lv.text = 'LV ' + str(Global.lv)
+	stats_hp.text = str(Global.hp) + ' / ' + str(Global.maxhp)
+	stats_hp.modulate = stats_health_kr.color if Global.kr > 0 else Color(1,1,1)

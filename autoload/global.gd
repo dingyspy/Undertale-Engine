@@ -1,9 +1,11 @@
 extends Node
 
 # undertale values
-var lv = 1
+var player_name = 'NAME'
+var lv = 19
 var maxhp = 16 + (4 * lv)
 var hp = maxhp
+# -1 kr makes it inactive
 var kr = 0
 var atk = -2 + (2 * lv)
 var def = floor((lv - 1) / 4)
