@@ -80,10 +80,10 @@ func _physics_process(delta: float) -> void:
 		pivot_offset = calculated_size / 2
 		
 		if border_attack_render:
-			LEFT = calculated_pos.x + 5
-			RIGHT = calculated_pos.x + calculated_size.x - 5
-			UP = calculated_pos.y + 5
-			DOWN = calculated_pos.y + calculated_size.y - 5
+			LEFT = 5
+			RIGHT = calculated_size.x - 5
+			UP = 5
+			DOWN = calculated_size.y - 5
 			CENTER = calculated_size / 2
 		else:
 			LEFT = global_position.x + 5

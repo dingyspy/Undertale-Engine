@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bb68lj74qivuh"
-path="res://.godot/imported/snd_spearrise.wav-29202081f1797ce4e25507dbc4b1c574.sample"
+path="res://.godot/imported/snd_spearrise.wav-bbb0f54a69c6f9f4618519850fafb393.sample"
 
 [deps]
 
-source_file="res://audio/misc/snd_spearrise.wav"
-dest_files=["res://.godot/imported/snd_spearrise.wav-29202081f1797ce4e25507dbc4b1c574.sample"]
+source_file="res://audio/engine/snd_spearrise.wav"
+dest_files=["res://.godot/imported/snd_spearrise.wav-bbb0f54a69c6f9f4618519850fafb393.sample"]
 
 [params]
 

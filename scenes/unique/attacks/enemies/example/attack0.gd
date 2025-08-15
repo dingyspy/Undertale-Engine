@@ -13,7 +13,7 @@ func _ready() -> void:
 	soul.change_mode(2)
 	
 	border.speed = 200
-	border.toggle_attack_render()
+	#border.toggle_attack_render()
 	await get_tree().create_timer(1).timeout
 	border.to([null,200],[250,150])
 	print(border.CENTER)
@@ -22,12 +22,16 @@ func _ready() -> void:
 	soul.throw(Vector2.DOWN)
 	var a = attack.spawn(attack.bullets.BONE_STAB, {
 		_border = border,
-		_direction = Vector2.DOWN,
-	}, false)
-	engine.get_node('../overlay').add_child(a)
+		_direction = Vector2.RIGHT,
+	}, true)
 	
-	await get_tree().create_timer(12).timeout
+	await get_tree().create_timer(1).timeout
 	border.to([null,400],[150,150])
+	
+	var g = attack.spawn(attack.bullets.GASTER_BLASTER, {
+		_target_position = Vector2(320,100),
+	}, false)
+	engine.get_node('../other').add_child(g)
 	
 	var t = get_tree().create_tween()
 	t.tween_property(border, 'target_rotation', 90, 1)
@@ -42,5 +46,5 @@ func _ready() -> void:
 		_speed = 100,
 	}, true)
 	
-	await get_tree().create_timer(10).timeout
+	await get_tree().create_timer(2).timeout
 	end.emit()

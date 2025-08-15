@@ -78,7 +78,9 @@ func _ready() -> void:
 		'impact' : 'res://audio/engine/snd_impact.wav',
 		'blaster_summon' : 'res://audio/engine/mus_sfx_segapower.wav',
 		'blaster_fire' : 'res://audio/engine/mus_sfx_rainbowbeam_1.wav',
-		'gigatalk' : 'res://audio/engine/mus_sfx_a_gigatalk.wav'
+		'gigatalk' : 'res://audio/engine/mus_sfx_a_gigatalk.wav',
+		'spear_rise' : 'res://audio/engine/snd_spearrise.wav',
+		'warning' : 'res://audio/engine/snd_b.wav',
 	})
 	
 	await get_tree().process_frame

@@ -91,7 +91,7 @@ func end():
 	engine.soul.change_mode(0)
 	engine.soul.visible = false
 	
-	engine.border.rotation_degrees = 0
+	engine.border.target_rotation = 0
 	engine.border.speed = 800
 	engine.border.to(null,null)
 	

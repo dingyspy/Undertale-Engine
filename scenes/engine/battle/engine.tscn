@@ -280,6 +280,8 @@ metadata/_edit_lock_ = true
 
 [node name="items" type="Node2D" parent="attacks/border"]
 
+[node name="other" type="CanvasLayer" parent="."]
+
 [node name="overlay" type="CanvasLayer" parent="."]
 
 [node name="fade" type="ColorRect" parent="overlay"]
