@@ -9,6 +9,7 @@ var manual_override = false
 
 var new_position : Vector2 = Vector2(320,320)
 var new_size : Vector2 = Vector2(575,140)
+var target_rotation = 0
 var border_attack_render = true
 var _finished = true
 @onready var collision_polygon = $staticbody/collisions
@@ -17,6 +18,8 @@ var _finished = true
 @onready var corner1 = $backbuffer/mask/corner1
 @onready var bullets = $backbuffer/bullets
 @onready var attacks = $'../'
+@onready var c0 = $c0
+@onready var c1 = $c1
 var LEFT = 0
 var RIGHT = 0
 var UP = 0
@@ -46,7 +49,7 @@ func toggle_attack_render():
 	if !border_attack_render:
 		var new_buffer = backbuffer.duplicate()
 		add_child(new_buffer)
-		new_buffer.position = Vector2(0,0)
+		new_buffer.position = Vector2.ZERO
 		
 		backbuffer.queue_free()
 		backbuffer = new_buffer
@@ -55,7 +58,7 @@ func toggle_attack_render():
 		bullets = backbuffer.get_node('bullets')
 	else:
 		var new_buffer = backbuffer.duplicate()
-		new_buffer.position = Vector2(0,0)
+		new_buffer.position = Vector2.ZERO
 		attacks.add_child(new_buffer)
 		
 		backbuffer.queue_free()
@@ -76,12 +79,22 @@ func _physics_process(delta: float) -> void:
 		size = calculated_size
 		pivot_offset = calculated_size / 2
 		
-		LEFT = calculated_pos.x + 5
-		RIGHT = calculated_pos.x + calculated_size.x - 5
-		UP = calculated_pos.y + 5
-		DOWN = calculated_pos.y + calculated_size.y - 5
-		CENTER = calculated_size / 2
+		if border_attack_render:
+			LEFT = calculated_pos.x + 5
+			RIGHT = calculated_pos.x + calculated_size.x - 5
+			UP = calculated_pos.y + 5
+			DOWN = calculated_pos.y + calculated_size.y - 5
+			CENTER = calculated_size / 2
+		else:
+			LEFT = global_position.x + 5
+			RIGHT = global_position.x + size.x - 5
+			UP = global_position.y + 5
+			DOWN = global_position.y + size.y - 5
+			CENTER = Vector2(LEFT + (size.x - 10) / 2, UP + (size.y - 10) / 2)
 		DISTANCE = Vector2(RIGHT - LEFT, DOWN - UP)
+		
+		c0.position = Vector2(5,5)
+		c1.position = size - Vector2(5,5)
 		
 		if position == new_position - size / 2 and size == new_size and !_finished:
 			_finished = true
@@ -93,9 +106,14 @@ func _physics_process(delta: float) -> void:
 	
 	collision_polygon.polygon = pool
 	
+	rotation_degrees = target_rotation
 	if border_attack_render:
 		corner0.position = Vector2(5,5)
 		corner1.position = size - Vector2(5,5)
+		corner0.rotation_degrees = 0
+		corner1.rotation_degrees = 0
 	else:
-		corner0.position = position + Vector2(5,5)
-		corner1.position = position + size - Vector2(5,5)
+		corner0.global_position = c0.global_position
+		corner1.global_position = c1.global_position
+		corner0.rotation_degrees = target_rotation
+		corner1.rotation_degrees = target_rotation

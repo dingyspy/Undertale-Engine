@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # soul modes
 # 0: menu, 1: red, 2: blue
-var mode = 0
+var mode = 2
 # speed of the soul in all modes
 var speed = 150
 
@@ -23,12 +23,12 @@ var engine
 func _physics_process(delta: float) -> void:
 	var menu_x = -(int(Input.is_action_pressed("left")) - int(Input.is_action_pressed("right")))
 	var menu_y = -(int(Input.is_action_pressed("up")) - int(Input.is_action_pressed("down")))
-	var input_vector = Vector2(menu_x,menu_y).normalized()
+	var input_vector = Vector2(menu_x,menu_y)
 	
 	var cancel_div = (int(Input.is_action_pressed("cancel")) + 1)
 	# add custom modes here
 	match mode:
-		0: velocity = Vector2(0,0)
+		0: velocity = Vector2.ZERO
 		1: velocity = input_vector * speed / cancel_div
 		2:
 			var rot = int(sprite.rotation_degrees) % 360
@@ -40,34 +40,39 @@ func _physics_process(delta: float) -> void:
 			elif fall_spd > -120: fall_spd += 450 * delta
 			else: fall_spd += 180 * delta
 			
-			print(rot)
+			var on_ground = false
 			match rot:
 				0:
 					jump_dir = Vector2.UP
 					velocity = Vector2(input_vector.x * speed / cancel_div, fall_spd)
 					jump_input = Input.is_action_pressed("up")
+					on_ground = is_on_floor()
 				180:
 					jump_dir = Vector2.DOWN
 					velocity = Vector2(input_vector.x * speed / cancel_div, -fall_spd)
 					jump_input = Input.is_action_pressed("down")
+					on_ground = is_on_ceiling()
 				90:
 					jump_dir = Vector2.RIGHT
-					velocity = Vector2(-fall_spd, input_vector.x * speed / cancel_div)
+					velocity = Vector2(-fall_spd, input_vector.y * speed / cancel_div)
 					jump_input = Input.is_action_pressed("right")
+					var col = get_last_slide_collision()
+					on_ground = is_on_wall() and col and col.get_normal() == Vector2.RIGHT
 				270:
 					jump_dir = Vector2.LEFT
-					velocity = Vector2(fall_spd, input_vector.x * speed / cancel_div)
+					velocity = Vector2(fall_spd, input_vector.y * speed / cancel_div)
 					jump_input = Input.is_action_pressed("left")
+					var col = get_last_slide_collision()
+					on_ground = is_on_wall() and col and col.get_normal() == Vector2.LEFT
 			
-			print(fall_spd)
-			if is_on_floor() or (is_on_ceiling() and fall_spd <= 0):
+			if on_ground:
 				if in_air:
 					in_air = false
 					Audio.play('impact')
-					if engine: engine.camera.shake(5)
+					if engine: engine.camera.shake(4)
 				
 				fall_spd = 0
-				if is_on_floor() and jump_input:
+				if jump_input:
 					fall_spd = jump_force
 			elif not jump_input and fall_spd <= -30:
 				fall_spd = -30
@@ -134,12 +139,12 @@ func change_mode(_mode : int, rot : int = 0):
 	if _mode != 0: Audio.play('bell')
 	sprite.rotation_degrees = rot
 
-func throw(vector, speed : int = 300):
+func throw(vector, speed : int = 700):
 	var rot = 0
 	match vector:
 		Vector2.LEFT: rot = 90
 		Vector2.UP: rot = 180
-		Vector2.LEFT: rot = 270
+		Vector2.RIGHT: rot = 270
 	
 	change_mode(2,rot)
 	

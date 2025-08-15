@@ -76,6 +76,9 @@ func _ready() -> void:
 		'flee' : 'res://audio/engine/snd_escaped.wav',
 		'hurt' : 'res://audio/engine/snd_hurt1.wav',
 		'impact' : 'res://audio/engine/snd_impact.wav',
+		'blaster_summon' : 'res://audio/engine/mus_sfx_segapower.wav',
+		'blaster_fire' : 'res://audio/engine/mus_sfx_rainbowbeam_1.wav',
+		'gigatalk' : 'res://audio/engine/mus_sfx_a_gigatalk.wav'
 	})
 	
 	await get_tree().process_frame
@@ -431,12 +434,14 @@ func toggle_soul_index():
 		soul.queue_free()
 		soul = new_soul
 		new_soul.visible = true
+		new_soul.engine = self
 	else:
 		var new_soul = soul.duplicate()
 		border.add_child(new_soul)
 		soul.queue_free()
 		soul = new_soul
 		new_soul.visible = true
+		new_soul.engine = self
 	soul_index_toggle = !soul_index_toggle
 
 # simple function to help redundancy, shows enemy names in the menu

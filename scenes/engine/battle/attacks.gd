@@ -33,7 +33,9 @@ extends Node
 # formatted name : path
 # spawn(name) is used to create bullets
 const bullets = {
-	BONE = 'res://scenes/unique/attacks/bullets/bone.tscn'
+	BONE = 'res://scenes/unique/attacks/bullets/bone.tscn',
+	PLATFORM = 'res://scenes/unique/attacks/bullets/platform.tscn',
+	GASTER_BLASTER = 'res://scenes/unique/attacks/bullets/gaster_blaster.tscn',
 }
 
 @onready var engine = $'../'
@@ -131,7 +133,7 @@ func spawn(type, params : Dictionary, _add_child : bool = true):
 	inst = inst.instantiate()
 	
 	for i in params.size(): if params.keys()[i] in inst: inst.set(params.keys()[i], params.values()[i])
-	if inst.has_method('setup'): inst.setup()
 	
 	if _add_child: engine.border.bullets.add_child(inst)
+	if inst.has_method('setup'): inst.setup()
 	return inst

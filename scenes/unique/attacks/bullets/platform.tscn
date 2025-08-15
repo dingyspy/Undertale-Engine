@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxi5cfc310hpk"]
+
+[ext_resource type="Texture2D" uid="uid://bkmcx0t84n3uy" path="res://sprites/engine/battle/bullets/platform.png" id="1_bnv33"]
+[ext_resource type="Script" uid="uid://bkfuo21tvfr6j" path="res://scenes/unique/attacks/bullets/platform.gd" id="1_g58o8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g58o8"]
+size = Vector2(25, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbh7h"]
+size = Vector2(25, 6)
+
+[node name="platform" type="Node2D" groups=["bullets"]]
+script = ExtResource("1_g58o8")
+
+[node name="white" type="NinePatchRect" parent="."]
+offset_top = 4.0
+offset_right = 25.0
+offset_bottom = 10.0
+texture = ExtResource("1_bnv33")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="green" type="NinePatchRect" parent="."]
+modulate = Color(0, 0.5, 0, 1)
+offset_right = 25.0
+offset_bottom = 6.0
+texture = ExtResource("1_bnv33")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="stick_hitbox" type="CharacterBody2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="stick_hitbox"]
+position = Vector2(12.5, 7)
+shape = SubResource("RectangleShape2D_g58o8")
+one_way_collision = true
+
+[node name="hitbox" type="StaticBody2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(12.5, 7)
+shape = SubResource("RectangleShape2D_tbh7h")
+disabled = true
+one_way_collision = true

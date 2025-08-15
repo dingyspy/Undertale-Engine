@@ -36,7 +36,8 @@ func remove_audio_from_stored(_name : String):
 
 # provide the same name used for store_audio, plays the audio
 # seek is the audio position when played, ref to audio.seek()
-func play(_name : String, pitch : float = 1.0, seek : float = 0.0, volume : float = 0.0):
+# fade is for if you want the audio out, set to an int
+func play(_name : String, pitch : float = 1.0, seek : float = 0.0, volume : float = 0.0, fade = null):
 	if stored_audios.has(_name):
 		var audio = stored_audios[_name]
 		if audio.stream_paused == true:
@@ -45,6 +46,10 @@ func play(_name : String, pitch : float = 1.0, seek : float = 0.0, volume : floa
 		audio.pitch_scale = pitch
 		audio.volume_db = volume
 		audio.play(seek)
+		
+		if fade:
+			var t = get_tree().create_tween()
+			t.tween_property(audio, 'volume_db', -80, fade).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 
 # provide the same name used for store_audio, plays the audio
 func pause(_name : String):

@@ -1,0 +1,84 @@
+[gd_scene load_steps=10 format=3 uid="uid://d34q67fb3kwga"]
+
+[ext_resource type="Texture2D" uid="uid://dflqm4i5wuxsh" path="res://sprites/engine/battle/bullets/gaster_blaster/0.png" id="1_k47kx"]
+[ext_resource type="Script" uid="uid://bvniwwe4byv42" path="res://scenes/unique/attacks/bullets/gaster_blaster.gd" id="1_od3oy"]
+[ext_resource type="Texture2D" uid="uid://vnkakwv72hy6" path="res://sprites/engine/battle/bullets/gaster_blaster/1.png" id="2_od3oy"]
+[ext_resource type="Texture2D" uid="uid://cf142d4nap2wv" path="res://sprites/engine/battle/bullets/gaster_blaster/2.png" id="3_4giq0"]
+[ext_resource type="Texture2D" uid="uid://2x3yykj8bpp0" path="res://sprites/engine/battle/bullets/gaster_blaster/3.png" id="4_ch0t8"]
+[ext_resource type="Texture2D" uid="uid://ck1gnhdxvp2hb" path="res://sprites/engine/battle/bullets/gaster_blaster/4.png" id="5_xokbx"]
+[ext_resource type="Texture2D" uid="uid://b83q6fvfku8ek" path="res://sprites/engine/battle/bullets/gaster_blaster/5.png" id="6_k3i0e"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h177g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_od3oy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4giq0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ch0t8")
+}],
+"loop": false,
+"name": &"blast",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_k47kx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_xokbx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_k3i0e")
+}],
+"loop": true,
+"name": &"end",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_od3oy"]
+
+[node name="gaster_blaster" type="Node2D" groups=["bullets"]]
+script = ExtResource("1_od3oy")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_h177g")
+animation = &"blast"
+
+[node name="notifier" type="VisibleOnScreenNotifier2D" parent="sprite"]
+position = Vector2(-0.5, 0.5)
+scale = Vector2(4.35, 3.2)
+
+[node name="blast" type="Node2D" parent="."]
+
+[node name="center" type="ColorRect" parent="blast"]
+visible = false
+offset_left = -20.0
+offset_top = 62.0
+offset_right = 20.0
+offset_bottom = 102.0
+
+[node name="top" type="ColorRect" parent="blast"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="top2" type="ColorRect" parent="blast"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_od3oy")
+disabled = true

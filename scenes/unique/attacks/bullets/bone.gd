@@ -2,14 +2,15 @@ extends NinePatchRect
 
 var _position
 var _size
-var _rotation
+var _rotation = 0
 var _direction
-var _speed
-var _pivot
+var _speed = 150
+var _pivot = 'bottom'
 var _bone_type = 'sans'
 
 var damage = 1
 var kr_damage = 2
+var type = 0
 
 @onready var collision = $hitbox/collision
 
@@ -40,5 +41,10 @@ func _process(delta: float) -> void:
 		'bottom': pivot_offset = Vector2(size.x / 2, position.y + size.y)
 	collision.shape.size.y = size.y
 	collision.position.y = size.y / 2
+	
+	match type:
+		0: modulate = Color(1,1,1)
+		1: modulate = Color(0,0,1)
+		2: modulate = Color(1,0.5,0)
 	
 	if global_position.x > 650 or global_position.x < -10 or global_position.y > 490 or global_position.y < -10: queue_free()

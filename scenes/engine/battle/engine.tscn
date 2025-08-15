@@ -213,6 +213,12 @@ patch_margin_right = 5
 patch_margin_bottom = 5
 script = ExtResource("13_4agdu")
 
+[node name="c0" type="Node2D" parent="attacks/border"]
+position = Vector2(5, 5)
+
+[node name="c1" type="Node2D" parent="attacks/border"]
+position = Vector2(570, 135)
+
 [node name="soul" parent="attacks/border" instance=ExtResource("21_grdfn")]
 position = Vector2(-32, -250)
 

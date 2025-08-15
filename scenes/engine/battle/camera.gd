@@ -2,7 +2,7 @@ extends Camera2D
 
 # 0 uses sin and cos
 # 1 uses offset
-var type = 1
+@export var type = 1
 
 var _shake = 0
 var _rotation = 0
@@ -10,15 +10,12 @@ var _rotation = 0
 var target_position = Vector2(320,240)
 var target_rotation = 0
 
-func _ready() -> void:
-	make_current()
-
 var siner = 0
 func _process(delta: float) -> void:
 	siner += delta * 30
 	
 	if _shake > 0:
-		_shake -= delta * 8
+		_shake -= delta * 7
 		
 		match type:
 			0: position = target_position + Vector2(sin(siner / 0.1) * _shake,cos(siner / 0.2) * _shake)

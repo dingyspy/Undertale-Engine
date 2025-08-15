@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b8u5wstlg5jjk"
-path="res://.godot/imported/mus_sfx_segapower.wav-9efbbe8a1f9258bdd25305d051e471cf.sample"
+path="res://.godot/imported/mus_sfx_segapower.wav-228c6589ee331d8767d1a0b880b00559.sample"
 
 [deps]
 
-source_file="res://audio/misc/mus_sfx_segapower.wav"
-dest_files=["res://.godot/imported/mus_sfx_segapower.wav-9efbbe8a1f9258bdd25305d051e471cf.sample"]
+source_file="res://audio/engine/mus_sfx_segapower.wav"
+dest_files=["res://.godot/imported/mus_sfx_segapower.wav-228c6589ee331d8767d1a0b880b00559.sample"]
 
 [params]
 

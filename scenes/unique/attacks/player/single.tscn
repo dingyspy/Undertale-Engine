@@ -63,6 +63,7 @@ sprite_frames = SubResource("SpriteFrames_0x57y")
 
 [node name="strike" type="AnimatedSprite2D" parent="."]
 visible = false
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_76d5h")
 frame = 5
 frame_progress = 0.930491
