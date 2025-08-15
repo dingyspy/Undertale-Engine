@@ -15,15 +15,16 @@ func _ready() -> void:
 	border.speed = 200
 	border.toggle_attack_render()
 	await get_tree().create_timer(1).timeout
-	#border.to([null,200],[150,150])
+	border.to([null,200],[250,150])
 	print(border.CENTER)
 	
+	await get_tree().create_timer(2).timeout
 	soul.throw(Vector2.DOWN)
-	attack.spawn(attack.bullets.GASTER_BLASTER, {
-		_target_position = border.CENTER,
-		camera = engine.camera,
-		z_index = 2
-	}, true)
+	var a = attack.spawn(attack.bullets.BONE_STAB, {
+		_border = border,
+		_direction = Vector2.DOWN,
+	}, false)
+	engine.get_node('../overlay').add_child(a)
 	
 	await get_tree().create_timer(12).timeout
 	border.to([null,400],[150,150])

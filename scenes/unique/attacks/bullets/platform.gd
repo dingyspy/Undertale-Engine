@@ -12,7 +12,7 @@ var type = 0
 @onready var collision = $hitbox/collision
 @onready var stick_collision = $stick_hitbox/collision
 
-func setup():
+func _ready():
 	position = _position
 	rotation_degrees = _rotation
 	

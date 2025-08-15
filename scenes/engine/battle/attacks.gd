@@ -36,6 +36,7 @@ const bullets = {
 	BONE = 'res://scenes/unique/attacks/bullets/bone.tscn',
 	PLATFORM = 'res://scenes/unique/attacks/bullets/platform.tscn',
 	GASTER_BLASTER = 'res://scenes/unique/attacks/bullets/gaster_blaster.tscn',
+	BONE_STAB = 'res://scenes/unique/attacks/bullets/bonestab.tscn',
 }
 
 @onready var engine = $'../'

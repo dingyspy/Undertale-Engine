@@ -30,14 +30,16 @@ var blast_timer = 0
 var sizex = 0
 var fade = 1
 
-func setup():
+func _ready():
+	sprite.scale = _scale
 	center.visible = false
 	top.visible = false
 	top2.visible = false
 	position = _position
 	rotation_degrees = _rotation
 	state = 0
-	Audio.play('blaster_summon')
+	if _scale.x >= 2: Audio.play('blaster_summon', 1)
+	else: Audio.play('blaster_summon', 1.2)
 
 var siner = 0
 func _process(delta: float) -> void:
@@ -59,7 +61,7 @@ func _process(delta: float) -> void:
 			sprite.play("blast")
 			if _pause <= 0:
 				state = 3
-				if camera: camera.shake(3)
+				if camera and _scale.x >= 2: camera.shake(3)
 				Audio.play('blaster_fire')
 				Audio.play('gigatalk', 1.18, 0, -5, 2.5)
 		3:
@@ -70,7 +72,7 @@ func _process(delta: float) -> void:
 			
 			if blast_timer < 5:
 				leave_speed += 60 * delta
-				sizex += floor((35.0 * _scale.x) / 3.5) * delta * 30
+				sizex += floor((35.0 * _scale.x) / (_scale.x + 2)) * delta * 30
 			else: leave_speed += 120 * delta
 			if !notifier.is_on_screen(): leave_speed = 0
 			

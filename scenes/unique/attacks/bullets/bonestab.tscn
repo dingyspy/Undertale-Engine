@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://rslkmikb5335"]
+
+[ext_resource type="Texture2D" uid="uid://cu6bvougqv4gf" path="res://sprites/engine/battle/bullets/bone/bone_sans.png" id="1_fd68i"]
+[ext_resource type="Script" uid="uid://dpevokjadvipw" path="res://scenes/unique/attacks/bullets/bonestab.gd" id="2_fd68i"]
+[ext_resource type="Texture2D" uid="uid://tdxhadghn2q6" path="res://sprites/engine/battle/bullets/bone/bonestab_warning.png" id="3_r4hne"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4um0e"]
+size = Vector2(10, 13)
+
+[node name="bone_stab" type="Node2D" groups=["bullets"]]
+script = ExtResource("2_fd68i")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(6, 6.5)
+shape = SubResource("RectangleShape2D_4um0e")
+
+[node name="bones" type="NinePatchRect" parent="." groups=["bullets"]]
+offset_left = 40.0
+offset_top = 12.0
+offset_right = 80.0
+offset_bottom = 24.0
+rotation = -9.42478
+texture = ExtResource("1_fd68i")
+patch_margin_top = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+
+[node name="warning" type="NinePatchRect" parent="."]
+offset_right = 41.0
+offset_bottom = 41.0
+texture = ExtResource("3_r4hne")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
