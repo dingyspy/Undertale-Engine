@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://clgn8c8y8ikat" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_patch.png" id="1_m6vx7"]
 [ext_resource type="Script" uid="uid://bufg1uvjpf252" path="res://scenes/engine/battle/dialogbox.gd" id="1_ub08i"]
 [ext_resource type="Texture2D" uid="uid://btji6cna3wpbn" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_tail.png" id="2_gcwso"]
-[ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="3_8w6uk"]
+[ext_resource type="FontFile" path="res://fonts/main.ttf" id="3_8w6uk"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="4_tkl58"]
 
 [node name="dialogbox" type="Node2D"]

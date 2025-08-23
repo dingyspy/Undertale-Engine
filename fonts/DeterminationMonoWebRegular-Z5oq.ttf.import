@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ckamh24l5nba8"
-path="res://.godot/imported/main.ttf-02988407d745a6ab3a673d14a0e8dc7c.fontdata"
+uid="uid://dd36ufj54q0ic"
+path="res://.godot/imported/DeterminationMonoWebRegular-Z5oq.ttf-ad737cd4afadbf6bf8fc6b4d9cabe7a7.fontdata"
 
 [deps]
 
-source_file="res://fonts/main.ttf"
-dest_files=["res://.godot/imported/main.ttf-02988407d745a6ab3a673d14a0e8dc7c.fontdata"]
+source_file="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf"
+dest_files=["res://.godot/imported/DeterminationMonoWebRegular-Z5oq.ttf-ad737cd4afadbf6bf8fc6b4d9cabe7a7.fontdata"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://fdexliguoa86"]
+[gd_scene load_steps=29 format=3 uid="uid://fdexliguoa86"]
 
 [ext_resource type="Texture2D" uid="uid://dyfwm2pemm3ew" path="res://sprites/engine/battle/core/hud/buttons/act0.png" id="1_xxrhl"]
 [ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
@@ -19,8 +19,8 @@
 [ext_resource type="Script" uid="uid://cytxrut2nn0ct" path="res://scenes/engine/battle/enemies.gd" id="15_4tewb"]
 [ext_resource type="Shader" uid="uid://cdmjg4j0y76lk" path="res://shaders/mask.gdshader" id="15_apoaa"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="20_ew1je"]
-[ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="20_x5pbi"]
 [ext_resource type="PackedScene" uid="uid://b0ppdoevm1fqo" path="res://scenes/engine/battle/soul.tscn" id="21_grdfn"]
+[ext_resource type="FontFile" uid="uid://dd36ufj54q0ic" path="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf" id="22_bss57"]
 [ext_resource type="Texture2D" uid="uid://btx45kwubku3y" path="res://sprites/engine/battle/back.png" id="22_qogft"]
 [ext_resource type="Script" uid="uid://djp32purlac1h" path="res://scenes/engine/battle/camera.gd" id="23_4tewb"]
 
@@ -75,6 +75,12 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uudvl"]
 shader = ExtResource("15_apoaa")
+
+[sub_resource type="FontVariation" id="FontVariation_4tewb"]
+base_font = ExtResource("22_bss57")
+
+[sub_resource type="FontVariation" id="FontVariation_oh3jl"]
+base_font = ExtResource("22_bss57")
 
 [node name="engine" type="Node2D"]
 
@@ -263,7 +269,7 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 411.0
 offset_bottom = 128.0
-theme_override_fonts/normal_font = ExtResource("20_x5pbi")
+theme_override_fonts/normal_font = SubResource("FontVariation_4tewb")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "*"
@@ -274,7 +280,7 @@ offset_left = 50.0
 offset_top = 20.0
 offset_right = 556.0
 offset_bottom = 121.0
-theme_override_fonts/normal_font = ExtResource("20_x5pbi")
+theme_override_fonts/normal_font = SubResource("FontVariation_oh3jl")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "* You earned 0 EXP and 022 gold."

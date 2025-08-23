@@ -108,72 +108,6 @@ func _process(delta: float) -> void:
 	
 	update_health()
 	
-	# process menu_no
-	# this is where extra button functions can be implemented
-	# more can be found in the match statements below
-	# handles fight, act, item, mercy moving / pages
-	# this specific section is for soul movement and page handling
-	if menu_no == -1: return
-	match menu_no:
-		0:
-			menu_posx = posmod(menu_posx + menu_x, buttons.size())
-			soul.position = buttons[menu_posx].position
-			for button in buttons:
-				if button == buttons[menu_posx]: button.frame = 1
-				else: button.frame = 0
-			soul.z_index = 1
-		1:
-			soul.z_index = 0
-			match prev_menu_posx:
-				0,1:
-					menu_posy = posmod(menu_posy + menu_y, enemies.get_children().size())
-					soul.position = Vector2(42,36 + menu_posy * 32)
-				2:
-					var items = clean_items()
-					var pages = int(ceil(items.size() / 4.0))
-					
-					if pages > 1:
-						if page >= 1 and page < pages:
-							if menu_posx + menu_x >= 2:
-								for item in menuitems.get_children(): item.queue_free()
-								page += 1
-								
-								update_page(pages)
-								menu_posx = 1
-						if page > 1:
-							if menu_posx + menu_x <= -1:
-								for item in menuitems.get_children(): item.queue_free()
-								page -= 1
-								
-								update_page(pages)
-								menu_posx = 2
-					var end_items = items.size() - (page - 1) * 4
-					
-					limit(end_items, menu_x)
-					menu_posx = posmod(menu_posx + menu_x, limitx)
-					menu_posy = posmod(menu_posy + menu_y, limity)
-					
-					soul.position = Vector2(42 + menu_posx * 250,36 + menu_posy * 32)
-				3:
-					var i = 1 + int(can_flee)
-					
-					menu_posy = posmod(menu_posy + menu_y, i)
-					soul.position = Vector2(42,36 + menu_posy * 32)
-		2:
-			# for selecting individual enemy acts
-			if prev_menu_posx == 1:
-				var enemy = enemies.get_children()[prev_menu_posy]
-				
-				limit(enemy.acts.size(), menu_x)
-				menu_posx = posmod(menu_posx + menu_x, limitx)
-				menu_posy = posmod(menu_posy + menu_y, limity)
-				soul.position = Vector2(42 + menu_posx * 250,36 + menu_posy * 32)
-	
-	if menu_posx != prv_menu_posx and !accept and buffer < 0: Audio.play('move')
-	if menu_posy != prv_menu_posy and !accept and buffer < 0: Audio.play('move')
-	prv_menu_posx = menu_posx
-	prv_menu_posy = menu_posy
-	
 	# accept
 	if accept and buffer < 0:
 		var items = clean_items()
@@ -390,6 +324,73 @@ func _process(delta: float) -> void:
 				
 				for item in menuitems.get_children(): item.queue_free()
 				show_enemies(false)
+	
+	# process menu_no
+	# this is where extra button functions can be implemented
+	# more can be found in the match statements below
+	# handles fight, act, item, mercy moving / pages
+	# this specific section is for soul movement and page handling
+	
+	if menu_no == -1: return
+	match menu_no:
+		0:
+			menu_posx = posmod(menu_posx + menu_x, buttons.size())
+			soul.position = buttons[menu_posx].position
+			for button in buttons:
+				if button == buttons[menu_posx]: button.frame = 1
+				else: button.frame = 0
+			soul.z_index = 1
+		1:
+			soul.z_index = 0
+			match prev_menu_posx:
+				0,1:
+					menu_posy = posmod(menu_posy + menu_y, enemies.get_children().size())
+					soul.position = Vector2(42,36 + menu_posy * 32)
+				2:
+					var items = clean_items()
+					var pages = int(ceil(items.size() / 4.0))
+					
+					if pages > 1:
+						if page >= 1 and page < pages:
+							if menu_posx + menu_x >= 2:
+								for item in menuitems.get_children(): item.queue_free()
+								page += 1
+								
+								update_page(pages)
+								menu_posx = 1
+						if page > 1:
+							if menu_posx + menu_x <= -1:
+								for item in menuitems.get_children(): item.queue_free()
+								page -= 1
+								
+								update_page(pages)
+								menu_posx = 2
+					var end_items = items.size() - (page - 1) * 4
+					
+					limit(end_items, menu_x)
+					menu_posx = posmod(menu_posx + menu_x, limitx)
+					menu_posy = posmod(menu_posy + menu_y, limity)
+					
+					soul.position = Vector2(42 + menu_posx * 250,36 + menu_posy * 32)
+				3:
+					var i = 1 + int(can_flee)
+					
+					menu_posy = posmod(menu_posy + menu_y, i)
+					soul.position = Vector2(42,36 + menu_posy * 32)
+		2:
+			# for selecting individual enemy acts
+			if prev_menu_posx == 1:
+				var enemy = enemies.get_children()[prev_menu_posy]
+				
+				limit(enemy.acts.size(), menu_x)
+				menu_posx = posmod(menu_posx + menu_x, limitx)
+				menu_posy = posmod(menu_posy + menu_y, limity)
+				soul.position = Vector2(42 + menu_posx * 250,36 + menu_posy * 32)
+	
+	if menu_posx != prv_menu_posx and !accept and buffer < 0: Audio.play('move')
+	if menu_posy != prv_menu_posy and !accept and buffer < 0: Audio.play('move')
+	prv_menu_posx = menu_posx
+	prv_menu_posy = menu_posy
 
 # function that gets called when all enemies are dead / spared
 func win(spared = false):
