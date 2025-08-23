@@ -35,7 +35,7 @@ animations = [{
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btori"]
-size = Vector2(6, 6)
+size = Vector2(7, 7)
 
 [node name="soul" type="CharacterBody2D"]
 script = ExtResource("1_3dese")

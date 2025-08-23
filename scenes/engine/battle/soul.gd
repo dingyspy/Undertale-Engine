@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # soul modes
 # 0: menu, 1: red, 2: blue
-var mode = 2
+var mode = 0
 # speed of the soul in all modes
 var speed = 150
 
@@ -21,9 +21,7 @@ var in_air = false
 var engine
 
 func _physics_process(delta: float) -> void:
-	var menu_x = -(int(Input.is_action_pressed("left")) - int(Input.is_action_pressed("right")))
-	var menu_y = -(int(Input.is_action_pressed("up")) - int(Input.is_action_pressed("down")))
-	var input_vector = Vector2(menu_x,menu_y)
+	var input_vector = Vector2(-(int(Input.is_action_pressed("left")) - int(Input.is_action_pressed("right"))),-(int(Input.is_action_pressed("up")) - int(Input.is_action_pressed("down"))))
 	
 	var cancel_div = (int(Input.is_action_pressed("cancel")) + 1)
 	# add custom modes here

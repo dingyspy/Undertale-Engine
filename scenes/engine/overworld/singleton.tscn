@@ -1,0 +1,236 @@
+[gd_scene load_steps=14 format=3 uid="uid://c8ass7jghd877"]
+
+[ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
+[ext_resource type="Texture2D" uid="uid://dqsm26fa7augc" path="res://sprites/engine/overworld/engine/75941.png" id="1_degfk"]
+[ext_resource type="FontFile" uid="uid://ckamh24l5nba8" path="res://fonts/main.ttf" id="1_uwxcm"]
+[ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
+[ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="2_kxugb"]
+[ext_resource type="PackedScene" uid="uid://dr0m3awj773vm" path="res://scenes/engine/overworld/player.tscn" id="2_n7gv4"]
+[ext_resource type="Shader" uid="uid://dx5aupgx2n8b0" path="res://shaders/blur.gdshader" id="3_thj5c"]
+[ext_resource type="Texture2D" uid="uid://lulxjlcbvvy" path="res://sprites/engine/battle/core/soul/soul0.png" id="6_n7gv4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
+shader = ExtResource("3_thj5c")
+shader_parameter/lod = 1.758
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_degfk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_uwxcm"]
+base_font = ExtResource("1_uwxcm")
+spacing_glyph = -2
+
+[sub_resource type="FontVariation" id="FontVariation_kxugb"]
+base_font = ExtResource("2_04481")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aukbf"]
+size = Vector2(302, 45)
+
+[node name="overworld" type="Node"]
+
+[node name="engine" type="Node" parent="."]
+script = ExtResource("1_6os67")
+
+[node name="loader" type="Node" parent="engine"]
+
+[node name="scene" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="player" parent="." instance=ExtResource("2_n7gv4")]
+
+[node name="ui" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="blur" type="ColorRect" parent="ui"]
+visible = false
+material = SubResource("ShaderMaterial_griv2")
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="dialogbox" type="Node2D" parent="ui"]
+
+[node name="panel" type="Panel" parent="ui/dialogbox"]
+offset_left = 32.0
+offset_top = 320.0
+offset_right = 610.0
+offset_bottom = 472.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
+
+[node name="bullet" type="RichTextLabel" parent="ui/dialogbox"]
+offset_left = 53.0
+offset_top = 342.0
+offset_right = 444.0
+offset_bottom = 450.0
+theme_override_fonts/normal_font = ExtResource("1_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "*"
+
+[node name="text" type="RichTextLabel" parent="ui/dialogbox"]
+offset_left = 69.0
+offset_top = 342.0
+offset_right = 575.0
+offset_bottom = 443.0
+theme_override_fonts/normal_font = ExtResource("1_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "* You earned 0 EXP and 022 gold."
+script = ExtResource("2_kxugb")
+
+[node name="menu" type="Node2D" parent="ui"]
+
+[node name="mini" type="Node2D" parent="ui/menu"]
+
+[node name="panel" type="Panel" parent="ui/menu/mini"]
+offset_left = 32.0
+offset_top = 52.0
+offset_right = 174.0
+offset_bottom = 162.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
+
+[node name="name" type="RichTextLabel" parent="ui/menu/mini"]
+offset_left = 44.0
+offset_top = 60.0
+offset_right = 129.0
+offset_bottom = 95.0
+theme_override_fonts/normal_font = SubResource("FontVariation_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Name"
+scroll_active = false
+
+[node name="desc" type="Node2D" parent="ui/menu/mini"]
+
+[node name="lvtext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+offset_left = 46.0
+offset_top = 100.0
+offset_right = 70.0
+offset_bottom = 115.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "LV"
+scroll_active = false
+
+[node name="hptext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+offset_left = 46.0
+offset_top = 118.0
+offset_right = 70.0
+offset_bottom = 133.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "HP"
+scroll_active = false
+
+[node name="gtext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+offset_left = 46.0
+offset_top = 136.0
+offset_right = 70.0
+offset_bottom = 151.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "G"
+scroll_active = false
+
+[node name="stats" type="Node2D" parent="ui/menu/mini"]
+
+[node name="lv" type="RichTextLabel" parent="ui/menu/mini/stats"]
+offset_left = 82.0
+offset_top = 100.0
+offset_right = 164.0
+offset_bottom = 115.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "1"
+scroll_active = false
+
+[node name="hp" type="RichTextLabel" parent="ui/menu/mini/stats"]
+offset_left = 82.0
+offset_top = 118.0
+offset_right = 164.0
+offset_bottom = 133.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "20/20"
+scroll_active = false
+
+[node name="g" type="RichTextLabel" parent="ui/menu/mini/stats"]
+offset_left = 80.0
+offset_top = 136.0
+offset_right = 162.0
+offset_bottom = 151.0
+theme_override_fonts/normal_font = SubResource("FontVariation_kxugb")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "0"
+scroll_active = false
+
+[node name="selection" type="Node2D" parent="ui/menu"]
+
+[node name="panel" type="Panel" parent="ui/menu/selection"]
+offset_left = 32.0
+offset_top = 168.0
+offset_right = 174.0
+offset_bottom = 316.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
+
+[node name="selections" type="Node2D" parent="ui/menu/selection"]
+
+[node name="item" type="RichTextLabel" parent="ui/menu/selection/selections"]
+offset_left = 82.0
+offset_top = 188.0
+offset_right = 167.0
+offset_bottom = 223.0
+theme_override_fonts/normal_font = SubResource("FontVariation_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "ITEM"
+scroll_active = false
+
+[node name="stat" type="RichTextLabel" parent="ui/menu/selection/selections"]
+offset_left = 82.0
+offset_top = 225.0
+offset_right = 167.0
+offset_bottom = 260.0
+theme_override_fonts/normal_font = SubResource("FontVariation_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "STAT"
+scroll_active = false
+
+[node name="cell" type="RichTextLabel" parent="ui/menu/selection/selections"]
+offset_left = 82.0
+offset_top = 260.0
+offset_right = 167.0
+offset_bottom = 295.0
+theme_override_fonts/normal_font = SubResource("FontVariation_uwxcm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "CELL"
+scroll_active = false
+
+[node name="soul" type="Sprite2D" parent="ui"]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("6_n7gv4")
+
+[node name="75941" type="Sprite2D" parent="ui"]
+modulate = Color(0.811, 0, 0.144, 0.232)
+position = Vector2(400, 300)
+scale = Vector2(2, 2)
+texture = ExtResource("1_degfk")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(250, 55)
+shape = SubResource("RectangleShape2D_aukbf")

@@ -31,6 +31,7 @@ var sizex = 0
 var fade = 1
 
 func _ready():
+	collision.shape = RectangleShape2D.new()
 	sprite.scale = _scale
 	center.visible = false
 	top.visible = false

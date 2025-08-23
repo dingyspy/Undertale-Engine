@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cuqp77o5pucir"
-path="res://.godot/imported/damage.ttf-f4c02ec93f44f318b6e1fefba0bf1098.fontdata"
+uid="uid://dpp16b568544k"
+path="res://.godot/imported/hachicro.TTF-2f6f9767dedc0894e0be2cc0dc098bba.fontdata"
 
 [deps]
 
-source_file="res://fonts/damage.ttf"
-dest_files=["res://.godot/imported/damage.ttf-f4c02ec93f44f318b6e1fefba0bf1098.fontdata"]
+source_file="res://fonts/hachicro.TTF"
+dest_files=["res://.godot/imported/hachicro.TTF-2f6f9767dedc0894e0be2cc0dc098bba.fontdata"]
 
 [params]
 

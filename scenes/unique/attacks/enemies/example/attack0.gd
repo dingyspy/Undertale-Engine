@@ -20,12 +20,18 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(2).timeout
 	soul.throw(Vector2.DOWN)
-	var a = attack.spawn(attack.bullets.BONE_STAB, {
-		_border = border,
+	var a = attack.spawn(attack.bullets.BONE, {
+		_position = Vector2(border.LEFT + 10, border.UP),
+		_size = border.DISTANCE.y,
+		_speed = 10,
 		_direction = Vector2.RIGHT,
+		_pivot = 'top'
 	}, true)
 	
-	await get_tree().create_timer(1).timeout
+	var t = get_tree().create_tween()
+	t.tween_property(a, 'size:y', 20, 1)
+	
+	await get_tree().create_timer(12).timeout
 	border.to([null,400],[150,150])
 	
 	var g = attack.spawn(attack.bullets.GASTER_BLASTER, {
@@ -33,8 +39,8 @@ func _ready() -> void:
 	}, false)
 	engine.get_node('../other').add_child(g)
 	
-	var t = get_tree().create_tween()
-	t.tween_property(border, 'target_rotation', 90, 1)
+	#var t = get_tree().create_tween()
+	#t.tween_property(border, 'target_rotation', 90, 1)
 	
 	attack.spawn(attack.bullets.BONE, {
 		_position = border.CENTER,

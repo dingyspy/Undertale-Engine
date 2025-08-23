@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c5oo1mahx1icv"
-path="res://.godot/imported/cunniligus-gameboy.ttf-f3b5a27a4a53f12c809009578b624a32.fontdata"
+uid="uid://boc2y5lwp4sd7"
+path="res://.godot/imported/crypt-of-tomorrow-ut-font-no-rus.ttf-f7f6e68a340dd9bc7e9a42daf30f9a19.fontdata"
 
 [deps]
 
-source_file="res://fonts/cunniligus-gameboy.ttf"
-dest_files=["res://.godot/imported/cunniligus-gameboy.ttf-f3b5a27a4a53f12c809009578b624a32.fontdata"]
+source_file="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf"
+dest_files=["res://.godot/imported/crypt-of-tomorrow-ut-font-no-rus.ttf-f7f6e68a340dd9bc7e9a42daf30f9a19.fontdata"]
 
 [params]
 

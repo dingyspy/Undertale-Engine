@@ -19,6 +19,7 @@ var prev_pos
 @onready var collision = $hitbox/collision
 
 func _ready() -> void:
+	collision.shape = RectangleShape2D.new()
 	bones.size.x = 700
 	Audio.play('warning')
 	match _direction:

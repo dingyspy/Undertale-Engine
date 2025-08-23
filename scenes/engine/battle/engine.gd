@@ -319,6 +319,7 @@ func _process(delta: float) -> void:
 									new_enemy.spare()
 									gold_won += new_enemy.gold
 								
+								await get_tree().process_frame
 								if enemies.get_children().is_empty(): win(true)
 								else:
 									set_current_text(false)
@@ -328,6 +329,7 @@ func _process(delta: float) -> void:
 								for item in menuitems.get_children(): item.queue_free()
 								soul.get_node('sprite').play('flee')
 								soul.z_index = 1
+								soul.mode = 0
 								
 								var t = get_tree().create_tween()
 								t.tween_property(soul, 'global_position:x', -40, 1.3)
@@ -513,7 +515,7 @@ func set_current_text(enabled=true):
 	randomize()
 	if !attack_script._randomize:
 		if attack_script.current_attack > attack_script.menu_blitter_texts.size() - 1: current_text = 'blitter not found'
-		else: current_text = attack_script.menu_blitter_texts[attack_script.current_attack]
+		else: current_text = attack_script.menu_blitter_texts[attack_script.current_attack + 1]
 	else: current_text = attack_script.menu_blitter_texts[randi_range(0,attack_script.menu_blitter_texts.size() - 1)]
 	
 	if enabled:
@@ -551,6 +553,8 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 			text = inst.get_node('box/text')
 		
 		text.override_font_size = 16
+		if dict.has('size'): text.override_font_size = dict.size
+		if dict.has('font'): text.font = dict.font
 		text.reset()
 		text.text = dict.text
 		text.override_pause = dict.override_pause

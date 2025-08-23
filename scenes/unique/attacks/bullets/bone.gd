@@ -3,7 +3,7 @@ extends NinePatchRect
 var _position
 var _size
 var _rotation = 0
-var _direction
+var _direction = Vector2.ZERO
 var _speed = 150
 var _pivot = 'bottom'
 var _bone_type = 'sans'
@@ -15,36 +15,43 @@ var type = 0
 @onready var collision = $hitbox/collision
 
 func _ready():
+	collision.shape = RectangleShape2D.new()
+	collision.shape.size.x = 10.0
 	size.y = _size
-	position = _position - size / 2
 	rotation_degrees = _rotation
 	
+	pivot_offset = return_pivot()
+	position = _position - pivot_offset
+	
 	match _bone_type:
-		'sans':
-			texture = load('res://sprites/engine/battle/bullets/bone/bone_sans.png')
-			patch_margin_left = 0
-			patch_margin_top = 6
-			patch_margin_right = 0
-			patch_margin_bottom = 6
-		'papyrus':
-			texture = load('res://sprites/engine/battle/bullets/bone/bone_papyrus.png')
-			patch_margin_left = 0
-			patch_margin_top = 4
-			patch_margin_right = 0
-			patch_margin_bottom = 4
+		"sans":
+			texture = load("res://sprites/engine/battle/bullets/bone/bone_sans.png")
+			patch_margin_left = 0; patch_margin_top = 6
+			patch_margin_right = 0; patch_margin_bottom = 6
+		"papyrus":
+			texture = load("res://sprites/engine/battle/bullets/bone/bone_papyrus.png")
+			patch_margin_left = 0; patch_margin_top = 4
+			patch_margin_right = 0; patch_margin_bottom = 4
 
 func _process(delta: float) -> void:
-	position += _direction * delta * _speed
-	match _pivot:
-		'center': pivot_offset = size / 2
-		'top': pivot_offset = Vector2(size.x / 2, position.y)
-		'bottom': pivot_offset = Vector2(size.x / 2, position.y + size.y)
+	_position += _direction * _speed * delta
+	
+	pivot_offset = return_pivot()
+	position = _position - pivot_offset
+	
 	collision.shape.size.y = size.y
-	collision.position.y = size.y / 2
+	collision.position.y = size.y / 2.0
 	
 	match type:
-		0: modulate = Color(1,1,1)
-		1: modulate = Color(0,0,1)
-		2: modulate = Color(1,0.5,0)
+		0: modulate = Color(1, 1, 1)
+		1: modulate = Color(0, 0, 1)
+		2: modulate = Color(1, 0.5, 0)
 	
-	if global_position.x > 650 or global_position.x < -10 or global_position.y > 490 or global_position.y < -10: queue_free()
+	if (_direction == Vector2.RIGHT and global_position.x > 650) or (_direction == Vector2.LEFT and global_position.x < -10) or (_direction == Vector2.DOWN and global_position.x > 490) or (_direction == Vector2.UP and global_position.x < -10): queue_free()
+
+func return_pivot() -> Vector2:
+	match _pivot:
+		"center": return size / 2.0
+		"top": return Vector2(size.x / 2.0, 0.0)
+		"bottom": return Vector2(size.x / 2.0, size.y)
+		_: return size / 2.0
