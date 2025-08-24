@@ -1,7 +1,7 @@
 extends Node
 
 # blurs the background when menu is opened
-var background_blur_on_menuopen = true
+var background_blur_on_menuopen = false
 var can_open_menu = true
 
 @onready var overworld = $'../'

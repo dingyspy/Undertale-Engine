@@ -103,7 +103,7 @@ var weapon_equipped = {
 	'item_type' : 1,
 	'item_params' : {
 		'atk' : 4,
-		'script_path' : 'res://scenes/unique/attacks/player/single.tscn'
+		'script_path' : 'res://scenes/unique/battle/attacks/player/single.tscn'
 	},
 	'buy_price' : 0,
 	'sell_price' : 150,

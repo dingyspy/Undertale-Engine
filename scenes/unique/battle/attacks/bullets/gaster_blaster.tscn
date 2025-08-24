@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://d34q67fb3kwga"]
 
 [ext_resource type="Texture2D" uid="uid://dflqm4i5wuxsh" path="res://sprites/engine/battle/bullets/gaster_blaster/0.png" id="1_k47kx"]
-[ext_resource type="Script" uid="uid://bvniwwe4byv42" path="res://scenes/unique/attacks/bullets/gaster_blaster.gd" id="1_od3oy"]
+[ext_resource type="Script" uid="uid://bvniwwe4byv42" path="res://scenes/unique/battle/attacks/bullets/gaster_blaster.gd" id="1_od3oy"]
 [ext_resource type="Texture2D" uid="uid://vnkakwv72hy6" path="res://sprites/engine/battle/bullets/gaster_blaster/1.png" id="2_od3oy"]
 [ext_resource type="Texture2D" uid="uid://cf142d4nap2wv" path="res://sprites/engine/battle/bullets/gaster_blaster/2.png" id="3_4giq0"]
 [ext_resource type="Texture2D" uid="uid://2x3yykj8bpp0" path="res://sprites/engine/battle/bullets/gaster_blaster/3.png" id="4_ch0t8"]

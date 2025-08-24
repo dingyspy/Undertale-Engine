@@ -105,6 +105,7 @@ func _process(delta: float) -> void:
 		
 		# if its open now, set the stats, make visible, and set player mode to 0 (cant move)
 		if menu_is_open:
+			if engine.background_blur_on_menuopen: blur.material.set('shader_parameter/lod', 1.0)
 			menu_mini_name = Global.player_name
 			menu_mini_stats_lv = str(Global.lv)
 			menu_mini_stats_hp = str(Global.hp) + '/' + str(Global.maxhp)
@@ -120,6 +121,7 @@ func _process(delta: float) -> void:
 			engine.player.sprite.stop()
 			Audio.play('move')
 		else:
+			blur.material.set('shader_parameter/lod', 0.0)
 			ui.visible = false
 			engine.player.mode = prev_player_mode
 	
@@ -301,7 +303,7 @@ func _process(delta: float) -> void:
 					dialogbox_bullet.visible = false
 					dialogbox_text.position = Vector2(60,340)
 					dialogbox_text.size = Vector2(524,101)
-					if menu_posx == 0: dialog(text, false, Vector2(0,0), false, true)
+					if menu_posx == 0 and item.item_type == 0: dialog(text, false, Vector2(0,0), false, true)
 					else: dialog(text, false, Vector2(0,0), false, false)
 					await dialog_finished
 					

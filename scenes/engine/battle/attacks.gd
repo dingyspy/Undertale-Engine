@@ -13,10 +13,10 @@ extends Node
 # put the paths of attacks in chronological order
 # takes Strings
 @export var attack_paths = [
-	'res://scenes/unique/attacks/enemies/example/attack0.gd'
+	'res://scenes/unique/battle/attacks/enemies/example/attack0.gd'
 ]
 @export var healing_attacks = [
-	'res://scenes/unique/attacks/enemies/example/healing0.gd'
+	'res://scenes/unique/battle/attacks/enemies/example/healing0.gd'
 ]
 # this is completely optional. if you want the border to be a specific size
 # on setup, you can put the vector2 sizes in chronological order in reference to the attack_paths
@@ -33,10 +33,10 @@ extends Node
 # formatted name : path
 # spawn(name) is used to create bullets
 const bullets = {
-	BONE = 'res://scenes/unique/attacks/bullets/bone.tscn',
-	PLATFORM = 'res://scenes/unique/attacks/bullets/platform.tscn',
-	GASTER_BLASTER = 'res://scenes/unique/attacks/bullets/gaster_blaster.tscn',
-	BONE_STAB = 'res://scenes/unique/attacks/bullets/bonestab.tscn',
+	BONE = 'res://scenes/unique/battle/attacks/bullets/bone.tscn',
+	PLATFORM = 'res://scenes/unique/battle/attacks/bullets/platform.tscn',
+	GASTER_BLASTER = 'res://scenes/unique/battle/attacks/bullets/gaster_blaster.tscn',
+	BONE_STAB = 'res://scenes/unique/battle/attacks/bullets/bonestab.tscn',
 }
 
 @onready var engine = $'../'

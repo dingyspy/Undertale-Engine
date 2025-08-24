@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=18 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -10,11 +10,10 @@
 [ext_resource type="FontFile" uid="uid://dd36ufj54q0ic" path="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf" id="7_ltegx"]
 [ext_resource type="Texture2D" uid="uid://rpuv88j5b2pi" path="res://sprites/engine/overworld/engine/soul.png" id="7_thj5c"]
 [ext_resource type="Texture2D" uid="uid://bg6l5xrwuwc6u" path="res://sprites/engine/overworld/face_panels/papyrus/pap1.png" id="8_jd0yl"]
-[ext_resource type="Texture2D" uid="uid://dv3o0axnwg33b" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-22 230726.png" id="11_ge22l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
 shader = ExtResource("3_thj5c")
-shader_parameter/lod = 1.758
+shader_parameter/lod = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_degfk"]
 bg_color = Color(0, 0, 0, 1)
@@ -72,9 +71,9 @@ follow_viewport_enabled = true
 [node name="player" parent="." instance=ExtResource("2_n7gv4")]
 
 [node name="ui" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="blur" type="ColorRect" parent="ui"]
-visible = false
 material = SubResource("ShaderMaterial_griv2")
 offset_right = 640.0
 offset_bottom = 480.0
@@ -634,13 +633,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
-
-[node name="Screenshot2025-08-22230726" type="Sprite2D" parent="ui"]
-visible = false
-modulate = Color(1, 1, 1, 0.435294)
-position = Vector2(320, 239.49)
-texture = ExtResource("11_ge22l")
-metadata/_edit_lock_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

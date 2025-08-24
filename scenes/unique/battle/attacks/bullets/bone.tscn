@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://g81xjj1e17fv"]
 
 [ext_resource type="Texture2D" uid="uid://cu6bvougqv4gf" path="res://sprites/engine/battle/bullets/bone/bone_sans.png" id="1_pilli"]
-[ext_resource type="Script" uid="uid://c7innd3tw7asf" path="res://scenes/unique/attacks/bullets/bone.gd" id="2_4um0e"]
+[ext_resource type="Script" uid="uid://c7innd3tw7asf" path="res://scenes/unique/battle/attacks/bullets/bone.gd" id="2_4um0e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4um0e"]
 size = Vector2(10, 13)

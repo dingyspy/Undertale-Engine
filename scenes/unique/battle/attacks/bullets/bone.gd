@@ -39,8 +39,10 @@ func _process(delta: float) -> void:
 	pivot_offset = return_pivot()
 	position = _position - pivot_offset
 	
-	collision.shape.size.y = size.y
-	collision.position.y = size.y / 2.0
+	collision.shape.size.y = _size
+	collision.position.y = _size / 2.0
+	
+	size.y = _size
 	
 	match type:
 		0: modulate = Color(1, 1, 1)
@@ -51,7 +53,7 @@ func _process(delta: float) -> void:
 
 func return_pivot() -> Vector2:
 	match _pivot:
-		"center": return size / 2.0
+		"center": return Vector2(size.x, _size.y) / 2.0
 		"top": return Vector2(size.x / 2.0, 0.0)
-		"bottom": return Vector2(size.x / 2.0, size.y)
-		_: return size / 2.0
+		"bottom": return Vector2(size.x / 2.0, _size)
+		_: return Vector2(size.x, _size) / 2.0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://d37thgp607y66"]
 
-[ext_resource type="Script" uid="uid://narwtmpfs7gw" path="res://scenes/unique/enemies/example/dummy.gd" id="1_rvvhe"]
+[ext_resource type="Script" uid="uid://narwtmpfs7gw" path="res://scenes/unique/battle/enemies/example/dummy.gd" id="1_rvvhe"]
 [ext_resource type="Texture2D" uid="uid://pd41wqtmceby" path="res://sprites/engine/battle/enemies/dummy/sprite.png" id="2_plrll"]
 [ext_resource type="FontFile" uid="uid://dpp16b568544k" path="res://fonts/hachicro.TTF" id="4_21evv"]
 [ext_resource type="Shader" uid="uid://cev2a3pl0nxji" path="res://shaders/dust.tres" id="4_sw0ox"]

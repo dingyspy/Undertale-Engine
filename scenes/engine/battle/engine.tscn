@@ -201,7 +201,7 @@ texture = ExtResource("12_4agdu")
 [node name="enemies" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 script = ExtResource("15_4tewb")
-enemy_paths = ["res://scenes/unique/enemies/example/dummy.tscn", "res://scenes/unique/enemies/example/dummy.tscn"]
+enemy_paths = ["res://scenes/unique/battle/enemies/example/dummy.tscn", "res://scenes/unique/battle/enemies/example/dummy.tscn"]
 
 [node name="ignore" type="Node2D" parent="enemies"]
 

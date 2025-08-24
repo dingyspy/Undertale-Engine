@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bxi5cfc310hpk"]
 
 [ext_resource type="Texture2D" uid="uid://bkmcx0t84n3uy" path="res://sprites/engine/battle/bullets/platform.png" id="1_bnv33"]
-[ext_resource type="Script" uid="uid://bkfuo21tvfr6j" path="res://scenes/unique/attacks/bullets/platform.gd" id="1_g58o8"]
+[ext_resource type="Script" uid="uid://bkfuo21tvfr6j" path="res://scenes/unique/battle/attacks/bullets/platform.gd" id="1_g58o8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g58o8"]
 size = Vector2(25, 6)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cm64h34jxhrps"]
 
-[ext_resource type="Script" uid="uid://cmtv8pu7fj8b1" path="res://scenes/unique/attacks/player/single.gd" id="1_b5uug"]
+[ext_resource type="Script" uid="uid://cmtv8pu7fj8b1" path="res://scenes/unique/battle/attacks/player/single.gd" id="1_b5uug"]
 [ext_resource type="Texture2D" uid="uid://5dumlvh66n26" path="res://sprites/engine/battle/core/hud/target.png" id="2_kl6oi"]
 [ext_resource type="Texture2D" uid="uid://tflks3skag6h" path="res://sprites/engine/battle/core/hud/taget_choice_0.png" id="3_5kno2"]
 [ext_resource type="Texture2D" uid="uid://5os05bjnoe6y" path="res://sprites/engine/battle/core/hud/taget_choice_1.png" id="4_13pbk"]

@@ -29,7 +29,7 @@ func _ready() -> void:
 	}, true)
 	
 	var t = get_tree().create_tween()
-	t.tween_property(a, 'size:y', 20, 1)
+	t.tween_property(a, '_size', 20, 1)
 	
 	await get_tree().create_timer(12).timeout
 	border.to([null,400],[150,150])

@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://ioegg4nctkrv"]
+[gd_scene load_steps=7 format=3 uid="uid://ioegg4nctkrv"]
 
 [ext_resource type="Texture2D" uid="uid://clgn8c8y8ikat" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_patch.png" id="1_m6vx7"]
 [ext_resource type="Script" uid="uid://bufg1uvjpf252" path="res://scenes/engine/battle/dialogbox.gd" id="1_ub08i"]
 [ext_resource type="Texture2D" uid="uid://btji6cna3wpbn" path="res://sprites/engine/battle/core/speechbubble/speech_bubble_tail.png" id="2_gcwso"]
-[ext_resource type="FontFile" path="res://fonts/main.ttf" id="3_8w6uk"]
+[ext_resource type="FontFile" uid="uid://dd36ufj54q0ic" path="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf" id="3_ub08i"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="4_tkl58"]
+
+[sub_resource type="FontVariation" id="FontVariation_8w6uk"]
+base_font = ExtResource("3_ub08i")
 
 [node name="dialogbox" type="Node2D"]
 script = ExtResource("1_ub08i")
@@ -28,7 +31,7 @@ offset_top = 9.0
 offset_right = 33.0
 offset_bottom = 51.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("3_8w6uk")
+theme_override_fonts/normal_font = SubResource("FontVariation_8w6uk")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "feafesw"
@@ -43,7 +46,6 @@ offset_top = 9.0
 offset_right = 33.0
 offset_bottom = 51.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("3_8w6uk")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 
