@@ -81,18 +81,19 @@ height = 40.0
 script = ExtResource("1_xyr8q")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -29)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_58rrh")
 animation = &"down"
 
 [node name="collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 28)
+position = Vector2(0, -2)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_h6qib")
 
 [node name="hitbox" type="Area2D" parent="."]
 
 [node name="collision" type="CollisionShape2D" parent="hitbox"]
-position = Vector2(0, 28)
+position = Vector2(0, -2)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_h6qib")

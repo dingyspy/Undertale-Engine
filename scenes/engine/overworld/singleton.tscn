@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=17 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -52,9 +52,6 @@ spacing_glyph = -2
 [sub_resource type="FontVariation" id="FontVariation_kxugb"]
 base_font = ExtResource("2_04481")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aukbf"]
-size = Vector2(302, 45)
-
 [node name="overworld" type="Node"]
 
 [node name="engine" type="Node" parent="."]
@@ -65,10 +62,14 @@ script = ExtResource("1_6os67")
 [node name="menu" type="Node" parent="engine"]
 script = ExtResource("2_ltegx")
 
-[node name="scene" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
+[node name="container" type="Node2D" parent="."]
+y_sort_enabled = true
 
-[node name="player" parent="." instance=ExtResource("2_n7gv4")]
+[node name="tilemaps" type="Node2D" parent="container"]
+y_sort_enabled = true
+
+[node name="player" parent="container" instance=ExtResource("2_n7gv4")]
+position = Vector2(122, 240)
 
 [node name="ui" type="CanvasLayer" parent="."]
 visible = false
@@ -634,8 +635,8 @@ modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="battle" type="CanvasLayer" parent="."]
+layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(250, 55)
-shape = SubResource("RectangleShape2D_aukbf")
+[node name="overlay" type="CanvasLayer" parent="."]
+layer = 3
