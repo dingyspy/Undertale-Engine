@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=19 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -6,9 +6,11 @@
 [ext_resource type="Script" uid="uid://2ar8vmm3jmqd" path="res://scenes/engine/overworld/menu.gd" id="2_ltegx"]
 [ext_resource type="PackedScene" uid="uid://dr0m3awj773vm" path="res://scenes/engine/overworld/player.tscn" id="2_n7gv4"]
 [ext_resource type="Shader" uid="uid://dx5aupgx2n8b0" path="res://shaders/blur.gdshader" id="3_thj5c"]
+[ext_resource type="Texture2D" uid="uid://d0uuepm6iogvm" path="res://sprites/engine/overworld/face_panels/papyrus/pap0.png" id="7_ge22l"]
 [ext_resource type="FontFile" uid="uid://dd36ufj54q0ic" path="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf" id="7_ltegx"]
 [ext_resource type="Texture2D" uid="uid://rpuv88j5b2pi" path="res://sprites/engine/overworld/engine/soul.png" id="7_thj5c"]
-[ext_resource type="Texture2D" uid="uid://c5voy857c6t5f" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-22 230716.png" id="9_griv2"]
+[ext_resource type="Texture2D" uid="uid://bg6l5xrwuwc6u" path="res://sprites/engine/overworld/face_panels/papyrus/pap1.png" id="8_jd0yl"]
+[ext_resource type="Texture2D" uid="uid://dv3o0axnwg33b" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-22 230726.png" id="11_ge22l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
 shader = ExtResource("3_thj5c")
@@ -24,6 +26,25 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_griv2"]
 base_font = ExtResource("7_ltegx")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jydd7"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ge22l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jd0yl")
+}],
+"loop": true,
+"name": &"papyrus",
+"speed": 5.0
+}]
 
 [sub_resource type="FontVariation" id="FontVariation_ltegx"]
 base_font = ExtResource("7_ltegx")
@@ -68,25 +89,53 @@ offset_bottom = 472.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
 [node name="bullet" type="RichTextLabel" parent="ui/dialogbox"]
-offset_left = 53.0
-offset_top = 342.0
-offset_right = 444.0
-offset_bottom = 450.0
+offset_left = 176.0
+offset_top = 340.0
+offset_right = 567.0
+offset_bottom = 448.0
 theme_override_fonts/normal_font = SubResource("FontVariation_griv2")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "*"
 
 [node name="text" type="RichTextLabel" parent="ui/dialogbox"]
-offset_left = 69.0
-offset_top = 342.0
-offset_right = 575.0
-offset_bottom = 443.0
+offset_left = 206.0
+offset_top = 340.0
+offset_right = 585.0
+offset_bottom = 441.0
 theme_override_fonts/normal_font = SubResource("FontVariation_griv2")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "* You earned 0 EXP and 022 gold."
+text = "*You earned 0 EXP and 022 gold."
 script = ExtResource("2_kxugb")
+
+[node name="options" type="Node2D" parent="ui/dialogbox"]
+
+[node name="option0" type="RichTextLabel" parent="ui/dialogbox/options"]
+offset_left = 206.0
+offset_top = 418.0
+offset_right = 394.0
+offset_bottom = 453.0
+theme_override_fonts/normal_font = SubResource("FontVariation_griv2")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Yes"
+
+[node name="option1" type="RichTextLabel" parent="ui/dialogbox/options"]
+offset_left = 394.0
+offset_top = 418.0
+offset_right = 590.0
+offset_bottom = 453.0
+theme_override_fonts/normal_font = SubResource("FontVariation_griv2")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "No"
+
+[node name="sprite" type="AnimatedSprite2D" parent="ui/dialogbox"]
+position = Vector2(106, 394)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_jydd7")
+animation = &"papyrus"
 
 [node name="menu" type="Node2D" parent="ui"]
 
@@ -586,11 +635,12 @@ modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 
-[node name="Screenshot2025-08-22230716" type="Sprite2D" parent="ui"]
+[node name="Screenshot2025-08-22230726" type="Sprite2D" parent="ui"]
 visible = false
-modulate = Color(1, 1, 1, 0.313726)
-position = Vector2(315.5, 240)
-texture = ExtResource("9_griv2")
+modulate = Color(1, 1, 1, 0.435294)
+position = Vector2(320, 239.49)
+texture = ExtResource("11_ge22l")
+metadata/_edit_lock_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

@@ -5,6 +5,11 @@ extends Node
 # uses multiple systems (menu included) to
 # do its thing
 
+# emits when dialog is finished
+signal dialog_finished
+# when sub dialog is finished
+signal sub_dialog_finished
+
 @onready var engine = $'../'
 
 @onready var ui = $'../../ui'
@@ -12,6 +17,8 @@ extends Node
 @onready var dialogbox = $'../../ui/dialogbox'
 @onready var dialogbox_text = $'../../ui/dialogbox/text'
 @onready var dialogbox_bullet = $'../../ui/dialogbox/bullet'
+@onready var dialogbox_sprite = $'../../ui/dialogbox/sprite'
+@onready var dialogbox_options = $'../../ui/dialogbox/options'
 @onready var menu = $'../../ui/menu'
 @onready var menu_mini = $'../../ui/menu/mini'
 @onready var menu_mini_name = $'../../ui/menu/mini/name'
@@ -56,10 +63,12 @@ var menu_posy = 0
 var menu_posx = 0
 var selections = []
 var stat_selections = []
+var option_selections = []
 
 func _ready() -> void:
 	for i in menu_selections.get_children(): selections.append(i)
 	for i in items_node_selections.get_children(): stat_selections.append(i)
+	for i in dialogbox_options.get_children(): option_selections.append(i)
 	
 	ui.visible = false
 	dialogbox.visible = false
@@ -72,6 +81,9 @@ func _ready() -> void:
 		'select' : 'res://audio/engine/snd_select.wav',
 		'heal' : 'res://audio/engine/snd_heal_c.wav',
 		'hurt' : 'res://audio/engine/snd_hurt1.wav',
+		'phone' : 'res://audio/engine/snd_phone.wav',
+		'swallow' : 'res://audio/engine/snd_swallow.wav',
+		'item' : 'res://audio/engine/snd_item.wav',
 	})
 
 func _process(delta: float) -> void:
@@ -82,6 +94,9 @@ func _process(delta: float) -> void:
 	var menu_y = -(int(Input.is_action_just_pressed("up")) - int(Input.is_action_just_pressed("down")))
 	
 	var menu_open = Input.is_action_just_pressed('menu')
+	
+	if Global.items.size() < 1: selections[0].modulate = Color(0.5,0.5,0.5)
+	if Global.cell.size() < 1: selections[2].modulate = Color(0.5,0.5,0.5)
 	
 	# if you can open the menu, open it
 	if menu_open and engine.can_open_menu and engine_can_open_menu:
@@ -113,6 +128,9 @@ func _process(delta: float) -> void:
 			buffer = 2
 			match menu_no:
 				0:
+					# dont accept if items / cell size is less than 1
+					if (menu_posy == 0 and Global.items.size() < 1) or (menu_posy == 2 and Global.cell.size() < 1): return
+					
 					prev_menu_posy = menu_posy
 					engine_can_open_menu = false
 					
@@ -161,12 +179,145 @@ func _process(delta: float) -> void:
 							
 							for i in menuitems.get_children(): i.queue_free()
 							Audio.play('select')
+							Audio.play('phone')
 							
-							dialog()
+							menu_no += 1
+							
+							dialog([{
+								'text' : 'Dialing...',
+								'font' : 'main1',
+								'override_pause' : {},
+								'override_speed' : {},
+								'face_animation' : null,
+								'question' : {
+									'options' : null,
+								}
+							}], true)
+							await dialog_finished
+							
+							dialog(Global.cell[menu_posy].dialog)
+							await dialog_finished
+							# when all dialog is finished, go back to cell menu
+							buffer = 2
+							menu_no = 1
+							
+							cell_node.visible = true
+							soul.visible = true
+							for i in Global.cell.size():
+								var cell = Global.cell[i]
+								create_menuitem(cell.name, items_panel.position + Vector2(42,28 + i * 32))
+				2:
+					soul.visible = false
+					items_node.visible = false
+					for i in menuitems.get_children(): i.queue_free()
+					
+					menu_no += 1
+					
+					var item = Global.items[menu_posy]
+					var text
+					match menu_posx:
+						0:
+							Global.items.remove_at(menu_posy)
+							
+							match item.item_type:
+								0:
+									Global.hp = clamp(Global.hp + item.item_params.health, 0, Global.maxhp)
+									
+									Audio.play('swallow')
+									Audio.play('heal')
+									
+									var _text = '* You eat the ' + item.full_name + '.'
+									if Global.hp == Global.maxhp: _text += '\n* Your HP was maxed out.'
+									else: _text += '\n* You recovered ' + str(item.item_params.health) + 'HP!'
+									text = [{
+										'text' : _text,
+										'font' : 'main1',
+										'override_pause' : {},
+										'override_speed' : {},
+										'face_animation' : null,
+										'question' : {
+											'options' : null,
+										}
+									}]
+								1:
+									Global.items.append(Global.weapon_equipped)
+									Global.weapon_equipped = item
+									
+									Audio.play('item')
+									
+									text = [{
+										'text' : 'You equipped the ' + item.full_name + '.',
+										'font' : 'main1',
+										'override_pause' : {},
+										'override_speed' : {},
+										'face_animation' : null,
+										'question' : {
+											'options' : null,
+										}
+									}]
+								2:
+									Global.items.append(Global.armor_equipped)
+									Global.armor_equipped = item
+									
+									Audio.play('item')
+									
+									text = [{
+										'text' : 'You equipped the ' + item.full_name + '.',
+										'font' : 'main1',
+										'override_pause' : {},
+										'override_speed' : {},
+										'face_animation' : null,
+										'question' : {
+											'options' : null,
+										}
+									}]
+						1:
+							var _text = []
+							for i in item.info_dialog:
+								_text.append({
+									'text' : i,
+									'font' : 'main1',
+									'override_pause' : {},
+									'override_speed' : {},
+									'face_animation' : null,
+									'question' : {
+										'options' : null,
+									}
+								})
+							text = _text
+						2:
+							Global.items.remove_at(menu_posy)
+							text = [{
+								'text' : 'The ' + item.full_name + ' was thrown away.',
+								'font' : 'main1',
+								'override_pause' : {},
+								'override_speed' : {},
+								'face_animation' : null,
+								'question' : {
+									'options' : null,
+								}
+							}]
+					
+					dialogbox_bullet.visible = false
+					dialogbox_text.position = Vector2(60,340)
+					dialogbox_text.size = Vector2(524,101)
+					if menu_posx == 0: dialog(text, false, Vector2(0,0), false, true)
+					else: dialog(text, false, Vector2(0,0), false, false)
+					await dialog_finished
+					
+					if Global.items.size() >= 1:
+						menu_no = 1
+						soul.visible = true
+						items_node.visible = true
+						for i in Global.items.size():
+							var _item = Global.items[i]
+							create_menuitem(_item.full_name, items_panel.position + Vector2(42,28 + i * 32))
+					else:
+						menu_no = 0
+						soul.visible = true
 		
 		if cancel and buffer <= 0 and menu_no != 0:
 			buffer = 2
-			Audio.play('move')
 			match menu_no:
 				1:
 					# go back to the main menu
@@ -178,9 +329,20 @@ func _process(delta: float) -> void:
 					
 					menu_posy = prev_menu_posy
 					engine_can_open_menu = true
-			menu_no -= 1
+					Audio.play('move')
+					menu_no -= 1
+				2:
+					match prev_menu_posy:
+						0,1:
+							Audio.play('move')
+							menu_no = 1
 		
 		match menu_no:
+			# exclusively for dialogbox options
+			-1:
+				menu_posx = posmod(menu_posx + menu_x, option_selections.size())
+				soul.position = option_selections[menu_posx].position + Vector2(-24,17)
+				if menu_x != 0: Audio.play('move')
 			0:
 				menu_posy = posmod(menu_posy + menu_y, selections.size())
 				if menu_y != 0: Audio.play('move')
@@ -214,7 +376,7 @@ func _process(delta: float) -> void:
 						if menu_x != 0: Audio.play('move')
 	
 	# prevent bugs
-	if buffer > 0: buffer -= delta * 30
+	if buffer > 0: buffer -= delta * 15
 
 # same func as the one used in the battle engine
 func create_menuitem(text, position, color=Color(1,1,1)):
@@ -227,5 +389,80 @@ func create_menuitem(text, position, color=Color(1,1,1)):
 	return inst
 
 # handles dialogbox
-func dialog(dialog_array):
+# position is automatically set to the bottom position (where it is originally in undertale)
+# this can be changed through the position argument, but the offset must take the origin
+# into account
+# formatted: {text, font, override_pause, override_speed, face_animation (if null, none), question}
+# if the question "bool" is true, dialogbox will prompt a yes/no selection (or option0, option1)
+# option0 and option1 dialog is selected according to what is selected by the player
+# unfortunately you cant really nest this function within selected dialog lol, that would be chaos
+# "yes" and "no" option text can be changed in the dialog box manually
+# options can also be added, just make sure to add it in the dialogbox node and format the next option as
+# as option prev number + 1
+# the engine should automatically handle the rest
+# sub_dialog is for when options are selected, this isnt intended to be used manually
+# manual is if you want the bullet text to not be set & positions to be set manually
+func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vector2(0,0), sub_dialog : bool = false, manual : bool = false):
+	dialogbox_text.stop()
+	dialogbox_text.text = ''
 	dialogbox.visible = true
+	
+	for dialog in dialog_array:
+		dialogbox_options.visible = false
+		soul.visible = false
+		
+		Utility.load_font(dialogbox_bullet, Global.blitter_info[dialog.font][0], Global.blitter_info[dialog.font][2])
+		dialogbox_text.font = dialog.font
+		
+		if dialog.face_animation != null:
+			if !manual:
+				dialogbox_text.position = Vector2(206,340)
+				dialogbox_text.size = Vector2(379,101)
+			dialogbox_bullet.position = Vector2(176,340)
+			dialogbox_sprite.play(dialog.face_animation)
+			dialogbox_sprite.visible = true
+		else:
+			if !manual:
+				dialogbox_text.position = Vector2(90,340)
+				dialogbox_text.size = Vector2(524,101)
+			dialogbox_bullet.position = Vector2(60,340)
+			dialogbox_sprite.visible = false
+		
+		dialogbox_text.reset()
+		dialogbox_text.text = dialog.text
+		dialogbox_text.override_pause = dialog.override_pause
+		dialogbox_text.override_speed = dialog.override_speed
+		
+		if !manual: dialogbox_bullet.visible = true
+		
+		await dialogbox_text.completed
+		print('finished')
+		if dialog.face_animation != null: dialogbox_sprite.stop()
+		
+		# y/n can be changed manually
+		if dialog.question.options != null:
+			menu_posx = 0
+			menu_no = -1
+			dialogbox_options.visible = true
+			soul.visible = true
+			
+			for i in dialog.question.options.size(): option_selections[i].text = dialog.question.options[i]
+			
+			soul.position = option_selections[menu_posx].position + Vector2(-24,17)
+		
+		while true:
+			if Input.is_action_just_pressed("accept") and buffer <= 0:
+				buffer = 2
+				break
+			await get_tree().process_frame
+		
+		if dialog.question.options != null:
+			Audio.play('select')
+			menu_no = -2
+			
+			# uses sub_dialog argument
+			dialog(dialog.question[dialog.question.options[menu_posx]], true, position, true)
+			await sub_dialog_finished
+	if !stay_visible: dialogbox.visible = false
+	if !sub_dialog: emit_signal('dialog_finished')
+	else: emit_signal('sub_dialog_finished')

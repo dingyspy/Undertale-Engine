@@ -82,13 +82,12 @@ var items = [
 	},
 	{
 		'abv_name' : 'L. Hero',
-		'full_name' : 'Legendary Hero',
+		'full_name' : 'Legendary gg',
 		'info_dialog' : ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'],
-		'item_type' : 0, # 0: item, 1: weapon, 2: armor
+		'item_type' : 2, # 0: item, 1: weapon, 2: armor
 		'item_params' : {
 			'health' : 40,
-			'atk' : 4, # gets added to main atk for the battle
-			'def' : 0, # gets added to main def for the battle
+			'def' : 4, # gets added to main def for the battle
 		},
 		'buy_price' : 300,
 		'sell_price' : 40,
@@ -100,10 +99,9 @@ var items = [
 var weapon_equipped = {
 	'abv_name' : 'Stick',
 	'full_name' : 'Stick',
-	'info_dialog' : ['Its bark is worse than its bite.'],
+	'info_dialog' : ['* Its bark is worse than its bite.'],
 	'item_type' : 1,
 	'item_params' : {
-		'use_text' : ['You threw the stick away. Then picked it back up.'],
 		'atk' : 4,
 		'script_path' : 'res://scenes/unique/attacks/player/single.tscn'
 	},
@@ -114,19 +112,24 @@ var weapon_equipped = {
 var armor_equipped = {
 	'abv_name' : 'Bandage',
 	'full_name' : 'Bandage',
-	'info_dialog' : ['It has already been used many times.'],
-	'item_type' : 1,
+	'info_dialog' : ['* It has already been used many\n  times.'],
+	'item_type' : 2,
 	'item_params' : {
-		'use_text' : ['You re-applied the bandage. Still kind of gooey.'],
 		'def' : 0,
 	},
 	'buy_price' : 0,
 	'sell_price' : 150,
 }
 # all the ppl you can call in the overworld
-# formatted: {name, if the phone picks up, dialog [{text, font, override_pause, override_speed, face_animation (if null, none)}, ...], question}
-# if the question "bool" is true, dialogbox will prompt a yes/no selection
-# the yes_dialog and no_dialog is selected according to what is selected by the player
+# formatted: {name, if the phone picks up, dialog [{text, font, override_pause, override_speed, face_animation (if null, none), question}], ...}
+# if the question "options" is not null, dialogbox will prompt a yes/no selection (or option0, option1)
+# the options will be named depending on the values in the array chronologically
+# option0+ dialog is selected according to what is selected by the player
+# theoretically you can make nested options, which is kinda cool lol
+# "yes" and "no" option text can be changed in the overworld dialog box manually
+# options can also be added, just make sure to add it in the overworld and format the next option as
+# option prev number + 1
+# the engine should automatically handle the rest
 var cell = [
 	{
 		'name' : 'Toriel',
@@ -137,43 +140,47 @@ var cell = [
 				'font' : 'toriel',
 				'override_pause' : {},
 				'override_speed' : {},
-				'face_animation' : 'toriel',
+				'face_animation' : 'papyrus',
 				'question' : {
-					'bool' : true,
-					'yes_dialog' : [
+					'options' : ['Yes', 'No'],
+					'Yes' : [
 						{
 							'text' : 'Selected yes.',
 							'font' : 'main1',
 							'override_pause' : {},
 							'override_speed' : {},
 							'face_animation' : null,
-							'question' : true,
+							'question' : {
+								'options' : null,
+							}
 						},
 					],
-					'no_dialog' : [
+					'No' : [
 						{
 							'text' : 'Selected no.',
 							'font' : 'main1',
 							'override_pause' : {},
 							'override_speed' : {},
 							'face_animation' : null,
-							'question' : true,
+							'question' : {
+								'options' : null,
+							}
 						},
 					],
 				}
 			},
 			{
 				'text' : 'This is a test text 2.',
-				'font' : 'toriel',
+				'font' : 'papyrus',
 				'override_pause' : {},
 				'override_speed' : {},
-				'face_animation' : 'toriel',
+				'face_animation' : null,
 				'question' : {
-					'bool' : false,
+					'options' : null,
 				}
 			},
 		]
-	}
+	},
 ]
 # used for font changing & audio with text blitter
 # formatted {name : [font path, audio path, font size]}

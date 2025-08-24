@@ -7,6 +7,7 @@ var can_open_menu = true
 @onready var overworld = $'../'
 @onready var player = $'../player'
 
+# dialog function and dialog finished signal is in this
 @onready var menu = $'menu'
 @onready var events = $'events'
 
