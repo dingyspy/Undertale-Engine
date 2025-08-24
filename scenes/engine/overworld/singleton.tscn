@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=18 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://dd36ufj54q0ic" path="res://fonts/DeterminationMonoWebRegular-Z5oq.ttf" id="7_ltegx"]
 [ext_resource type="Texture2D" uid="uid://rpuv88j5b2pi" path="res://sprites/engine/overworld/engine/soul.png" id="7_thj5c"]
 [ext_resource type="Texture2D" uid="uid://bg6l5xrwuwc6u" path="res://sprites/engine/overworld/face_panels/papyrus/pap1.png" id="8_jd0yl"]
+[ext_resource type="Script" uid="uid://djp32purlac1h" path="res://scenes/engine/battle/camera.gd" id="11_ge22l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
 shader = ExtResource("3_thj5c")
@@ -639,4 +640,21 @@ texture = ExtResource("7_thj5c")
 layer = 2
 
 [node name="overlay" type="CanvasLayer" parent="."]
-layer = 3
+
+[node name="fade" type="ColorRect" parent="overlay"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="flash" type="ColorRect" parent="overlay"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 640.0
+offset_bottom = 480.0
+metadata/_edit_lock_ = true
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2(320, 240)
+ignore_rotation = false
+script = ExtResource("11_ge22l")

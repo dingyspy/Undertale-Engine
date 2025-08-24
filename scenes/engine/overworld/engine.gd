@@ -8,6 +8,8 @@ var can_open_menu = true
 @onready var player = $'../container/player'
 @onready var container = $'../container'
 @onready var tilemaps = $'../container/tilemaps'
+@onready var overlay = $'../overlay'
+@onready var camera = $'../camera'
 
 @export var start_scene_path = 'res://scenes/unique/overworld/scenes/test.tscn'
 var current_scene
@@ -22,6 +24,8 @@ func _ready() -> void:
 # destroys prev scene & assets and loads a new one
 # scenes must have a node named "tilemaps"
 # tilemap layers should be children of this node
+# note: this is just for y-sort, tilemaps dont HAVE
+# to be under the tilemaps node
 func load_scene(scene):
 	# destroys assets
 	for _scene in container.get_children(): if _scene != player and _scene != tilemaps: _scene.queue_free()
