@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvjs1yergx84p"]
+[gd_scene load_steps=8 format=3 uid="uid://cvjs1yergx84p"]
 
 [ext_resource type="Texture2D" uid="uid://d1dlexibsau6c" path="res://sprites/engine/overworld/engine/mindtiles.png" id="1_lvgel"]
 [ext_resource type="Script" uid="uid://cmc08umsc0ufo" path="res://scenes/unique/overworld/scenes/test.gd" id="1_yfr2m"]
+[ext_resource type="Script" uid="uid://vbq3smchp3wn" path="res://scenes/engine/overworld/area_node_reference.gd" id="3_eivt8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lvgel"]
 texture = ExtResource("1_lvgel")
@@ -103,7 +104,7 @@ sources/0 = SubResource("TileSetAtlasSource_lvgel")
 size = Vector2(312, 53)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvgel"]
-size = Vector2(44.5, 111.25)
+size = Vector2(44.5, 42.625)
 
 [node name="test" type="Node2D"]
 script = ExtResource("1_yfr2m")
@@ -132,8 +133,18 @@ shape = SubResource("RectangleShape2D_rcg4a")
 
 [node name="events" type="Node2D" parent="collisions"]
 
-[node name="test" type="Area2D" parent="collisions/events"]
+[node name="on_test_interact" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+script = ExtResource("3_eivt8")
+reference_node = NodePath("../../..")
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/test"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_interact"]
 position = Vector2(42.75, 186)
+shape = SubResource("RectangleShape2D_lvgel")
+
+[node name="on_test_event" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+script = ExtResource("3_eivt8")
+reference_node = NodePath("../../..")
+
+[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_event"]
+position = Vector2(167, 34.6875)
 shape = SubResource("RectangleShape2D_lvgel")

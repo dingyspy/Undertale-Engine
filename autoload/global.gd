@@ -1,16 +1,40 @@
 extends Node
 
+const SAVE_PATH = 'user://config.cfg'
+var save_data = {}
+var saving = false
+# all variables that should be saved / loaded when calling _save or _load functions
+# should be in here for proper functionality
+const included = [
+	'player_name',
+	'lv',
+	'maxhp',
+	'hp',
+	'kr',
+	'atk',
+	'def',
+	'gold',
+	'xp',
+	'time',
+	'items',
+	'weapon_equipped',
+	'armor_equipped',
+	'cell',
+]
+
 # undertale values
 var player_name = 'NAME'
 var lv = 19
 var maxhp = 16 + (4 * lv)
 var hp = maxhp
-# -1 kr makes it inactive
-var kr = 0
+# -1 kr makes the kr system inactive
+var kr = -1
 var atk = -2 + (2 * lv)
 var def = floor((lv - 1) / 4)
 var gold = 0
 var xp = 0
+# amount of time spent in-game (in seconds)
+var time = 0
 
 # items for both in-game and overworld
 # formatted: {abbreviated name, full name, [text, text1, ...], heal, atk gain, def gain, buy price, sell price, type (0:item,1:weapon,2:armor)}
@@ -198,3 +222,38 @@ var blitter_info = {
 
 func _ready() -> void:
 	Engine.max_fps = 30
+
+# for if you want to tweak anything after variables are loaded
+# in this case, i use it to increment time
+func on_loaded():
+	while true:
+		await get_tree().create_timer(1).timeout
+		time += 1
+
+func _save():
+	# awaits process frame in case value is changed at the same
+	# time as this is called
+	await get_tree().process_frame
+	saving = true
+	var config = ConfigFile.new()
+	
+	# gets all variable names found in included
+	# sets values in cfg
+	for info in get_script().get_script_property_list(): if info.name in included: config.set_value("global", info.name, get(info.name))
+	
+	config.save(SAVE_PATH)
+	saving = false
+
+func _load():
+	var config = ConfigFile.new()
+	
+	# if theres no save file, create one with default settings
+	if !FileAccess.file_exists(SAVE_PATH):
+		_save()
+		while !saving: await get_tree().process_frame
+	config.load(SAVE_PATH)
+	
+	# gets all variable names found in included
+	# sets values from cfg in here
+	for info in get_script().get_script_property_list(): if config.get_value("global", info.name): self[info.name] = config.get_value("global", info.name)
+	on_loaded()

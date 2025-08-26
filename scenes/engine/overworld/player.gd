@@ -9,6 +9,7 @@ var mode = 1
 var speed = 150
 
 @onready var sprite = $sprite
+@onready var hitbox = $hitbox
 
 var prev_vector = Vector2(0,0)
 var dir = ''

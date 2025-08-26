@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=19 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
+[ext_resource type="Script" uid="uid://bi18lbpa8cd2b" path="res://scenes/engine/overworld/events.gd" id="2_jd0yl"]
 [ext_resource type="Script" uid="uid://wvlmdbel6i81" path="res://scenes/engine/blitter.gd" id="2_kxugb"]
 [ext_resource type="Script" uid="uid://2ar8vmm3jmqd" path="res://scenes/engine/overworld/menu.gd" id="2_ltegx"]
 [ext_resource type="PackedScene" uid="uid://dr0m3awj773vm" path="res://scenes/engine/overworld/player.tscn" id="2_n7gv4"]
@@ -59,6 +60,7 @@ base_font = ExtResource("2_04481")
 script = ExtResource("1_6os67")
 
 [node name="events" type="Node" parent="engine"]
+script = ExtResource("2_jd0yl")
 
 [node name="menu" type="Node" parent="engine"]
 script = ExtResource("2_ltegx")

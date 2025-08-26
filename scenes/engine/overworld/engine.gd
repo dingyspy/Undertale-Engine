@@ -18,6 +18,9 @@ var current_scene
 @onready var menu = $'menu'
 @onready var events = $'events'
 
+# is set to true by evets when player is currently in an event
+var is_in_event = false
+
 func _ready() -> void:
 	if start_scene_path != '' or start_scene_path != null: load_scene(start_scene_path)
 

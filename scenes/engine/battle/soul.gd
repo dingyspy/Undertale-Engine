@@ -106,8 +106,8 @@ func _physics_process(delta: float) -> void:
 	dmg_time += delta
 	
 	# handles the entire kr system
-	Global.kr = clamp(Global.kr, 0, 40)
-	Global.kr = clamp(Global.kr, 0, Global.hp - 1)
+	Global.kr = clamp(Global.kr, -1, 40)
+	Global.kr = clamp(Global.kr, -1, Global.hp - 1)
 	if Global.kr > 0 and Global.hp > 1:
 		kr_time += delta
 		
@@ -128,6 +128,8 @@ func _physics_process(delta: float) -> void:
 				break
 		Global.hp = clamp(Global.hp, 1, Global.maxhp)
 
+# self explanatory, changes mode
+# mode colors can be changed here
 func change_mode(_mode : int, rot : int = 0):
 	mode = _mode
 	
@@ -137,6 +139,7 @@ func change_mode(_mode : int, rot : int = 0):
 	if _mode != 0: Audio.play('bell')
 	sprite.rotation_degrees = rot
 
+# use vector.left, up, r, ... for direction, similar to spawning bones / bone stabs
 func throw(vector, speed : int = 700):
 	var rot = 0
 	match vector:

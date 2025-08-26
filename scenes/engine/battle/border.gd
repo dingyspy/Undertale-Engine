@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 		
 		if position == new_position - size / 2 and size == new_size and !_finished:
 			_finished = true
-			emit_signal('finished')
+			finished.emit()
 	
 	var coll_pos = [Vector2(5,5), Vector2(size.x - 5,5), size - Vector2(5,5), Vector2(5,size.y - 5), Vector2(-1000,size.y + 1000), size + Vector2(1000,1000), Vector2(size.x + 1000,-1000), Vector2(-1000,-1000), Vector2(-1000,size.y + 1000), Vector2(5,size.y - 5)]
 	var pool = PackedVector2Array()

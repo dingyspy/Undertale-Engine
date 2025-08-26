@@ -99,7 +99,7 @@ func _process(delta: float) -> void:
 	if Global.cell.size() < 1: selections[2].modulate = Color(0.5,0.5,0.5)
 	
 	# if you can open the menu, open it
-	if menu_open and engine.can_open_menu and engine_can_open_menu:
+	if menu_open and engine.can_open_menu and engine_can_open_menu and !engine.is_in_event:
 		menu_is_open = !menu_is_open
 		buffer = 2
 		
@@ -125,7 +125,7 @@ func _process(delta: float) -> void:
 			ui.visible = false
 			engine.player.mode = prev_player_mode
 	
-	if menu_is_open:
+	if menu_is_open and !engine.is_in_event:
 		if accept and buffer <= 0:
 			buffer = 2
 			match menu_no:
@@ -466,5 +466,5 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vect
 			dialog(dialog.question[dialog.question.options[menu_posx]], true, position, true)
 			await sub_dialog_finished
 	if !stay_visible: dialogbox.visible = false
-	if !sub_dialog: emit_signal('dialog_finished')
-	else: emit_signal('sub_dialog_finished')
+	if !sub_dialog: dialog_finished.emit()
+	else: sub_dialog_finished.emit()
