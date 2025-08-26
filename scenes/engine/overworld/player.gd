@@ -10,6 +10,8 @@ var speed = 150
 
 @onready var sprite = $sprite
 @onready var hitbox = $hitbox
+@onready var ray = $ray
+var engine
 
 var prev_vector = Vector2(0,0)
 var dir = ''
@@ -36,12 +38,30 @@ func _process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			dir = ''
 			prev_vector = Vector2.ZERO
+			sprite.stop()
 		1:
 			velocity = input_vector * real_speed
 	move_and_slide()
 	if mode != 0: update_sprite(input_vector, real_speed)
 	
 	sprite.speed_scale = real_speed / 150.0
+	# ray makes interactions / events more realistic & accurate
+	match dir:
+		'up':
+			ray.rotation_degrees = 180
+			ray.target_position.y = 16
+		'down':
+			ray.rotation_degrees = 0
+			ray.target_position.y = 16
+		'left':
+			ray.rotation_degrees = 90
+			ray.target_position.y = 36
+		'right':
+			ray.rotation_degrees = -90
+			ray.target_position.y = 36
+	
+	# updates engine camera position, has to be called from here to prevent latency
+	if engine: engine.update_camera(delta)
 
 func update_sprite(input_vector, real_speed):
 	# check if player is colliding with object

@@ -34,7 +34,12 @@ var def = floor((lv - 1) / 4)
 var gold = 0
 var xp = 0
 # amount of time spent in-game (in seconds)
+# can be formatted with time_format(seconds) in utility
 var time = 0
+# size of inventory, doesnt clamp itself, this is only used for box
+# there is an example of clamping in test overworld scene
+var inventory_size = 8
+var box_size = 10
 
 # items for both in-game and overworld
 # formatted: {abbreviated name, full name, [text, text1, ...], heal, atk gain, def gain, buy price, sell price, type (0:item,1:weapon,2:armor)}
@@ -144,6 +149,48 @@ var armor_equipped = {
 	'buy_price' : 0,
 	'sell_price' : 150,
 }
+# same format as items format
+var box = [
+	{
+		'abv_name' : 'L. Hero',
+		'full_name' : 'Legendary Hero',
+		'info_dialog' : ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'],
+		'item_type' : 0, # 0: item, 1: weapon, 2: armor
+		'item_params' : {
+			'health' : 40,
+			'atk' : 4, # gets added to main atk for the battle
+			'def' : 0, # gets added to main def for the battle
+		},
+		'buy_price' : 300,
+		'sell_price' : 40,
+	},
+	{
+		'abv_name' : 'L. Hero',
+		'full_name' : 'Legendary Hero',
+		'info_dialog' : ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'],
+		'item_type' : 0, # 0: item, 1: weapon, 2: armor
+		'item_params' : {
+			'health' : 40,
+			'atk' : 4, # gets added to main atk for the battle
+			'def' : 0, # gets added to main def for the battle
+		},
+		'buy_price' : 300,
+		'sell_price' : 40,
+	},
+	{
+		'abv_name' : 'L. Hero',
+		'full_name' : 'Legendary Hero',
+		'info_dialog' : ['Sandwich shaped like a sword.', 'Increases ATTACK when eaten.'],
+		'item_type' : 0, # 0: item, 1: weapon, 2: armor
+		'item_params' : {
+			'health' : 40,
+			'atk' : 4, # gets added to main atk for the battle
+			'def' : 0, # gets added to main def for the battle
+		},
+		'buy_price' : 300,
+		'sell_price' : 40,
+	},
+]
 # all the ppl you can call in the overworld
 # formatted: {name, if the phone picks up, dialog [{text, font, override_pause, override_speed, face_animation (if null, none), question}], ...}
 # if the question "options" is not null, dialogbox will prompt a yes/no selection (or option0, option1)

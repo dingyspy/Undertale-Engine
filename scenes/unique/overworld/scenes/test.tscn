@@ -136,6 +136,7 @@ shape = SubResource("RectangleShape2D_rcg4a")
 [node name="on_test_interact" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
+interactable = true
 
 [node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_interact"]
 position = Vector2(42.75, 186)
@@ -144,7 +145,28 @@ shape = SubResource("RectangleShape2D_lvgel")
 [node name="on_test_event" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
+oneshot = true
 
 [node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_event"]
 position = Vector2(167, 34.6875)
 shape = SubResource("RectangleShape2D_lvgel")
+
+[node name="_box" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+script = ExtResource("3_eivt8")
+reference_node = NodePath("../../..")
+interactable = true
+
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_box"]
+position = Vector2(33, 99)
+shape = SubResource("RectangleShape2D_lvgel")
+debug_color = Color(0.995903, 0, 0.19686, 0.42)
+
+[node name="_save" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+script = ExtResource("3_eivt8")
+reference_node = NodePath("../../..")
+interactable = true
+
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_save"]
+position = Vector2(88, 99)
+shape = SubResource("RectangleShape2D_lvgel")
+debug_color = Color(0.831067, 0.392513, 0, 0.42)

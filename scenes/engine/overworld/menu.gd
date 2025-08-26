@@ -9,6 +9,8 @@ extends Node
 signal dialog_finished
 # when sub dialog is finished
 signal sub_dialog_finished
+# emits when a dialog option is selected
+signal option_selected
 
 @onready var engine = $'../'
 
@@ -51,12 +53,16 @@ signal sub_dialog_finished
 @onready var cell_panel = $'../../ui/menu/types/cell/panel'
 @onready var soul = $'../../ui/soul'
 
+@onready var box = $'../../ui/box'
+@onready var save = $'../../ui/save'
+
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
 
 var menu_is_open = false
 var engine_can_open_menu = true
 var prev_player_mode = 0
 var buffer = 0
+# -3 save, -2 box, -1 dialog options, 0,1,2 menu
 var menu_no = 0
 var prev_menu_posy = 0
 var menu_posy = 0
@@ -64,6 +70,9 @@ var menu_posx = 0
 var selections = []
 var stat_selections = []
 var option_selections = []
+var default_dialogbox_position = Vector2(0,0)
+var last_option = ''
+var can_accept = true
 
 func _ready() -> void:
 	for i in menu_selections.get_children(): selections.append(i)
@@ -75,6 +84,11 @@ func _ready() -> void:
 	items_node.visible = false
 	stat_node.visible = false
 	cell_node.visible = false
+	box.visible = false
+	save.visible = false
+	soul.visible = false
+	menu_mini.visible = false
+	menu_selection.visible = false
 	
 	Audio.store_audio({
 		'move' : 'res://audio/engine/snd_squeak.wav',
@@ -111,6 +125,11 @@ func _process(delta: float) -> void:
 			menu_mini_stats_hp = str(Global.hp) + '/' + str(Global.maxhp)
 			menu_mini_stats_g = str(Global.gold)
 			ui.visible = true
+			soul.visible = true
+			box.visible = false
+			save.visible = false
+			menu_mini.visible = true
+			menu_selection.visible = true
 			
 			menu_posy = 0
 			prev_menu_posy = 0
@@ -123,9 +142,14 @@ func _process(delta: float) -> void:
 		else:
 			blur.material.set('shader_parameter/lod', 0.0)
 			ui.visible = false
+			soul.visible = false
+			box.visible = false
+			save.visible = false
+			menu_mini.visible = false
+			menu_selection.visible = false
 			engine.player.mode = prev_player_mode
 	
-	if menu_is_open and !engine.is_in_event:
+	if menu_is_open and !engine.is_in_event and can_accept:
 		if accept and buffer <= 0:
 			buffer = 2
 			match menu_no:
@@ -183,6 +207,7 @@ func _process(delta: float) -> void:
 							Audio.play('select')
 							Audio.play('phone')
 							
+							can_accept = false
 							menu_no += 1
 							
 							dialog([{
@@ -197,7 +222,7 @@ func _process(delta: float) -> void:
 							}], true)
 							await dialog_finished
 							
-							dialog(Global.cell[menu_posy].dialog)
+							dialog(Global.cell[menu_posy].dialog, false, default_dialogbox_position)
 							await dialog_finished
 							# when all dialog is finished, go back to cell menu
 							buffer = 2
@@ -208,11 +233,13 @@ func _process(delta: float) -> void:
 							for i in Global.cell.size():
 								var cell = Global.cell[i]
 								create_menuitem(cell.name, items_panel.position + Vector2(42,28 + i * 32))
+							can_accept = true
 				2:
 					soul.visible = false
 					items_node.visible = false
 					for i in menuitems.get_children(): i.queue_free()
 					
+					can_accept = false
 					menu_no += 1
 					
 					var item = Global.items[menu_posy]
@@ -303,8 +330,8 @@ func _process(delta: float) -> void:
 					dialogbox_bullet.visible = false
 					dialogbox_text.position = Vector2(60,340)
 					dialogbox_text.size = Vector2(524,101)
-					if menu_posx == 0 and item.item_type == 0: dialog(text, false, Vector2(0,0), false, true)
-					else: dialog(text, false, Vector2(0,0), false, false)
+					if menu_posx == 0 and item.item_type == 0: dialog(text, false, default_dialogbox_position, false, true)
+					else: dialog(text, false, default_dialogbox_position, false, false)
 					await dialog_finished
 					
 					if Global.items.size() >= 1:
@@ -317,6 +344,7 @@ func _process(delta: float) -> void:
 					else:
 						menu_no = 0
 						soul.visible = true
+					can_accept = true
 		
 		if cancel and buffer <= 0 and menu_no != 0:
 			buffer = 2
@@ -340,11 +368,6 @@ func _process(delta: float) -> void:
 							menu_no = 1
 		
 		match menu_no:
-			# exclusively for dialogbox options
-			-1:
-				menu_posx = posmod(menu_posx + menu_x, option_selections.size())
-				soul.position = option_selections[menu_posx].position + Vector2(-24,17)
-				if menu_x != 0: Audio.play('move')
 			0:
 				menu_posy = posmod(menu_posy + menu_y, selections.size())
 				if menu_y != 0: Audio.play('move')
@@ -376,6 +399,19 @@ func _process(delta: float) -> void:
 						menu_posx = posmod(menu_posx + menu_x, stat_selections.size())
 						soul.position = stat_selections[menu_posx].position + Vector2(-12,17)
 						if menu_x != 0: Audio.play('move')
+	print(menu_no)
+	match menu_no:
+		-1:
+			# exclusively for dialogbox options
+			menu_posx = posmod(menu_posx + menu_x, option_selections.size())
+			soul.position = option_selections[menu_posx].global_position + Vector2(-24,17)
+			if menu_x != 0: Audio.play('move')
+		-2:
+			# box
+			pass
+		-3:
+			# save
+			pass
 	
 	# prevent bugs
 	if buffer > 0: buffer -= delta * 15
@@ -404,7 +440,8 @@ func create_menuitem(text, position, color=Color(1,1,1)):
 # the engine should automatically handle the rest
 # sub_dialog is for when options are selected, this isnt intended to be used manually
 # manual is if you want the bullet text to not be set & positions to be set manually
-func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vector2(0,0), sub_dialog : bool = false, manual : bool = false):
+func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = default_dialogbox_position, sub_dialog : bool = false, manual : bool = false):
+	dialogbox.position = position
 	dialogbox_text.stop()
 	dialogbox_text.text = ''
 	dialogbox.visible = true
@@ -438,7 +475,6 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vect
 		if !manual: dialogbox_bullet.visible = true
 		
 		await dialogbox_text.completed
-		print('finished')
 		if dialog.face_animation != null: dialogbox_sprite.stop()
 		
 		# y/n can be changed manually
@@ -450,7 +486,7 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vect
 			
 			for i in dialog.question.options.size(): option_selections[i].text = dialog.question.options[i]
 			
-			soul.position = option_selections[menu_posx].position + Vector2(-24,17)
+			soul.position = option_selections[menu_posx].global_position + Vector2(-24,17)
 		
 		while true:
 			if Input.is_action_just_pressed("accept") and buffer <= 0:
@@ -463,7 +499,11 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = Vect
 			menu_no = -2
 			
 			# uses sub_dialog argument
-			dialog(dialog.question[dialog.question.options[menu_posx]], true, position, true)
+			if dialog.question.has(dialog.question.options[menu_posx]): dialog(dialog.question[dialog.question.options[menu_posx]], true, position, true)
+			# sets var to the option currently selected
+			# useful for interpreting option selection from another s cript
+			last_option = dialog.question.options[menu_posx]
+			option_selected.emit()
 			await sub_dialog_finished
 	if !stay_visible: dialogbox.visible = false
 	if !sub_dialog: dialog_finished.emit()
