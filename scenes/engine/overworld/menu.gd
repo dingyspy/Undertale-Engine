@@ -110,7 +110,9 @@ func _process(delta: float) -> void:
 	var menu_open = Input.is_action_just_pressed('menu')
 	
 	if Global.items.size() < 1: selections[0].modulate = Color(0.5,0.5,0.5)
+	else: selections[0].modulate = Color(1,1,1)
 	if Global.cell.size() < 1: selections[2].modulate = Color(0.5,0.5,0.5)
+	else: selections[2].modulate = Color(1,1,1)
 	
 	# if you can open the menu, open it
 	if menu_open and engine.can_open_menu and engine_can_open_menu and !engine.is_in_event:
@@ -408,7 +410,36 @@ func _process(delta: float) -> void:
 			if menu_x != 0: Audio.play('move')
 		-2:
 			# box
-			pass
+			menu_posx = posmod(menu_posx + menu_x, 2)
+			
+			match menu_posx:
+				0:
+					menu_posy = posmod(menu_posy + menu_y, Global.items.size())
+					if (menu_y != 0 and Global.items.size() > 0): Audio.play('move')
+					elif Global.items.size() <= 0: menu_posx = 1
+				1:
+					menu_posy = posmod(menu_posy + menu_y, Global.box.size())
+					if (menu_y != 0 and Global.box.size() > 0): Audio.play('move')
+					elif Global.box.size() <= 0: menu_posx = 0
+			soul.position = Vector2(48 + 302 * menu_posx,90 + menu_posy * 32)
+			
+			if menu_posx != prev_menu_posy: Audio.play('move')
+			prev_menu_posy = menu_posx
+			
+			var arr = [Global.items, Global.box]
+			if accept and buffer <= 0:
+				match menu_posx:
+					1: if Global.items.size() + 1 > Global.inventory_size: return
+					0: if Global.box.size() + 1 > Global.box_size: return
+				
+				buffer = 2
+				var item = arr[menu_posx][menu_posy]
+				arr[menu_posx].remove_at(menu_posy)
+				arr[posmod(menu_posx + 1, arr.size())].append(item)
+				
+				for i in menuitems.get_children(): i.queue_free()
+				engine.events.menuitems_box()
+				Audio.play('select')
 		-3:
 			# save
 			pass
@@ -445,6 +476,8 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = defa
 	dialogbox_text.stop()
 	dialogbox_text.text = ''
 	dialogbox.visible = true
+	
+	can_accept = false
 	
 	for dialog in dialog_array:
 		dialogbox_options.visible = false
@@ -496,7 +529,7 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = defa
 		
 		if dialog.question.options != null:
 			Audio.play('select')
-			menu_no = -2
+			menu_no = -99
 			
 			# uses sub_dialog argument
 			if dialog.question.has(dialog.question.options[menu_posx]): dialog(dialog.question[dialog.question.options[menu_posx]], true, position, true)
@@ -508,3 +541,4 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = defa
 	if !stay_visible: dialogbox.visible = false
 	if !sub_dialog: dialog_finished.emit()
 	else: sub_dialog_finished.emit()
+	can_accept = true

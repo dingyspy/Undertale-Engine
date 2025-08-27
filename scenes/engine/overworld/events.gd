@@ -49,8 +49,8 @@ func check_area(area):
 		'_box':
 			engine.player.mode = 0
 			engine.menu.ui.visible = true
+			engine.menu.can_accept = false
 			
-			print('a')
 			engine.menu.dialog([{
 				'text' : 'Use the box?',
 				'font' : 'main1',
@@ -69,17 +69,8 @@ func check_area(area):
 					box.visible = true
 					engine.menu.menu_no = -2
 					
-					for i in Global.inventory_size:
-						if Global.items.size() > i:
-							var item = Global.items[i]
-							engine.menu.create_menuitem(item.full_name, Vector2(65,71 + i * 32))
-						else: redline(Vector2(65,92 + i * 32))
-					
-					for i in Global.box_size:
-						if Global.box.size() > i:
-							var item = Global.box[i]
-							engine.menu.create_menuitem(item.full_name, Vector2(367,71 + i * 32))
-						else: redline(Vector2(381,92 + i * 32))
+					engine.menu.buffer = 2
+					menuitems_box()
 					
 					while true:
 						if Input.is_action_just_pressed("cancel"): break
@@ -94,6 +85,7 @@ func check_area(area):
 					engine.menu.dialogbox.visible = false
 					engine.menu.menu_no = 0
 					engine.player.mode = 1
+			engine.menu.can_accept = true
 		_:
 			area.reference_node.call(area.name, engine)
 			await finished_event
@@ -101,6 +93,19 @@ func check_area(area):
 	
 	buffer = 2
 	engine.is_in_event = false
+
+func menuitems_box():
+	for i in Global.inventory_size:
+		if Global.items.size() > i:
+			var item = Global.items[i]
+			engine.menu.create_menuitem(item.full_name, Vector2(65,71 + i * 32))
+		else: redline(Vector2(65,92 + i * 32))
+
+	for i in Global.box_size:
+		if Global.box.size() > i:
+			var item = Global.box[i]
+			engine.menu.create_menuitem(item.full_name, Vector2(367,71 + i * 32))
+		else: redline(Vector2(381,92 + i * 32))
 
 func redline(pos):
 	var line = ColorRect.new()

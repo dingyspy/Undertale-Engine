@@ -705,6 +705,7 @@ texture = ExtResource("7_thj5c")
 
 [node name="Screenshot2025-08-26002600" type="Sprite2D" parent="ui"]
 visible = false
+modulate = Color(1, 1, 1, 0.521569)
 position = Vector2(317.5, 238)
 texture = ExtResource("12_asydo")
 metadata/_edit_lock_ = true
