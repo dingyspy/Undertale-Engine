@@ -81,6 +81,7 @@ script = ExtResource("2_jd0yl")
 script = ExtResource("2_ltegx")
 
 [node name="black" type="ColorRect" parent="."]
+visible = false
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
@@ -813,6 +814,7 @@ texture = ExtResource("12_jydd7")
 metadata/_edit_lock_ = true
 
 [node name="overlay" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="fade" type="ColorRect" parent="overlay"]
 modulate = Color(1, 1, 1, 0)
@@ -829,7 +831,6 @@ metadata/_edit_lock_ = true
 
 [node name="soul" type="Sprite2D" parent="overlay"]
 modulate = Color(1, 0, 0, 1)
-position = Vector2(311, 158)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 

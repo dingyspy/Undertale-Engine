@@ -1,0 +1,81 @@
+[gd_scene load_steps=17 format=3 uid="uid://bptonox3e7hck"]
+
+[ext_resource type="Script" uid="uid://dek3i7vpoofsa" path="res://autoload/border.gd" id="1_0u03o"]
+[ext_resource type="Shader" uid="uid://bcta51q883n7t" path="res://shaders/border.gdshader" id="1_rbeth"]
+[ext_resource type="Texture2D" uid="uid://bqioegibn878p" path="res://sprites/borders/black.png" id="2_0u03o"]
+[ext_resource type="Texture2D" uid="uid://bw5x2fejs6kkr" path="res://sprites/borders/ruins.png" id="3_43u1y"]
+[ext_resource type="Texture2D" uid="uid://d04gr0acpev8e" path="res://sprites/borders/snowdin.png" id="4_43u1y"]
+[ext_resource type="Texture2D" uid="uid://cytxmdylogtpq" path="res://sprites/borders/deltarune.png" id="4_pupxo"]
+[ext_resource type="Texture2D" uid="uid://bgagc61ha2bvg" path="res://sprites/borders/hotlands.png" id="5_ry1hb"]
+[ext_resource type="Texture2D" uid="uid://d08tpfng3xil" path="res://sprites/borders/madmew.png" id="6_id34k"]
+[ext_resource type="Texture2D" uid="uid://cy7qdepfse1nl" path="res://sprites/borders/newhome.png" id="7_n82pe"]
+[ext_resource type="Texture2D" uid="uid://rpvrhydipcn2" path="res://sprites/borders/toby2.png" id="10_ougqo"]
+[ext_resource type="Texture2D" uid="uid://cvpjncm3jlkxx" path="res://sprites/borders/toby.png" id="11_ntutl"]
+[ext_resource type="Texture2D" uid="uid://dc3wuq608bbge" path="res://sprites/borders/truelab.png" id="12_sdvwc"]
+[ext_resource type="Texture2D" uid="uid://byykx2ydxv4g5" path="res://sprites/borders/vines.png" id="13_fod38"]
+[ext_resource type="Texture2D" uid="uid://c4o1l81qocqrn" path="res://sprites/borders/waterfall.png" id="14_ojtb4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eve86"]
+shader = ExtResource("1_rbeth")
+shader_parameter/quality = 4
+shader_parameter/level = 1.0
+shader_parameter/dark = 0.05
+shader_parameter/scale = 0.5
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npbit"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0u03o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_43u1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_43u1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ojtb4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ry1hb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_sdvwc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_n82pe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_fod38")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ntutl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ougqo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pupxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_id34k")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="border" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_0u03o")
+
+[node name="border_frame" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_eve86")
+position = Vector2(480, 270)
+sprite_frames = SubResource("SpriteFrames_npbit")
+
+[node name="black" type="Sprite2D" parent="."]
+position = Vector2(480, 270)
+texture = ExtResource("2_0u03o")
+metadata/_edit_lock_ = true

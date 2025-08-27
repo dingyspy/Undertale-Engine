@@ -98,6 +98,8 @@ func _ready() -> void:
 	if bg_color:
 		bg_color.size *= 10
 		bg_color.position -= bg_color.size / 2
+	fade.size *= 10
+	flash.size *= 10
 	
 	update_health()
 	await get_tree().process_frame
@@ -416,12 +418,14 @@ func win(spared = false):
 	Global.gold += gold_won
 	Global.xp += xp_won
 	
-	var text = '\n* You earned ' + str(xp_won) +  ' EXP and ' + str(gold_won) + ' gold.'
-	if text.length() >= 33: text = '\n* You earned ' + str(xp_won) +  ' EXP and ' + str(gold_won) + '\n  gold.'
-	border_text.text += text
+	border_text.text += '\n* You earned ' + str(xp_won) +  ' XP and ' + str(gold_won) + ' gold.'
+	if Global.xp > int(pow(Global.lv - 1, 2) * 100):
+		Global.lv += 1
+		Global.maxhp = 16 + (4 * Global.lv)
+		border_text.text += '\n* Your LOVE increased.'
 	soul.visible = false
 	
-	await border_text.finished
+	await border_text.completed
 	while true:
 		var _accept = Input.is_action_just_pressed("accept")
 		if _accept:

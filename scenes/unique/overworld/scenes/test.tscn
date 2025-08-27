@@ -131,6 +131,7 @@ script = ExtResource("1_yfr2m")
 
 [node name="bg" type="CanvasLayer" parent="."]
 layer = -1
+follow_viewport_enabled = true
 
 [node name="bg" type="ColorRect" parent="bg"]
 offset_right = 640.0

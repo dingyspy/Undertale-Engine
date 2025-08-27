@@ -31,3 +31,14 @@ func get_all_children(node):
 			nodes.append_array(get_all_children(i))
 		else: nodes.append(i)
 	return nodes
+
+func set_fullscreen(val):
+	if val:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed('fullscreen'): Utility.set_fullscreen(!DisplayServer.window_get_mode())
+	if event.is_action_pressed('restart'): get_tree().reload_current_scene()
+	if event.is_action_pressed('border'): Border.set_border(!Border.border_toggled)

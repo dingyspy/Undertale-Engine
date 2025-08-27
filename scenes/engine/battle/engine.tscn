@@ -284,14 +284,13 @@ metadata/_edit_lock_ = true
 [node name="text" type="RichTextLabel" parent="attacks/border/text"]
 offset_left = 50.0
 offset_top = 20.0
-offset_right = 556.0
+offset_right = 563.0
 offset_bottom = 121.0
 theme_override_fonts/normal_font = SubResource("FontVariation_oh3jl")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "* You earned 0 EXP and 022 gold."
 script = ExtResource("20_ew1je")
-metadata/_edit_lock_ = true
 
 [node name="items" type="Node2D" parent="attacks/border"]
 

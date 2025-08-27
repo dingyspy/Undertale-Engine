@@ -10,20 +10,12 @@ var can_open_menu = true
 var camera_mode = 0
 # adjusts positions of menu items depending on the player's position
 var menu_adapt = true
-# if any value is in this array, the game will randomly encounter an enemy
-# in the sub-array
-# once the enemies are encounter, the sub-array will be removed from the array
-# formatted [[enemy,enemy], [enemy,enemy,enemy,enemy], ...]
-@export var encounter_enemies = [
-	[
-		'res://scenes/unique/battle/enemies/example/dummy.tscn',
-	]
-]
 # every frame a random int is generated
 # if random int % random_val is equal to 0
 # then the enemy will be encountered
 # the higher the value, the less likely you are to encounter an enemy / enemies
-@export var random_val = 5
+# enemy encounter array is in the scene
+@export var random_val = 200
 
 @onready var battle = preload("res://scenes/engine/battle/engine.tscn")
 
@@ -92,6 +84,7 @@ func load_scene(scene, go_to_save : bool = false):
 	tilemaps.add_child(player_dupe)
 	player.queue_free()
 	player = player_dupe
+	player.engine = self
 	
 	# finally, adds child and sets current_scene
 	container.add_child(loaded_scene)
@@ -112,6 +105,7 @@ func start_fight(enemies):
 	# so overworld logic doesnt interfere
 	player.mode = 0
 	is_in_event = true
+	await get_tree().process_frame
 	
 	# remembers previous collisions
 	collision_settings = []
@@ -150,13 +144,14 @@ func start_fight(enemies):
 	Audio.play('battlefall')
 	
 	var t = get_tree().create_tween()
-	t.tween_property(soul, 'position', Vector2(48,453), 0.8)
+	t.tween_property(soul, 'position', camera.position - Vector2(320,240) + Vector2(48,453), 0.8)
 	await get_tree().create_timer(0.8).timeout
 	
 	# instance it, set enemys, and add child
 	var inst = battle.instantiate()
 	inst.get_node('enemies').enemy_paths = enemies
 	inst.get_node('engine').overworld = self
+	inst.get_node('engine/attacks')._randomize = true
 	
 	battle_container.add_child(inst)
 	
@@ -169,6 +164,11 @@ func start_fight(enemies):
 
 func end_fight():
 	# sets collision disabled bool to original before fight started
+	fade.modulate.a = 1
+	var t = get_tree().create_tween()
+	t.tween_property(fade, 'modulate:a', 0, 0.5)
+	
+	await get_tree().process_frame
 	camera.make_current()
 	
 	for col in collision_settings:
@@ -185,16 +185,16 @@ func end_fight():
 
 func _process(delta: float) -> void:
 	# check if player is moving
-	if encounter_enemies.is_empty() == false and player.velocity != Vector2.ZERO and !is_in_event:
-		# if true, encounter enemy
-		if randi() % random_val == 0:
-			var selected = randi() % encounter_enemies.size()
-			start_fight(encounter_enemies[selected])
-			encounter_enemies.remove_at(selected)
+	if current_scene:
+		if current_scene.encounter_enemies.is_empty() == false and player.velocity != Vector2.ZERO and !is_in_event:
+			# if true, encounter enemy
+			if randi() % random_val == 0:
+				var selected = randi() % current_scene.encounter_enemies.size()
+				start_fight(current_scene.encounter_enemies[selected])
+				current_scene.encounter_enemies.remove_at(selected)
 
 # called from the player script if "engine" is defined
 func update_camera(delta) -> void:
-	#print(Global.saved_overworld_scene)
 	if current_scene:
 		var clampped_x = clamp(player.position.x, current_scene.camera_clamp_x.x, current_scene.camera_clamp_x.y,)
 		var clampped_y = clamp(player.position.y, current_scene.camera_clamp_y.x, current_scene.camera_clamp_y.y)
