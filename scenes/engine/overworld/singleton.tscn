@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=24 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bg6l5xrwuwc6u" path="res://sprites/engine/overworld/face_panels/papyrus/pap1.png" id="8_jd0yl"]
 [ext_resource type="Script" uid="uid://djp32purlac1h" path="res://scenes/engine/battle/camera.gd" id="11_ge22l"]
 [ext_resource type="Texture2D" uid="uid://17gjkc6omnrg" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-25 235714.png" id="12_jydd7"]
+[ext_resource type="Texture2D" uid="uid://bs0xdxhokm8wt" path="res://sprites/engine/overworld/engine/bubble.png" id="13_asydo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
 shader = ExtResource("3_thj5c")
@@ -79,6 +80,12 @@ script = ExtResource("2_jd0yl")
 [node name="menu" type="Node" parent="engine"]
 script = ExtResource("2_ltegx")
 
+[node name="black" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
 [node name="container" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -86,9 +93,10 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="player" parent="container" instance=ExtResource("2_n7gv4")]
-position = Vector2(122, 240)
+position = Vector2(311, 184)
 
 [node name="ui" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="blur" type="ColorRect" parent="ui"]
 material = SubResource("ShaderMaterial_griv2")
@@ -804,9 +812,6 @@ position = Vector2(318.52, 239.495)
 texture = ExtResource("12_jydd7")
 metadata/_edit_lock_ = true
 
-[node name="battle" type="CanvasLayer" parent="."]
-layer = 2
-
 [node name="overlay" type="CanvasLayer" parent="."]
 
 [node name="fade" type="ColorRect" parent="overlay"]
@@ -821,6 +826,20 @@ modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 metadata/_edit_lock_ = true
+
+[node name="soul" type="Sprite2D" parent="overlay"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(311, 158)
+scale = Vector2(2, 2)
+texture = ExtResource("7_thj5c")
+
+[node name="bubble" type="Sprite2D" parent="overlay"]
+position = Vector2(0, 10)
+scale = Vector2(2, 2)
+texture = ExtResource("13_asydo")
+offset = Vector2(0, -5)
+
+[node name="battle" type="CanvasLayer" parent="."]
 
 [node name="camera" type="Camera2D" parent="."]
 position = Vector2(320, 240)

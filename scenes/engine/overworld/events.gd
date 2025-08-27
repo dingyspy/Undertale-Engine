@@ -50,6 +50,18 @@ func check_area(area):
 	# to prevent bugs
 	if _return or engine.is_in_event or engine.menu.menu_is_open or buffer > 0: return
 	
+	if area.next_area_path != '' and area.next_area_path != null:
+		var path = area.next_area_path
+		area.queue_free()
+		engine.player.mode = 0
+		
+		var t = get_tree().create_tween()
+		t.tween_property(engine.fade, 'modulate:a', 1, 0.5)
+		
+		await t.finished
+		engine.load_scene(path)
+		return
+	
 	engine.is_in_event = true
 	match area.name:
 		'_save':
@@ -69,7 +81,7 @@ func check_area(area):
 			save_name.text = Global.player_name
 			save_lv.text = str(Global.lv)
 			save_time.text = '[right]' + Utility.time_format(Global.time)
-			save_area.text = engine.current_scene.area_name
+			save_area.text = engine.current_scene.name
 			
 			Audio.play('move')
 			while true:
@@ -84,6 +96,7 @@ func check_area(area):
 				Audio.play('save')
 				
 				Global.hp = Global.maxhp
+				Global.saved_overworld_scene = engine.current_scene.scene_file_path
 				Global._save()
 				
 				engine.menu.buffer = 2
@@ -140,7 +153,8 @@ func check_area(area):
 					engine.player.mode = 1
 			engine.menu.can_accept = true
 		_:
-			area.reference_node.call(area.name, engine)
+			if area.reference_node.has_method(area.name): area.reference_node.call(area.name, engine)
+			else: print('no method found in node "' + area.reference_node.name + '"' + ' (' + area.name + ')')
 			await finished_event
 	if area.oneshot: area.queue_free()
 	

@@ -99,7 +99,10 @@ func _ready() -> void:
 		'phone' : 'res://audio/engine/snd_phone.wav',
 		'swallow' : 'res://audio/engine/snd_swallow.wav',
 		'item' : 'res://audio/engine/snd_item.wav',
-		'save' : 'res://audio/engine/snd_save.wav'
+		'save' : 'res://audio/engine/snd_save.wav',
+		'encounter' : 'res://audio/engine/snd_b.wav',
+		'battlefall' : 'res://audio/engine/snd_battlefall.wav',
+		'chk' : 'res://audio/engine/snd_noise.wav'
 	})
 
 func _process(delta: float) -> void:
@@ -124,10 +127,10 @@ func _process(delta: float) -> void:
 		# if its open now, set the stats, make visible, and set player mode to 0 (cant move)
 		if menu_is_open:
 			if engine.background_blur_on_menuopen: blur.material.set('shader_parameter/lod', 1.0)
-			menu_mini_name = Global.player_name
-			menu_mini_stats_lv = str(Global.lv)
-			menu_mini_stats_hp = str(Global.hp) + '/' + str(Global.maxhp)
-			menu_mini_stats_g = str(Global.gold)
+			menu_mini_name.text = Global.player_name
+			menu_mini_stats_lv.text = str(Global.lv)
+			menu_mini_stats_hp.text = str(Global.hp) + '/' + str(Global.maxhp)
+			menu_mini_stats_g.text = str(Global.gold)
 			ui.visible = true
 			soul.visible = true
 			box.visible = false
@@ -417,15 +420,15 @@ func _process(delta: float) -> void:
 			match menu_posx:
 				0:
 					menu_posy = posmod(menu_posy + menu_y, Global.items.size())
-					if (menu_y != 0 and Global.items.size() > 0): Audio.play('move')
+					if (menu_y != 0 and Global.items.size() > 0): pass #Audio.play('move')
 					elif Global.items.size() <= 0: menu_posx = 1
 				1:
 					menu_posy = posmod(menu_posy + menu_y, Global.box.size())
-					if (menu_y != 0 and Global.box.size() > 0): Audio.play('move')
+					if (menu_y != 0 and Global.box.size() > 0): pass #Audio.play('move')
 					elif Global.box.size() <= 0: menu_posx = 0
 			soul.position = Vector2(48 + 302 * menu_posx,90 + menu_posy * 32)
 			
-			if menu_posx != prev_menu_posy: Audio.play('move')
+			#if menu_posx != prev_menu_posy: Audio.play('move')
 			prev_menu_posy = menu_posx
 			
 			var arr = [Global.items, Global.box]
@@ -441,7 +444,7 @@ func _process(delta: float) -> void:
 				
 				for i in menuitems.get_children(): i.queue_free()
 				engine.events.menuitems_box()
-				Audio.play('select')
+				#Audio.play('select')
 		-3:
 			# save
 			menu_posx = posmod(menu_posx + menu_x, 2)
@@ -532,7 +535,7 @@ func dialog(dialog_array, stay_visible : bool = false, position : Vector2 = defa
 			await get_tree().process_frame
 		
 		if dialog.question.options != null:
-			Audio.play('select')
+			#Audio.play('select')
 			menu_no = -99
 			
 			# uses sub_dialog argument

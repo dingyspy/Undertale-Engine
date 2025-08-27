@@ -126,16 +126,22 @@ size = Vector2(20, 11.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvgel"]
 size = Vector2(44.5, 42.625)
 
-[node name="test" type="Node2D"]
+[node name="Test - Test" type="Node"]
 script = ExtResource("1_yfr2m")
 
-[node name="bg" type="ColorRect" parent="."]
+[node name="bg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="bg" type="ColorRect" parent="bg"]
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="tilemaps" type="Node2D" parent="."]
+[node name="spawn" type="Node2D" parent="."]
+position = Vector2(57, 39)
+
+[node name="tilemaps" type="Node" parent="."]
 
 [node name="test" type="TileMapLayer" parent="tilemaps"]
 y_sort_enabled = true
@@ -156,10 +162,10 @@ position = Vector2(88, 117)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_620g6")
 autoplay = "default"
-frame_progress = 0.690215
+frame_progress = 0.524406
 offset = Vector2(0, -9)
 
-[node name="collisions" type="Node2D" parent="."]
+[node name="collisions" type="Node" parent="."]
 
 [node name="physical" type="StaticBody2D" parent="collisions"]
 
@@ -214,3 +220,13 @@ interactable = true
 position = Vector2(88, 99)
 shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.831067, 0.392513, 0, 0.42)
+
+[node name="_change_area" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+script = ExtResource("3_eivt8")
+reference_node = NodePath("../../..")
+next_area_path = "res://scenes/unique/overworld/scenes/test.tscn"
+
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_change_area"]
+position = Vector2(266, 47)
+shape = SubResource("RectangleShape2D_lvgel")
+debug_color = Color(0.234866, 0.376937, 1, 0.42)

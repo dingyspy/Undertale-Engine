@@ -10,16 +10,39 @@ var can_open_menu = true
 var camera_mode = 0
 # adjusts positions of menu items depending on the player's position
 var menu_adapt = true
+# if any value is in this array, the game will randomly encounter an enemy
+# in the sub-array
+# once the enemies are encounter, the sub-array will be removed from the array
+# formatted [[enemy,enemy], [enemy,enemy,enemy,enemy], ...]
+@export var encounter_enemies = [
+	[
+		'res://scenes/unique/battle/enemies/example/dummy.tscn',
+	]
+]
+# every frame a random int is generated
+# if random int % random_val is equal to 0
+# then the enemy will be encountered
+# the higher the value, the less likely you are to encounter an enemy / enemies
+@export var random_val = 5
+
+@onready var battle = preload("res://scenes/engine/battle/engine.tscn")
 
 @onready var overworld = $'../'
 @onready var player = $'../container/player'
 @onready var container = $'../container'
 @onready var tilemaps = $'../container/tilemaps'
 @onready var overlay = $'../overlay'
+@onready var fade = $'../overlay/fade'
+@onready var flash = $'../overlay/flash'
 @onready var camera = $'../camera'
+@onready var battle_container = $'../battle'
+@onready var black = $'../black'
+@onready var soul = $'../overlay/soul'
+@onready var bubble = $'../overlay/bubble'
 
-@export var start_scene_path = 'res://scenes/unique/overworld/scenes/test.tscn'
+@export var start_scene_path = ''
 var current_scene
+var current_battle
 
 # dialog function and dialog finished signal is in this
 @onready var menu = $'menu'
@@ -27,24 +50,31 @@ var current_scene
 
 # is set to true by evets when player is currently in an event
 var is_in_event = false
+# remembers previous collisions when theyre disabled on battle start
+var collision_settings = []
+var visibility_settings = []
 
 func _ready() -> void:
-	if start_scene_path != '' or start_scene_path != null: load_scene(start_scene_path)
+	if start_scene_path != '' and start_scene_path != null: load_scene(start_scene_path)
+	if (start_scene_path == '' or start_scene_path == null) and (Global.saved_overworld_scene != '' and Global.saved_overworld_scene != null): load_scene(Global.saved_overworld_scene, true)
 	player.engine = self
+	black.visible = false
+	soul.visible = false
+	bubble.visible = false
 
 # destroys prev scene & assets and loads a new one
 # scenes must have a node named "tilemaps"
 # tilemap layers should be children of this node
 # note: this is just for y-sort, tilemaps dont HAVE
 # to be under the tilemaps node
-func load_scene(scene):
+# if go_to_save is true, the players position will be set to the save area's position
+func load_scene(scene, go_to_save : bool = false):
 	# destroys assets
-	for _scene in container.get_children(): if _scene != player and _scene != tilemaps: _scene.queue_free()
 	for tilemap in tilemaps.get_children(): if tilemap != player: tilemap.queue_free()
 	
 	# checks if scene is str or packed, else returns
 	var loaded_scene
-	if scene is String: loaded_scene = load(start_scene_path)
+	if scene is String: loaded_scene = load(scene)
 	elif scene is PackedScene: loaded_scene = scene
 	else: return
 	
@@ -66,12 +96,105 @@ func load_scene(scene):
 	# finally, adds child and sets current_scene
 	container.add_child(loaded_scene)
 	current_scene = loaded_scene
+	
+	# sets player position to spawn if scene has it
+	# created for scene transition and to avoid softlock
+	if loaded_scene.get_node('spawn'): player.position = loaded_scene.get_node('spawn').position
+	
+	# positions player to save
+	if go_to_save: for i in Utility.get_all_children(loaded_scene): if i.name == '_save' and i is Area2D: for col in Utility.get_all_children(i): if col is CollisionShape2D or col is CollisionPolygon2D: player.position = col.position
+	
+	# tweens fade
+	var t = get_tree().create_tween()
+	t.tween_property(fade, 'modulate:a', 0, 0.5)
 
-func start_fight():
-	pass
+func start_fight(enemies):
+	# so overworld logic doesnt interfere
+	player.mode = 0
+	is_in_event = true
+	
+	# remembers previous collisions
+	collision_settings = []
+	visibility_settings = []
+	for col in Utility.get_all_children(overworld):
+		if col is CollisionPolygon2D or col is CollisionShape2D:
+			collision_settings.append([col, col.disabled])
+			col.disabled = true
+		if col is TileMap or col is TileMapLayer:
+			collision_settings.append([col, col.collision_enabled])
+			col.collision_enabled = false
+	
+	for tilemap in tilemaps.get_children():
+		if tilemap != player:
+			visibility_settings.append([tilemap, tilemap.visible])
+			tilemap.visible = false
+	
+	bubble.global_position = player.get_node('center').global_position + player.get_node('center').position
+	bubble.visible = true
+	
+	Audio.play('encounter')
+	await get_tree().create_timer(0.5).timeout
+	
+	soul.global_position = player.get_node('center').global_position
+	black.visible = true
+	soul.visible = true
+	
+	for i in 6:
+		soul.visible = !soul.visible
+		if soul.visible == true: Audio.play('chk')
+		await get_tree().create_timer(0.05).timeout
+	
+	soul.visible = true
+	bubble.visible = false
+	player.visible = false
+	Audio.play('battlefall')
+	
+	var t = get_tree().create_tween()
+	t.tween_property(soul, 'position', Vector2(48,453), 0.8)
+	await get_tree().create_timer(0.8).timeout
+	
+	# instance it, set enemys, and add child
+	var inst = battle.instantiate()
+	inst.get_node('enemies').enemy_paths = enemies
+	inst.get_node('engine').overworld = self
+	
+	battle_container.add_child(inst)
+	
+	# make the battle's camera current
+	while !inst.get_node('engine').camera: await get_tree().process_frame
+	inst.get_node('engine').camera.make_current()
+	
+	current_battle = inst
+	soul.visible = false
+
+func end_fight():
+	# sets collision disabled bool to original before fight started
+	camera.make_current()
+	
+	for col in collision_settings:
+		if col[0] is CollisionPolygon2D or col[0] is CollisionShape2D: col[0].disabled = col[1]
+		else: col[0].collision_enabled = col[1]
+	
+	for i in visibility_settings: i[0].visible = i[1]
+	
+	current_battle.queue_free()
+	
+	player.mode = 1
+	is_in_event = false
+	player.visible = true
+
+func _process(delta: float) -> void:
+	# check if player is moving
+	if encounter_enemies.is_empty() == false and player.velocity != Vector2.ZERO and !is_in_event:
+		# if true, encounter enemy
+		if randi() % random_val == 0:
+			var selected = randi() % encounter_enemies.size()
+			start_fight(encounter_enemies[selected])
+			encounter_enemies.remove_at(selected)
 
 # called from the player script if "engine" is defined
 func update_camera(delta) -> void:
+	#print(Global.saved_overworld_scene)
 	if current_scene:
 		var clampped_x = clamp(player.position.x, current_scene.camera_clamp_x.x, current_scene.camera_clamp_x.y,)
 		var clampped_y = clamp(player.position.y, current_scene.camera_clamp_y.x, current_scene.camera_clamp_y.y)

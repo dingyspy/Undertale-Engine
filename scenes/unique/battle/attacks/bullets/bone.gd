@@ -53,7 +53,7 @@ func _process(delta: float) -> void:
 
 func return_pivot() -> Vector2:
 	match _pivot:
-		"center": return Vector2(size.x, _size.y) / 2.0
+		"center": return Vector2(size.x, _size) / 2.0
 		"top": return Vector2(size.x / 2.0, 0.0)
 		"bottom": return Vector2(size.x / 2.0, _size)
 		_: return Vector2(size.x, _size) / 2.0

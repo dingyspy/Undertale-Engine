@@ -19,6 +19,8 @@ signal battle_finished
 @onready var menuitems = $'../attacks/border/items'
 @onready var buttons_node = $'../menu/buttons'
 @onready var overlay = $'../overlay'
+@onready var fade = $'../overlay/fade'
+@onready var flash = $'../overlay/flash'
 @onready var camera = $'../camera'
 @onready var bg_color = $'../background/color'
 
@@ -58,6 +60,7 @@ var buffer = 0
 var xp_won = 0
 var gold_won = 0
 var current_text = 'Menu text! :)'
+var overworld
 
 var prev_atk = Global.atk
 var prev_def = Global.def
@@ -83,6 +86,8 @@ func _ready() -> void:
 		'warning' : 'res://audio/engine/snd_b.wav',
 	})
 	
+	connect("battle_finished", to_overworld)
+	
 	await get_tree().process_frame
 	border_text.font = 'main2'
 	set_current_text()
@@ -93,6 +98,13 @@ func _ready() -> void:
 	if bg_color:
 		bg_color.size *= 10
 		bg_color.position -= bg_color.size / 2
+	
+	update_health()
+	await get_tree().process_frame
+	
+	fade.modulate.a = 1
+	var t = get_tree().create_tween()
+	t.tween_property(fade, 'modulate:a', 0, 0.3)
 
 func _process(delta: float) -> void:
 	var accept = Input.is_action_just_pressed("accept")
@@ -601,3 +613,7 @@ func update_health():
 	stats_lv.text = 'LV ' + str(Global.lv)
 	stats_hp.text = str(Global.hp) + ' / ' + str(Global.maxhp)
 	stats_hp.modulate = stats_health_kr.color if Global.kr > 0 else Color(1,1,1)
+
+# goes from battle back to ow
+func to_overworld():
+	if overworld: overworld.end_fight()

@@ -21,6 +21,7 @@ const included = [
 	'weapon_equipped',
 	'armor_equipped',
 	'cell',
+	'saved_overworld_scene'
 ]
 
 # undertale values
@@ -41,6 +42,10 @@ var time = 0
 # there is an example of clamping in test overworld scene
 var inventory_size = 8
 var box_size = 10
+# when saving, the scene path will be placed here
+# when loading the singleton and "start_scene_path" is null or empty,
+# the engine will use this scene path instead, if it is not empty
+var saved_overworld_scene = ''
 
 # items for both in-game and overworld
 # formatted: {abbreviated name, full name, [text, text1, ...], heal, atk gain, def gain, buy price, sell price, type (0:item,1:weapon,2:armor)}
