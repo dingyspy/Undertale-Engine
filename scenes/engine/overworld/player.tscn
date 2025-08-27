@@ -101,3 +101,4 @@ shape = SubResource("CapsuleShape2D_h6qib")
 [node name="ray" type="RayCast2D" parent="."]
 target_position = Vector2(0, 36)
 collide_with_areas = true
+collide_with_bodies = false

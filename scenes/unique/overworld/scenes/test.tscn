@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvjs1yergx84p"]
+[gd_scene load_steps=13 format=3 uid="uid://cvjs1yergx84p"]
 
 [ext_resource type="Texture2D" uid="uid://d1dlexibsau6c" path="res://sprites/engine/overworld/engine/mindtiles.png" id="1_lvgel"]
 [ext_resource type="Script" uid="uid://cmc08umsc0ufo" path="res://scenes/unique/overworld/scenes/test.gd" id="1_yfr2m"]
 [ext_resource type="Script" uid="uid://vbq3smchp3wn" path="res://scenes/engine/overworld/area_node_reference.gd" id="3_eivt8"]
+[ext_resource type="Texture2D" uid="uid://bc6hiqc84qnnd" path="res://sprites/engine/overworld/engine/save2.png" id="4_6iiol"]
+[ext_resource type="Texture2D" uid="uid://dx30qa61jfyfe" path="res://sprites/engine/overworld/engine/box.png" id="4_gg27x"]
+[ext_resource type="Texture2D" uid="uid://q35ofo5bm15e" path="res://sprites/engine/overworld/engine/save.png" id="5_x5mkd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lvgel"]
 texture = ExtResource("1_lvgel")
@@ -100,8 +103,25 @@ texture_region_size = Vector2i(48, 48)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_lvgel")
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_620g6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_6iiol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x5mkd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcg4a"]
 size = Vector2(312, 53)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6iiol"]
+size = Vector2(20, 11.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvgel"]
 size = Vector2(44.5, 42.625)
@@ -123,6 +143,22 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray(0, 0, 6, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_rcg4a")
 
+[node name="box" type="Sprite2D" parent="tilemaps"]
+y_sort_enabled = true
+position = Vector2(33, 117)
+scale = Vector2(2, 2)
+texture = ExtResource("4_gg27x")
+offset = Vector2(0, -9)
+
+[node name="save" type="AnimatedSprite2D" parent="tilemaps"]
+y_sort_enabled = true
+position = Vector2(88, 117)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_620g6")
+autoplay = "default"
+frame_progress = 0.690215
+offset = Vector2(0, -9)
+
 [node name="collisions" type="Node2D" parent="."]
 
 [node name="physical" type="StaticBody2D" parent="collisions"]
@@ -130,6 +166,14 @@ tile_set = SubResource("TileSet_rcg4a")
 [node name="collision" type="CollisionShape2D" parent="collisions/physical"]
 position = Vector2(450, 368)
 shape = SubResource("RectangleShape2D_rcg4a")
+
+[node name="collision2" type="CollisionShape2D" parent="collisions/physical"]
+position = Vector2(33, 117.25)
+shape = SubResource("RectangleShape2D_6iiol")
+
+[node name="collision3" type="CollisionShape2D" parent="collisions/physical"]
+position = Vector2(88, 117.25)
+shape = SubResource("RectangleShape2D_6iiol")
 
 [node name="events" type="Node2D" parent="collisions"]
 

@@ -17,6 +17,7 @@ const included = [
 	'xp',
 	'time',
 	'items',
+	'box',
 	'weapon_equipped',
 	'armor_equipped',
 	'cell',
@@ -268,6 +269,8 @@ var blitter_info = {
 }
 
 func _ready() -> void:
+	# loads the game
+	_load()
 	Engine.max_fps = 30
 
 # for if you want to tweak anything after variables are loaded

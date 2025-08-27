@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 	
 	sprite.speed_scale = real_speed / 150.0
 	# ray makes interactions / events more realistic & accurate
-	match dir:
+	match sprite.animation:
 		'up':
 			ray.rotation_degrees = 180
 			ray.target_position.y = 16

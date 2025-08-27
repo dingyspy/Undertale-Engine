@@ -82,7 +82,7 @@ func update_camera(delta) -> void:
 		
 		# automatically sets the menu stuff position similar to og undertale
 		if menu_adapt:
-			if clampped_y - player.position.y <= 0:
+			if clampped_y - player.position.y >= 0:
 				menu.default_dialogbox_position = Vector2(0,0)
 				menu.menu_mini.position.y = 0
 			else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene load_steps=23 format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://rpuv88j5b2pi" path="res://sprites/engine/overworld/engine/soul.png" id="7_thj5c"]
 [ext_resource type="Texture2D" uid="uid://bg6l5xrwuwc6u" path="res://sprites/engine/overworld/face_panels/papyrus/pap1.png" id="8_jd0yl"]
 [ext_resource type="Script" uid="uid://djp32purlac1h" path="res://scenes/engine/battle/camera.gd" id="11_ge22l"]
-[ext_resource type="Texture2D" uid="uid://bm25syly26vpy" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-26 002600.png" id="12_asydo"]
 [ext_resource type="Texture2D" uid="uid://17gjkc6omnrg" path="res://sprites/engine/overworld/engine/Screenshot 2025-08-25 235714.png" id="12_jydd7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_griv2"]
@@ -57,6 +56,14 @@ spacing_glyph = -2
 base_font = ExtResource("7_ltegx")
 spacing_glyph = -2
 spacing_space = -10
+
+[sub_resource type="FontVariation" id="FontVariation_jydd7"]
+base_font = ExtResource("7_ltegx")
+spacing_glyph = -2
+
+[sub_resource type="FontVariation" id="FontVariation_8eeik"]
+base_font = ExtResource("7_ltegx")
+spacing_glyph = -4
 
 [sub_resource type="FontVariation" id="FontVariation_kxugb"]
 base_font = ExtResource("2_04481")
@@ -202,7 +209,94 @@ text = "Press[X]to Finish"
 scroll_active = false
 
 [node name="save" type="Node2D" parent="ui"]
-visible = false
+
+[node name="panel" type="Panel" parent="ui/save"]
+offset_left = 108.0
+offset_top = 118.0
+offset_right = 532.0
+offset_bottom = 292.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
+
+[node name="text" type="Node2D" parent="ui/save"]
+
+[node name="lv" type="RichTextLabel" parent="ui/save/text"]
+offset_left = 278.0
+offset_top = 140.0
+offset_right = 414.0
+offset_bottom = 175.0
+theme_override_fonts/normal_font = SubResource("FontVariation_ltegx")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "LV"
+scroll_active = false
+
+[node name="options" type="Node2D" parent="ui/save/text"]
+
+[node name="save" type="RichTextLabel" parent="ui/save/text/options"]
+offset_left = 168.0
+offset_top = 240.0
+offset_right = 324.0
+offset_bottom = 275.0
+theme_override_fonts/normal_font = SubResource("FontVariation_jydd7")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Save"
+scroll_active = false
+
+[node name="return" type="RichTextLabel" parent="ui/save/text/options"]
+offset_left = 348.0
+offset_top = 240.0
+offset_right = 506.0
+offset_bottom = 275.0
+theme_override_fonts/normal_font = SubResource("FontVariation_jydd7")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Return"
+scroll_active = false
+
+[node name="name" type="RichTextLabel" parent="ui/save"]
+offset_left = 138.0
+offset_top = 140.0
+offset_right = 274.0
+offset_bottom = 175.0
+theme_override_fonts/normal_font = SubResource("FontVariation_ltegx")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "NAME"
+scroll_active = false
+
+[node name="lv" type="RichTextLabel" parent="ui/save"]
+offset_left = 312.0
+offset_top = 140.0
+offset_right = 401.0
+offset_bottom = 175.0
+theme_override_fonts/normal_font = SubResource("FontVariation_ltegx")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "1"
+scroll_active = false
+
+[node name="area" type="RichTextLabel" parent="ui/save"]
+offset_left = 138.0
+offset_top = 180.0
+offset_right = 394.0
+offset_bottom = 215.0
+theme_override_fonts/normal_font = SubResource("FontVariation_jydd7")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Ruins-Leaf Pile"
+scroll_active = false
+
+[node name="time" type="RichTextLabel" parent="ui/save"]
+offset_left = 334.0
+offset_top = 140.0
+offset_right = 500.0
+offset_bottom = 175.0
+theme_override_fonts/normal_font = SubResource("FontVariation_8eeik")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[right]3:37"
+scroll_active = false
 
 [node name="menu" type="Node2D" parent="ui"]
 
@@ -703,18 +797,12 @@ modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 
-[node name="Screenshot2025-08-26002600" type="Sprite2D" parent="ui"]
+[node name="Screenshot2025-08-25235714" type="Sprite2D" parent="ui"]
 visible = false
-modulate = Color(1, 1, 1, 0.521569)
-position = Vector2(317.5, 238)
-texture = ExtResource("12_asydo")
-metadata/_edit_lock_ = true
-
-[node name="Screenshot2025-08-25235624" type="Sprite2D" parent="ui"]
-visible = false
-modulate = Color(1, 1, 1, 0.337255)
-position = Vector2(318, 238)
+modulate = Color(1, 1, 1, 0.505882)
+position = Vector2(318.52, 239.495)
 texture = ExtResource("12_jydd7")
+metadata/_edit_lock_ = true
 
 [node name="battle" type="CanvasLayer" parent="."]
 layer = 2

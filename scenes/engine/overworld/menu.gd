@@ -55,6 +55,7 @@ signal option_selected
 
 @onready var box = $'../../ui/box'
 @onready var save = $'../../ui/save'
+@onready var save_options = $'../../ui/save/text/options'
 
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
 
@@ -98,6 +99,7 @@ func _ready() -> void:
 		'phone' : 'res://audio/engine/snd_phone.wav',
 		'swallow' : 'res://audio/engine/snd_swallow.wav',
 		'item' : 'res://audio/engine/snd_item.wav',
+		'save' : 'res://audio/engine/snd_save.wav'
 	})
 
 func _process(delta: float) -> void:
@@ -401,7 +403,7 @@ func _process(delta: float) -> void:
 						menu_posx = posmod(menu_posx + menu_x, stat_selections.size())
 						soul.position = stat_selections[menu_posx].position + Vector2(-12,17)
 						if menu_x != 0: Audio.play('move')
-	print(menu_no)
+	
 	match menu_no:
 		-1:
 			# exclusively for dialogbox options
@@ -442,7 +444,9 @@ func _process(delta: float) -> void:
 				Audio.play('select')
 		-3:
 			# save
-			pass
+			menu_posx = posmod(menu_posx + menu_x, 2)
+			soul.position = save_options.get_children()[menu_posx].position + Vector2(-17,15)
+			if menu_x != 0: Audio.play('move')
 	
 	# prevent bugs
 	if buffer > 0: buffer -= delta * 15

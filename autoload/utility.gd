@@ -20,3 +20,14 @@ func time_format(seconds: int) -> String:
 	
 	if hours > 0: return "%d:%02d:%02d" % [hours, minutes, _seconds]
 	else: return "%d:%02d" % [minutes, _seconds]
+
+# gets all children and subchildren of children, recursive
+func get_all_children(node):
+	var nodes = []
+	
+	for i in node.get_children():
+		if i.get_child_count() > 0:
+			nodes.append(i)
+			nodes.append_array(get_all_children(i))
+		else: nodes.append(i)
+	return nodes

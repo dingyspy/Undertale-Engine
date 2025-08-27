@@ -6,6 +6,12 @@ signal finished_event
 
 @onready var box = $'../../ui/box'
 @onready var save = $'../../ui/save'
+@onready var save_name = $'../../ui/save/name'
+@onready var save_lv = $'../../ui/save/lv'
+@onready var save_time = $'../../ui/save/time'
+@onready var save_area = $'../../ui/save/area'
+@onready var save_text = $'../../ui/save/text/options/save'
+@onready var return_text = $'../../ui/save/text/options/return'
 
 var buffer = 0
 
@@ -39,17 +45,64 @@ func _process(delta: float) -> void:
 # and never again (the area frees iteself)
 func check_area(area):
 	var _return = true
+	# checks it the area is an event / interactable, if it is then it does not return
 	if (area.is_in_group("event") and area.interactable and Input.is_action_just_pressed("accept")) or (area.is_in_group("event") and !area.interactable): _return = false
+	# to prevent bugs
 	if _return or engine.is_in_event or engine.menu.menu_is_open or buffer > 0: return
 	
 	engine.is_in_event = true
 	match area.name:
 		'_save':
-			pass
+			for i in Utility.get_all_children(save): if i is RichTextLabel: i.modulate = Color(1,1,1)
+			engine.player.mode = 0
+			engine.menu.menu_no = -3
+			engine.menu.menu_posx = 0
+			engine.menu.menu_posy = 0
+			engine.menu.soul.visible = true
+			engine.menu.ui.visible = true
+			save.visible = true
+			engine.menu.can_accept = false
+			engine.menu.buffer = 2
+			save_text.text = 'Save'
+			return_text.visible = true
+			
+			save_name.text = Global.player_name
+			save_lv.text = str(Global.lv)
+			save_time.text = '[right]' + Utility.time_format(Global.time)
+			save_area.text = engine.current_scene.area_name
+			
+			Audio.play('move')
+			while true:
+				if Input.is_action_just_pressed("accept") and engine.menu.buffer <= 0: break
+				await get_tree().process_frame
+			
+			if engine.menu.menu_posx == 0:
+				for i in Utility.get_all_children(save): if i is RichTextLabel: i.modulate = Color(1,1,0)
+				engine.menu.soul.visible = false
+				return_text.visible = false
+				save_text.text = 'File Saved.'
+				Audio.play('save')
+				
+				Global.hp = Global.maxhp
+				Global._save()
+				
+				engine.menu.buffer = 2
+				while true:
+					if Input.is_action_just_pressed("accept") and engine.menu.buffer <= 0: break
+					await get_tree().process_frame
+			
+			engine.menu.can_accept = true
+			engine.menu.ui.visible = false
+			save.visible = false
+			for i in engine.menu.menuitems.get_children(): i.queue_free()
+			engine.menu.menu_no = 0
+			engine.player.mode = 1
 		'_box':
 			engine.player.mode = 0
 			engine.menu.ui.visible = true
 			engine.menu.can_accept = false
+			engine.menu.menu_posx = 0
+			engine.menu.menu_posy = 0
 			
 			engine.menu.dialog([{
 				'text' : 'Use the box?',
