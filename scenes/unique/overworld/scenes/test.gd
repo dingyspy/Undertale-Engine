@@ -21,6 +21,7 @@ extends Node
 
 func on_test_interact(engine):
 	print('interacted')
+	engine.tilemaps.get_node('npc').walk_to_point(Vector2(0,0),1)
 	await get_tree().create_timer(1).timeout
 	engine.events.finished_event.emit()
 
