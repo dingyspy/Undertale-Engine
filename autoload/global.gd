@@ -10,7 +10,6 @@ const included = [
 	'lv',
 	'maxhp',
 	'hp',
-	'kr',
 	'atk',
 	'def',
 	'gold',
@@ -26,11 +25,11 @@ const included = [
 
 # undertale values
 var player_name = 'NAME'
-var lv = 19
+var lv = 1
 var maxhp = 16 + (4 * lv)
 var hp = maxhp
 # -1 kr makes the kr system inactive
-var kr = -1
+var kr = 0
 var atk = -2 + (2 * lv)
 var def = floor((lv - 1) / 4)
 var gold = 0
@@ -275,7 +274,7 @@ var blitter_info = {
 
 func _ready() -> void:
 	# loads the game
-	_load()
+	#_load()
 	Engine.max_fps = 30
 
 # for if you want to tweak anything after variables are loaded

@@ -21,11 +21,12 @@ func _ready() -> void:
 	await get_tree().create_timer(2).timeout
 	soul.throw(Vector2.DOWN)
 	var a = attack.spawn(attack.bullets.BONE, {
-		_position = Vector2(border.LEFT + 10, border.UP),
+		_position = Vector2(border.LEFT + 10, border.DOWN),
 		_size = border.DISTANCE.y,
 		_speed = 10,
 		_direction = Vector2.RIGHT,
-		_pivot = 'top'
+		_pivot = 'bottom',
+		type = 1
 	}, true)
 	
 	var t = get_tree().create_tween()

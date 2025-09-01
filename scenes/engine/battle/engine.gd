@@ -36,12 +36,16 @@ signal battle_finished
 
 @onready var menuitem = preload('res://scenes/engine/battle/menuitem.tscn')
 @onready var dialogbox = preload('res://scenes/engine/battle/dialogbox.tscn')
+@onready var game_over = preload('res://scenes/unique/game_over.tscn')
 
 # if false, the stats bar will start from the left
 # otherwise itll be centered
-var center_stats = true
+@export var center_stats = false
 # if false, the flee option will be removed
-var can_flee = true
+@export var can_flee = true
+# changes the hp richtext (number) to this value
+# exists because the color changes during runtime due to kr
+@export var hptext_color = Color(1,1,1)
 
 # engine values
 var menu_no = 0
@@ -121,6 +125,9 @@ func _process(delta: float) -> void:
 		Utility.load_font(bullet_point, blitter_info[0], blitter_info[2])
 	
 	update_health()
+	
+	# game over
+	if Global.hp <= 0: get_tree().change_scene_to_packed(game_over)
 	
 	# accept
 	if accept and buffer < 0:
@@ -612,11 +619,11 @@ func update_health():
 	stats_hp.position.x = stats_kr_spr.position.x + 30
 	stats_name.text = Global.player_name
 	stats_name.size.x = Global.player_name.length() * 20
-	if center_stats: stats_name.position.x = 32 + back_size / 2
+	if center_stats: stats_name.position.x = 144 - back_size / 2
 	
 	stats_lv.text = 'LV ' + str(Global.lv)
 	stats_hp.text = str(Global.hp) + ' / ' + str(Global.maxhp)
-	stats_hp.modulate = stats_health_kr.color if Global.kr > 0 else Color(1,1,1)
+	stats_hp.modulate = stats_health_kr.color if Global.kr > 0 else hptext_color
 
 # goes from battle back to ow
 func to_overworld():

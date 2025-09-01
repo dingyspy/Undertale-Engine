@@ -10,6 +10,7 @@ var _bone_type = 'sans'
 
 var damage = 1
 var kr_damage = 2
+# color is handled in the attacks script
 var type = 0
 
 @onready var collision = $hitbox/collision
@@ -43,11 +44,6 @@ func _process(delta: float) -> void:
 	collision.position.y = _size / 2.0
 	
 	size.y = _size
-	
-	match type:
-		0: modulate = Color(1, 1, 1)
-		1: modulate = Color(0, 0, 1)
-		2: modulate = Color(1, 0.5, 0)
 	
 	if (_direction == Vector2.RIGHT and global_position.x > 650) or (_direction == Vector2.LEFT and global_position.x < -10) or (_direction == Vector2.DOWN and global_position.x > 490) or (_direction == Vector2.UP and global_position.x < -10): queue_free()
 

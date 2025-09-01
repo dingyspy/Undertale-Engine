@@ -22,6 +22,7 @@ var _finished = true
 @onready var c1 = $c1
 var LEFT = 0
 var RIGHT = 0
+# border.UP and border.DOWN for consistency with VECTOR.UP and VECTOR.DOWN
 var UP = 0
 var DOWN = 0
 var CENTER = 0

@@ -38,6 +38,9 @@ const bullets = {
 	GASTER_BLASTER = 'res://scenes/unique/battle/attacks/bullets/gaster_blaster.tscn',
 	BONE_STAB = 'res://scenes/unique/battle/attacks/bullets/bonestab.tscn',
 }
+# when spawn() is called, the bullet's color is changed to this
+# implemented this for fangames that use color palletes
+@export var bullet_color = Color(1,1,1)
 
 @onready var engine = $'../'
 
@@ -134,6 +137,13 @@ func spawn(type, params : Dictionary, _add_child : bool = true):
 	inst = inst.instantiate()
 	
 	for i in params.size(): if params.keys()[i] in inst: inst.set(params.keys()[i], params.values()[i])
+	
+	inst.modulate = bullet_color
+	if 'type' in inst:
+		match inst.type:
+			0: inst.modulate = Color(1, 1, 1)
+			1: inst.modulate = Color(0, 0.5, 1)
+			2: inst.modulate = Color(1, 0.5, 0)
 	
 	if _add_child: engine.border.bullets.add_child(inst)
 	if inst.has_method('setup'): inst.setup()

@@ -7,9 +7,9 @@ var border_toggled = false
 
 func _ready() -> void:
 	border_frame.visible = false
-	#set_border(true)
 	black.modulate.a = 0
 
+# smoothly transitions border frames
 func smooth_transition(frame):
 	var t = get_tree().create_tween()
 	t.tween_property(black, 'modulate:a', 1, 0.5)
@@ -22,6 +22,7 @@ func smooth_transition(frame):
 	t = get_tree().create_tween()
 	t.tween_property(black, 'modulate:a', 0, 0.5)
 
+# toggles the border to the value: enabled
 func set_border(enabled : bool = true):
 	border_toggled = enabled
 	if border_toggled:

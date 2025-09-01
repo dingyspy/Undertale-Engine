@@ -62,11 +62,14 @@ func _ready() -> void:
 	timer.connect('timeout', on_timeout)
 
 func on_timeout() -> void:
-	if visible_characters == len(text): return
+	var _text = get_parsed_text()
+	if visible_characters == len(_text): return
 	
-	var char = text[visible_characters]
+	var text_length = len(_text)
+	var char = _text[visible_characters]
 	
-	if visible_characters < len(text) - 1:
+	# checks if chr is in override dict, changes timer accordingly
+	if visible_characters < text_length - 1:
 		if visible_characters in override_pause.keys() and !override_pause.is_empty(): timer.start(override_pause[visible_characters])
 		elif char in pause_characters and override_pause.is_empty(): timer.start(character_pause_time)
 		else: timer.start(speed)
@@ -75,7 +78,7 @@ func on_timeout() -> void:
 	if audio_ignore_characters.find(char) == -1: audio.play()
 	
 	visible_characters += 1
-	if visible_characters == len(text): completed.emit()
+	if visible_characters == text_length: completed.emit()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("cancel") and buffer < 0 and can_cancel: stop()

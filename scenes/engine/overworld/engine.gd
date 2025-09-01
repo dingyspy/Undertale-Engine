@@ -95,7 +95,10 @@ func load_scene(scene, go_to_save : bool = false):
 	if loaded_scene.get_node('spawn'): player.position = loaded_scene.get_node('spawn').position
 	
 	# positions player to save
-	if go_to_save: for i in Utility.get_all_children(loaded_scene): if i.name == '_save' and i is Area2D: for col in Utility.get_all_children(i): if col is CollisionShape2D or col is CollisionPolygon2D: player.position = col.position
+	print(go_to_save)
+	if go_to_save: for col in Utility.get_all_children(loaded_scene): if (col is CollisionShape2D or col is CollisionPolygon2D) and (col.get_parent().name == '_save' and col.get_parent() is Area2D):
+		print(col)
+		player.position = col.position
 	
 	# tweens fade
 	var t = get_tree().create_tween()
