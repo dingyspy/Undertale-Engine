@@ -19,7 +19,7 @@ func store_audio(dict : Dictionary):
 		if stream is String: audio.stream = load(stream)
 		elif stream is AudioStream: audio.stream = stream
 		else:
-			push_warning('Invalid audiostream or path in func store_audio()')
+			print('Invalid audiostream or path in func store_audio()')
 			audio.queue_free()
 			return
 		

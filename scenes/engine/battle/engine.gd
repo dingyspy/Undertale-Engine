@@ -583,7 +583,7 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 		text.text = dict.text
 		text.override_pause = dict.override_pause
 		text.override_speed = dict.override_speed
-			
+		
 		if oneshot: return
 		await text.completed
 		if automatic:

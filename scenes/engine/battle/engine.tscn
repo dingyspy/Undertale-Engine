@@ -301,6 +301,7 @@ layer = 5
 layer = 5
 
 [node name="fade" type="ColorRect" parent="overlay"]
+visible = false
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)

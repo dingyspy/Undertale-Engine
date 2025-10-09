@@ -45,6 +45,9 @@ var is_in_event = false
 # remembers previous collisions when theyre disabled on battle start
 var collision_settings = []
 var visibility_settings = []
+# prev scene is appended when going to the next scene. allows engine to
+# calculate player position when moving between scenes (going back and foward)
+var prev_scene = ['']
 
 func _ready() -> void:
 	if start_scene_path != '' and start_scene_path != null: load_scene(start_scene_path)
@@ -64,10 +67,9 @@ func load_scene(scene, go_to_save : bool = false):
 	# destroys assets
 	for tilemap in tilemaps.get_children(): if tilemap != player: tilemap.queue_free()
 	
-	# checks if scene is str or packed, else returns
+	# checks if scene is str, else returns
 	var loaded_scene
 	if scene is String: loaded_scene = load(scene)
-	elif scene is PackedScene: loaded_scene = scene
 	else: return
 	
 	# adds scene
@@ -90,14 +92,20 @@ func load_scene(scene, go_to_save : bool = false):
 	container.add_child(loaded_scene)
 	current_scene = loaded_scene
 	
-	# sets player position to spawn if scene has it
-	# created for scene transition and to avoid softlock
-	if loaded_scene.get_node('spawn'): player.position = loaded_scene.get_node('spawn').position
+	# sets the player position to the prev scene's player position (if the conditional is met)
+	print(prev_scene, scene)
+	if prev_scene[0] == scene:
+		player.position = events.prev_position
+		prev_scene = ['']
+	else:
+		# sets player position to spawn if scene has it
+		# created for scene transition and to avoid softlock
+		if loaded_scene.get_node('spawn'): player.position = loaded_scene.get_node('spawn').position
+	prev_scene.append(scene)
+	if prev_scene.size() > 2: prev_scene.remove_at(0)
 	
 	# positions player to save
-	print(go_to_save)
 	if go_to_save: for col in Utility.get_all_children(loaded_scene): if (col is CollisionShape2D or col is CollisionPolygon2D) and (col.get_parent().name == '_save' and col.get_parent() is Area2D):
-		print(col)
 		player.position = col.position
 	
 	# tweens fade

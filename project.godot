@@ -23,7 +23,7 @@ config/icon="uid://lulxjlcbvvy"
 
 [autoload]
 
-Global="*res://autoload/global.gd"
+Global="*res://audio/global.gd"
 Audio="*res://autoload/audiohandler_v2.tscn"
 Utility="*res://autoload/utility.gd"
 Border="*res://autoload/border.tscn"

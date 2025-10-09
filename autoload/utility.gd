@@ -16,7 +16,7 @@ func calculate_diff(val, newval, add):
 	return val
 
 func time_format(seconds: int) -> String:
-	var hours   = seconds / 3600
+	var hours = seconds / 3600
 	var minutes = (seconds % 3600) / 60
 	var _seconds = seconds % 60
 	

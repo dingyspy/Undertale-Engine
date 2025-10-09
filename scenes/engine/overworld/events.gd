@@ -2,6 +2,11 @@ extends Node
 
 signal finished_event
 
+# is set to a vector2 by the engine, when the player moves to the next
+# area, this var is set to the current player vec2. if the player goes
+# back to the previous area, the player position is set to this var
+var prev_position = null
+
 @onready var engine = $'../'
 
 @onready var box = $'../../ui/box'
@@ -54,6 +59,9 @@ func check_area(area):
 		var path = area.next_area_path
 		area.queue_free()
 		engine.player.mode = 0
+		# prev vector added so that when returning to the prev scene
+		# the player doesnt immediately go back to the current scene
+		prev_position = engine.player.position - engine.player.prev_vector * 15
 		
 		var t = get_tree().create_tween()
 		t.tween_property(engine.fade, 'modulate:a', 1, 0.5)

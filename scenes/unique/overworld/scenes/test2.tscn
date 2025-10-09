@@ -1,15 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://cvjs1yergx84p"]
+[gd_scene load_steps=14 format=4 uid="uid://dltj2kcok64wx"]
 
-[ext_resource type="Texture2D" uid="uid://d1dlexibsau6c" path="res://sprites/engine/overworld/engine/mindtiles.png" id="1_lvgel"]
-[ext_resource type="Script" uid="uid://cmc08umsc0ufo" path="res://scenes/unique/overworld/scenes/test.gd" id="1_yfr2m"]
-[ext_resource type="Script" uid="uid://vbq3smchp3wn" path="res://scenes/engine/overworld/area_node_reference.gd" id="3_eivt8"]
-[ext_resource type="Texture2D" uid="uid://bc6hiqc84qnnd" path="res://sprites/engine/overworld/engine/save2.png" id="4_6iiol"]
-[ext_resource type="Texture2D" uid="uid://dx30qa61jfyfe" path="res://sprites/engine/overworld/engine/box.png" id="4_gg27x"]
-[ext_resource type="Texture2D" uid="uid://q35ofo5bm15e" path="res://sprites/engine/overworld/engine/save.png" id="5_x5mkd"]
-[ext_resource type="PackedScene" uid="uid://cxiprvxve2sen" path="res://scenes/engine/overworld/npc.tscn" id="7_x5mkd"]
+[ext_resource type="Script" uid="uid://cd8s33f7t8t34" path="res://scenes/unique/overworld/scenes/test2.gd" id="1_w8jyb"]
+[ext_resource type="PackedScene" uid="uid://cxiprvxve2sen" path="res://scenes/engine/overworld/npc.tscn" id="2_8n6r3"]
+[ext_resource type="Texture2D" uid="uid://d1dlexibsau6c" path="res://sprites/engine/overworld/engine/mindtiles.png" id="3_8ooog"]
+[ext_resource type="Texture2D" uid="uid://dx30qa61jfyfe" path="res://sprites/engine/overworld/engine/box.png" id="4_onprb"]
+[ext_resource type="Texture2D" uid="uid://bc6hiqc84qnnd" path="res://sprites/engine/overworld/engine/save2.png" id="5_tcifr"]
+[ext_resource type="Texture2D" uid="uid://q35ofo5bm15e" path="res://sprites/engine/overworld/engine/save.png" id="6_gf46t"]
+[ext_resource type="Script" uid="uid://vbq3smchp3wn" path="res://scenes/engine/overworld/area_node_reference.gd" id="7_06uci"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lvgel"]
-texture = ExtResource("1_lvgel")
+texture = ExtResource("3_8ooog")
 texture_region_size = Vector2i(48, 48)
 0:0/0 = 0
 0:0/0/y_sort_origin = 23
@@ -108,10 +108,10 @@ sources/0 = SubResource("TileSetAtlasSource_lvgel")
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_6iiol")
+"texture": ExtResource("5_tcifr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_x5mkd")
+"texture": ExtResource("6_gf46t")
 }],
 "loop": true,
 "name": &"default",
@@ -128,7 +128,8 @@ size = Vector2(20, 11.5)
 size = Vector2(44.5, 42.625)
 
 [node name="Test - Test" type="Node"]
-script = ExtResource("1_yfr2m")
+script = ExtResource("1_w8jyb")
+encounter_enemies = []
 
 [node name="bg" type="CanvasLayer" parent="."]
 layer = -1
@@ -145,20 +146,20 @@ position = Vector2(57, 39)
 
 [node name="tilemaps" type="Node" parent="."]
 
-[node name="npc" parent="tilemaps" instance=ExtResource("7_x5mkd")]
+[node name="npc" parent="tilemaps" instance=ExtResource("2_8n6r3")]
 position = Vector2(434, 180)
 
 [node name="test" type="TileMapLayer" parent="tilemaps"]
 y_sort_enabled = true
 scale = Vector2(2, 2)
-tile_map_data = PackedByteArray(0, 0, 6, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAHAAoAAAACAAEAAAAHAAkAAAACAAEAAAAGAAkAAAACAAEAAAAGAAgAAAACAAEAAAAGAAcAAAACAAEAAAAHAAYAAAACAAEAAAAIAAYAAAACAAEAAAAJAAYAAAACAAEAAAANAAQAAAACAAEAAAA=")
 tile_set = SubResource("TileSet_rcg4a")
 
 [node name="box" type="Sprite2D" parent="tilemaps"]
 y_sort_enabled = true
 position = Vector2(33, 117)
 scale = Vector2(2, 2)
-texture = ExtResource("4_gg27x")
+texture = ExtResource("4_onprb")
 offset = Vector2(0, -9)
 
 [node name="save" type="AnimatedSprite2D" parent="tilemaps"]
@@ -189,7 +190,7 @@ shape = SubResource("RectangleShape2D_6iiol")
 [node name="events" type="Node2D" parent="collisions"]
 
 [node name="on_test_interact" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
-script = ExtResource("3_eivt8")
+script = ExtResource("7_06uci")
 reference_node = NodePath("../../..")
 interactable = true
 
@@ -198,7 +199,7 @@ position = Vector2(42.75, 186)
 shape = SubResource("RectangleShape2D_lvgel")
 
 [node name="on_test_event" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
-script = ExtResource("3_eivt8")
+script = ExtResource("7_06uci")
 reference_node = NodePath("../../..")
 oneshot = true
 
@@ -207,7 +208,7 @@ position = Vector2(167, 34.6875)
 shape = SubResource("RectangleShape2D_lvgel")
 
 [node name="_box" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
-script = ExtResource("3_eivt8")
+script = ExtResource("7_06uci")
 reference_node = NodePath("../../..")
 interactable = true
 
@@ -217,7 +218,7 @@ shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.995903, 0, 0.19686, 0.42)
 
 [node name="_save" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
-script = ExtResource("3_eivt8")
+script = ExtResource("7_06uci")
 reference_node = NodePath("../../..")
 interactable = true
 
@@ -227,9 +228,9 @@ shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.831067, 0.392513, 0, 0.42)
 
 [node name="_change_area" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
-script = ExtResource("3_eivt8")
+script = ExtResource("7_06uci")
 reference_node = NodePath("../../..")
-next_area_path = "res://scenes/unique/overworld/scenes/test2.tscn"
+next_area_path = "res://scenes/unique/overworld/scenes/test.tscn"
 
 [node name="collision" type="CollisionShape2D" parent="collisions/events/_change_area"]
 position = Vector2(266, 47)

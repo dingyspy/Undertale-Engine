@@ -126,7 +126,7 @@ func _physics_process(delta: float) -> void:
 				Global.kr -= 1
 				kr_time = 0
 				break
-		Global.hp = clamp(Global.hp, 1, Global.maxhp)
+		Global.hp = clamp(Global.hp, 0, Global.maxhp)
 
 # self explanatory, changes mode
 # mode colors can be changed here
@@ -140,7 +140,7 @@ func change_mode(_mode : int, rot : int = 0):
 	sprite.rotation_degrees = rot
 
 # use vector.left, up, r, ... for direction, similar to spawning bones / bone stabs
-func throw(vector, speed : int = 700):
+func throw(vector : Vector2 = Vector2.DOWN, speed : int = 700):
 	var rot = 0
 	match vector:
 		Vector2.LEFT: rot = 90
