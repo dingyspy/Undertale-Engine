@@ -81,12 +81,16 @@ func load_scene(scene, go_to_save : bool = false):
 		tilemaps.add_child(tilemap_dupe)
 	loaded_scene.get_node('tilemaps').queue_free()
 	
+	if current_scene: current_scene.queue_free()
+	
 	# adds player to tilemaps (same y sort issue)
 	var player_dupe = player.duplicate()
 	tilemaps.add_child(player_dupe)
 	player.queue_free()
 	player = player_dupe
 	player.engine = self
+	
+	if 'engine' in loaded_scene: loaded_scene.engine = self
 	
 	# finally, adds child and sets current_scene
 	container.add_child(loaded_scene)
