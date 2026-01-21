@@ -39,6 +39,10 @@ signal finished_player_attack
 		'callback' : Callable(self, 'test_act')
 	},
 ]
+# name : {sprite : [frame, offset]}
+@export var expressions = {
+	'shrug' : {'head' : [1, Vector2(0,0)], 'torso' : [1, Vector2(-8,0)], 'legs' : [1, Vector2(0,0)]},
+}
 # used to shake the enemy
 var shake = 0
 

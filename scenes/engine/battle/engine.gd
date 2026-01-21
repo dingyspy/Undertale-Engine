@@ -584,6 +584,18 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 		text.override_pause = dict.override_pause
 		text.override_speed = dict.override_speed
 		
+		if enemy == null: enemy = enemies.get_node(dict.enemy)
+		if dict.has('expression') and 'expressions' in enemy and enemy.expressions.has(dict.expression):
+			var xpr = enemy.expressions[dict.expression]
+			for i in xpr.keys():
+				var pt = enemy.find_child(i)
+				pt.frame = xpr[i][0]
+				pt.offset = xpr[i][1]
+		else:
+			for i in Utility.get_all_children(enemy.get_node('character')):
+				i.frame = 0
+				i.offset = Vector2.ZERO
+		
 		if oneshot: return
 		await text.completed
 		if automatic:
