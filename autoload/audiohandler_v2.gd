@@ -57,6 +57,11 @@ func pause(_name : String):
 		var audio = stored_audios[_name]
 		audio.stream_paused = true
 
+func stop(_name : String):
+	if stored_audios.has(_name):
+		var audio = stored_audios[_name]
+		audio.stop()
+
 # returns the node
 # provide the same name used for store_audio, plays the audio
 func return_node(_name : String):
