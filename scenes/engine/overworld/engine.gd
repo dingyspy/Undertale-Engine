@@ -47,7 +47,7 @@ var collision_settings = []
 var visibility_settings = []
 # prev scene is appended when going to the next scene. allows engine to
 # calculate player position when moving between scenes (going back and foward)
-var prev_scene = ['']
+var prev_scene = []
 
 func _ready() -> void:
 	if start_scene_path != '' and start_scene_path != null: load_scene(start_scene_path)
@@ -81,7 +81,10 @@ func load_scene(scene, go_to_save : bool = false):
 		tilemaps.add_child(tilemap_dupe)
 	loaded_scene.get_node('tilemaps').queue_free()
 	
-	if current_scene: current_scene.queue_free()
+	var old_scene
+	if current_scene:
+		old_scene = current_scene.scene_file_path
+		current_scene.queue_free()
 	
 	# adds player to tilemaps (same y sort issue)
 	var player_dupe = player.duplicate()
@@ -96,17 +99,23 @@ func load_scene(scene, go_to_save : bool = false):
 	container.add_child(loaded_scene)
 	current_scene = loaded_scene
 	
-	# sets the player position to the prev scene's player position (if the conditional is met)
-	print(prev_scene, scene)
-	if prev_scene[0] == scene:
-		player.position = events.prev_position
-		prev_scene = ['']
-	else:
+	var cur_pos = player.position - player.prev_vector * 15
+	var found = false
+	
+	# really confusing code that puts every scene you enter into an array WITH the player's position,
+	# if the next scene matches the old scene, the player's position is set to the old scene's player's position
+	for i in prev_scene:
+		if i[0] == scene:
+			print(i[1])
+			player.position = i[1]
+			prev_scene.remove_at(prev_scene.find(i))
+			found = true
+	
+	if !found:
 		# sets player position to spawn if scene has it
 		# created for scene transition and to avoid softlock
 		if loaded_scene.get_node('spawn'): player.position = loaded_scene.get_node('spawn').position
-	prev_scene.append(scene)
-	if prev_scene.size() > 2: prev_scene.remove_at(0)
+	prev_scene.append([old_scene,cur_pos])
 	
 	# positions player to save
 	if go_to_save: for col in Utility.get_all_children(loaded_scene): if (col is CollisionShape2D or col is CollisionPolygon2D) and (col.get_parent().name == '_save' and col.get_parent() is Area2D):
