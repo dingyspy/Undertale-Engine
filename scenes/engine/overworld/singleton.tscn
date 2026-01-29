@@ -829,7 +829,6 @@ texture = ExtResource("13_asydo")
 offset = Vector2(0, -5)
 
 [node name="overlay" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
 
 [node name="fade" type="ColorRect" parent="overlay"]
 modulate = Color(1, 1, 1, 0)
