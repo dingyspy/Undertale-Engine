@@ -63,6 +63,9 @@ func check_area(area):
 		# the player doesnt immediately go back to the current scene
 		prev_position = engine.player.position - engine.player.prev_vector * 15
 		
+		# polish!
+		engine.can_open_menu = false
+		
 		var t = get_tree().create_tween()
 		t.tween_property(engine.fade, 'modulate:a', 1, 0.5)
 		

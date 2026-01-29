@@ -124,6 +124,10 @@ func load_scene(scene, go_to_save : bool = false):
 	# tweens fade
 	var t = get_tree().create_tween()
 	t.tween_property(fade, 'modulate:a', 0, 0.5)
+	
+	# polish!
+	await t.finished
+	can_open_menu = true
 
 func start_fight(enemies):
 	# so overworld logic doesnt interfere
