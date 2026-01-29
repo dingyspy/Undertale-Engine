@@ -29,8 +29,8 @@ var menu_adapt = true
 @onready var camera = $'../camera'
 @onready var battle_container = $'../battle'
 @onready var black = $'../black'
-@onready var soul = $'../overlay/soul'
-@onready var bubble = $'../overlay/bubble'
+@onready var soul = $'../ot_overlay/soul'
+@onready var bubble = $'../ot_overlay/bubble'
 
 @export var start_scene_path = ''
 var current_scene

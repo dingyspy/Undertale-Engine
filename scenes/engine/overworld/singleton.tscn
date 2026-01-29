@@ -813,6 +813,21 @@ position = Vector2(318.52, 239.495)
 texture = ExtResource("12_jydd7")
 metadata/_edit_lock_ = true
 
+[node name="ot_overlay" type="CanvasLayer" parent="."]
+layer = 2
+follow_viewport_enabled = true
+
+[node name="soul" type="Sprite2D" parent="ot_overlay"]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(2, 2)
+texture = ExtResource("7_thj5c")
+
+[node name="bubble" type="Sprite2D" parent="ot_overlay"]
+position = Vector2(0, 10)
+scale = Vector2(2, 2)
+texture = ExtResource("13_asydo")
+offset = Vector2(0, -5)
+
 [node name="overlay" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
@@ -828,17 +843,6 @@ modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 metadata/_edit_lock_ = true
-
-[node name="soul" type="Sprite2D" parent="overlay"]
-modulate = Color(1, 0, 0, 1)
-scale = Vector2(2, 2)
-texture = ExtResource("7_thj5c")
-
-[node name="bubble" type="Sprite2D" parent="overlay"]
-position = Vector2(0, 10)
-scale = Vector2(2, 2)
-texture = ExtResource("13_asydo")
-offset = Vector2(0, -5)
 
 [node name="battle" type="CanvasLayer" parent="."]
 
