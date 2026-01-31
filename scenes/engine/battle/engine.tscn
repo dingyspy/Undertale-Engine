@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://fdexliguoa86"]
+[gd_scene format=3 uid="uid://fdexliguoa86"]
 
 [ext_resource type="Texture2D" uid="uid://dyfwm2pemm3ew" path="res://sprites/engine/battle/core/hud/buttons/act0.png" id="1_xxrhl"]
 [ext_resource type="Script" uid="uid://bmaiba1u4khe5" path="res://scenes/engine/battle/engine.gd" id="2_4tewb"]
@@ -82,87 +82,87 @@ base_font = ExtResource("22_bss57")
 [sub_resource type="FontVariation" id="FontVariation_oh3jl"]
 base_font = ExtResource("22_bss57")
 
-[node name="engine" type="Node"]
+[node name="engine" type="Node" unique_id=604236804]
 
-[node name="engine" type="Node" parent="."]
+[node name="engine" type="Node" parent="." unique_id=1094588632]
 script = ExtResource("2_4tewb")
 
-[node name="attacks" type="Node" parent="engine"]
+[node name="attacks" type="Node" parent="engine" unique_id=387466356]
 script = ExtResource("3_qogft")
 
-[node name="background" type="CanvasLayer" parent="."]
+[node name="background" type="CanvasLayer" parent="." unique_id=1370599157]
 layer = 5
 
-[node name="color" type="ColorRect" parent="background"]
+[node name="color" type="ColorRect" parent="background" unique_id=1604134885]
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="Back" type="Sprite2D" parent="background"]
+[node name="Back" type="Sprite2D" parent="background" unique_id=106571194]
 visible = false
 modulate = Color(1, 1, 1, 0.415686)
 position = Vector2(320, 240)
 texture = ExtResource("22_qogft")
 
-[node name="menu" type="CanvasLayer" parent="."]
+[node name="menu" type="CanvasLayer" parent="." unique_id=180939445]
 layer = 5
 follow_viewport_enabled = true
 
-[node name="buttons" type="Node2D" parent="menu"]
+[node name="buttons" type="Node2D" parent="menu" unique_id=599658048]
 
-[node name="button0" type="AnimatedSprite2D" parent="menu/buttons"]
+[node name="button0" type="AnimatedSprite2D" parent="menu/buttons" unique_id=1766633889]
 position = Vector2(48, 453)
 sprite_frames = SubResource("SpriteFrames_apoaa")
 animation = &"fight"
 offset = Vector2(39, 0)
 
-[node name="button1" type="AnimatedSprite2D" parent="menu/buttons"]
+[node name="button1" type="AnimatedSprite2D" parent="menu/buttons" unique_id=1267590446]
 position = Vector2(202, 453)
 sprite_frames = SubResource("SpriteFrames_apoaa")
 animation = &"act"
 offset = Vector2(38, 0)
 
-[node name="button2" type="AnimatedSprite2D" parent="menu/buttons"]
+[node name="button2" type="AnimatedSprite2D" parent="menu/buttons" unique_id=2086558982]
 position = Vector2(360, 454)
 sprite_frames = SubResource("SpriteFrames_apoaa")
 animation = &"item"
 offset = Vector2(40, -1)
 
-[node name="button3" type="AnimatedSprite2D" parent="menu/buttons"]
+[node name="button3" type="AnimatedSprite2D" parent="menu/buttons" unique_id=198802833]
 position = Vector2(516, 454)
 sprite_frames = SubResource("SpriteFrames_apoaa")
 animation = &"mercy"
 offset = Vector2(39, -1)
 
-[node name="stats" type="Node2D" parent="menu"]
+[node name="stats" type="Node2D" parent="menu" unique_id=1778188100]
 
-[node name="health" type="Node2D" parent="menu/stats"]
+[node name="health" type="Node2D" parent="menu/stats" unique_id=344181295]
 
-[node name="bar" type="Node2D" parent="menu/stats/health"]
+[node name="bar" type="Node2D" parent="menu/stats/health" unique_id=1620440016]
 
-[node name="back" type="ColorRect" parent="menu/stats/health/bar"]
+[node name="back" type="ColorRect" parent="menu/stats/health/bar" unique_id=591873633]
 offset_left = 255.0
 offset_top = 400.0
 offset_right = 366.0
 offset_bottom = 421.0
 color = Color(1, 0, 0, 1)
 
-[node name="front" type="ColorRect" parent="menu/stats/health/bar"]
+[node name="front" type="ColorRect" parent="menu/stats/health/bar" unique_id=2069249905]
 offset_left = 255.0
 offset_top = 400.0
 offset_right = 366.0
 offset_bottom = 421.0
 color = Color(1, 1, 0, 1)
 
-[node name="kr" type="ColorRect" parent="menu/stats/health/bar"]
+[node name="kr" type="ColorRect" parent="menu/stats/health/bar" unique_id=37436746]
 offset_left = 255.0
 offset_top = 400.0
 offset_right = 256.0
 offset_bottom = 421.0
 color = Color(1, 0, 1, 1)
 
-[node name="hp" type="RichTextLabel" parent="menu/stats/health"]
+[node name="hp" type="RichTextLabel" parent="menu/stats/health" unique_id=1118906113]
 offset_left = 415.0
 offset_top = 400.0
 offset_right = 534.0
@@ -172,7 +172,7 @@ theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "92 / 92"
 
-[node name="name" type="RichTextLabel" parent="menu/stats/health"]
+[node name="name" type="RichTextLabel" parent="menu/stats/health" unique_id=2123155362]
 offset_left = 32.0
 offset_top = 400.0
 offset_right = 134.0
@@ -182,7 +182,7 @@ theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "NAME"
 
-[node name="lv" type="RichTextLabel" parent="menu/stats/health"]
+[node name="lv" type="RichTextLabel" parent="menu/stats/health" unique_id=927975687]
 offset_left = 134.0
 offset_top = 400.0
 offset_right = 215.0
@@ -192,29 +192,29 @@ theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "LV 19"
 
-[node name="hp_spr" type="Sprite2D" parent="menu/stats"]
+[node name="hp_spr" type="Sprite2D" parent="menu/stats" unique_id=769361318]
 position = Vector2(235, 410)
 texture = ExtResource("11_82ikh")
 
-[node name="kr_spr" type="Sprite2D" parent="menu/stats"]
+[node name="kr_spr" type="Sprite2D" parent="menu/stats" unique_id=1722286447]
 position = Vector2(387, 410)
 texture = ExtResource("12_4agdu")
 
-[node name="enemies" type="CanvasLayer" parent="."]
+[node name="enemies" type="CanvasLayer" parent="." unique_id=1195754410]
 layer = 5
 follow_viewport_enabled = true
 script = ExtResource("15_4tewb")
 enemy_paths = ["res://scenes/unique/battle/enemies/example/dummy.tscn", "res://scenes/unique/battle/enemies/example/dummy.tscn"]
 
-[node name="ignore" type="Node2D" parent="enemies"]
+[node name="ignore" type="Node2D" parent="enemies" unique_id=1565440110]
 
-[node name="alive" type="Node2D" parent="enemies"]
+[node name="alive" type="Node2D" parent="enemies" unique_id=224352182]
 
-[node name="attacks" type="CanvasLayer" parent="."]
+[node name="attacks" type="CanvasLayer" parent="." unique_id=1994650083]
 layer = 5
 follow_viewport_enabled = true
 
-[node name="border" type="NinePatchRect" parent="attacks"]
+[node name="border" type="NinePatchRect" parent="attacks" unique_id=1476047697]
 offset_left = 32.0
 offset_top = 250.0
 offset_right = 607.0
@@ -228,38 +228,38 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 script = ExtResource("13_4agdu")
 
-[node name="c0" type="Node2D" parent="attacks/border"]
+[node name="c0" type="Node2D" parent="attacks/border" unique_id=775673455]
 position = Vector2(5, 5)
 
-[node name="c1" type="Node2D" parent="attacks/border"]
+[node name="c1" type="Node2D" parent="attacks/border" unique_id=819772828]
 position = Vector2(570, 135)
 
-[node name="soul" parent="attacks/border" instance=ExtResource("21_grdfn")]
+[node name="soul" parent="attacks/border" unique_id=40614952 instance=ExtResource("21_grdfn")]
 position = Vector2(-32, -250)
 
-[node name="staticbody" type="StaticBody2D" parent="attacks/border"]
+[node name="staticbody" type="StaticBody2D" parent="attacks/border" unique_id=1170754476]
 
-[node name="collisions" type="CollisionPolygon2D" parent="attacks/border/staticbody"]
+[node name="collisions" type="CollisionPolygon2D" parent="attacks/border/staticbody" unique_id=480988636]
 
-[node name="backbuffer" type="BackBufferCopy" parent="attacks/border"]
+[node name="backbuffer" type="BackBufferCopy" parent="attacks/border" unique_id=1790843009]
 copy_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="bullets" type="Node2D" parent="attacks/border/backbuffer"]
+[node name="bullets" type="Node2D" parent="attacks/border/backbuffer" unique_id=412603765]
 z_index = 1
 
-[node name="mask" type="Node2D" parent="attacks/border/backbuffer"]
+[node name="mask" type="Node2D" parent="attacks/border/backbuffer" unique_id=1238212222]
 z_index = 1
 material = SubResource("ShaderMaterial_wsk5h")
 
-[node name="corner0" type="Sprite2D" parent="attacks/border/backbuffer/mask"]
+[node name="corner0" type="Sprite2D" parent="attacks/border/backbuffer/mask" unique_id=41405439]
 material = SubResource("ShaderMaterial_uudvl")
 position = Vector2(5, 5)
 scale = Vector2(1000, 1000)
 texture = ExtResource("14_4agdu")
 metadata/_edit_lock_ = true
 
-[node name="corner1" type="Sprite2D" parent="attacks/border/backbuffer/mask"]
+[node name="corner1" type="Sprite2D" parent="attacks/border/backbuffer/mask" unique_id=911448686]
 material = SubResource("ShaderMaterial_uudvl")
 position = Vector2(570, 135)
 scale = Vector2(1000, 1000)
@@ -268,9 +268,9 @@ flip_h = true
 flip_v = true
 metadata/_edit_lock_ = true
 
-[node name="text" type="Node2D" parent="attacks/border"]
+[node name="text" type="Node2D" parent="attacks/border" unique_id=483577684]
 
-[node name="bullet" type="RichTextLabel" parent="attacks/border/text"]
+[node name="bullet" type="RichTextLabel" parent="attacks/border/text" unique_id=192761078]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 411.0
@@ -281,7 +281,7 @@ bbcode_enabled = true
 text = "*"
 metadata/_edit_lock_ = true
 
-[node name="text" type="RichTextLabel" parent="attacks/border/text"]
+[node name="text" type="RichTextLabel" parent="attacks/border/text" unique_id=13788203]
 offset_left = 50.0
 offset_top = 20.0
 offset_right = 563.0
@@ -292,28 +292,28 @@ bbcode_enabled = true
 text = "* You earned 0 EXP and 022 gold."
 script = ExtResource("20_ew1je")
 
-[node name="items" type="Node2D" parent="attacks/border"]
+[node name="items" type="Node2D" parent="attacks/border" unique_id=1523210064]
 
-[node name="other" type="CanvasLayer" parent="."]
+[node name="other" type="CanvasLayer" parent="." unique_id=1662850704]
 layer = 5
 
-[node name="overlay" type="CanvasLayer" parent="."]
+[node name="overlay" type="CanvasLayer" parent="." unique_id=1623060]
 layer = 5
 
-[node name="fade" type="ColorRect" parent="overlay"]
+[node name="fade" type="ColorRect" parent="overlay" unique_id=237550625]
 visible = false
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="flash" type="ColorRect" parent="overlay"]
+[node name="flash" type="ColorRect" parent="overlay" unique_id=955906907]
 modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 metadata/_edit_lock_ = true
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="." unique_id=2061294818]
 position = Vector2(320, 240)
 ignore_rotation = false
 script = ExtResource("23_4tewb")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c8ass7jghd877"]
+[gd_scene format=3 uid="uid://c8ass7jghd877"]
 
 [ext_resource type="Script" uid="uid://cjitfgpsxrtoc" path="res://scenes/engine/overworld/engine.gd" id="1_6os67"]
 [ext_resource type="FontFile" uid="uid://boc2y5lwp4sd7" path="res://fonts/crypt-of-tomorrow-ut-font-no-rus.ttf" id="2_04481"]
@@ -69,51 +69,51 @@ spacing_glyph = -4
 [sub_resource type="FontVariation" id="FontVariation_kxugb"]
 base_font = ExtResource("2_04481")
 
-[node name="overworld" type="Node"]
+[node name="overworld" type="Node" unique_id=1139752531]
 
-[node name="engine" type="Node" parent="."]
+[node name="engine" type="Node" parent="." unique_id=1368582513]
 script = ExtResource("1_6os67")
 
-[node name="events" type="Node" parent="engine"]
+[node name="events" type="Node" parent="engine" unique_id=1940657076]
 script = ExtResource("2_jd0yl")
 
-[node name="menu" type="Node" parent="engine"]
+[node name="menu" type="Node" parent="engine" unique_id=1091628433]
 script = ExtResource("2_ltegx")
 
-[node name="black" type="ColorRect" parent="."]
+[node name="black" type="ColorRect" parent="." unique_id=353864968]
 visible = false
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="container" type="Node2D" parent="."]
+[node name="container" type="Node2D" parent="." unique_id=687792668]
 y_sort_enabled = true
 
-[node name="tilemaps" type="Node2D" parent="container"]
+[node name="tilemaps" type="Node2D" parent="container" unique_id=1706433120]
 y_sort_enabled = true
 
-[node name="player" parent="container" instance=ExtResource("2_n7gv4")]
+[node name="player" parent="container" unique_id=1701596017 instance=ExtResource("2_n7gv4")]
 position = Vector2(311, 184)
 
-[node name="ui" type="CanvasLayer" parent="."]
+[node name="ui" type="CanvasLayer" parent="." unique_id=286042092]
 visible = false
 
-[node name="blur" type="ColorRect" parent="ui"]
+[node name="blur" type="ColorRect" parent="ui" unique_id=1157261347]
 material = SubResource("ShaderMaterial_griv2")
 offset_right = 640.0
 offset_bottom = 480.0
 
-[node name="dialogbox" type="Node2D" parent="ui"]
+[node name="dialogbox" type="Node2D" parent="ui" unique_id=1406382119]
 
-[node name="panel" type="Panel" parent="ui/dialogbox"]
+[node name="panel" type="Panel" parent="ui/dialogbox" unique_id=397440428]
 offset_left = 32.0
 offset_top = 320.0
 offset_right = 610.0
 offset_bottom = 472.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="bullet" type="RichTextLabel" parent="ui/dialogbox"]
+[node name="bullet" type="RichTextLabel" parent="ui/dialogbox" unique_id=1392467650]
 offset_left = 176.0
 offset_top = 340.0
 offset_right = 567.0
@@ -123,7 +123,7 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "*"
 
-[node name="text" type="RichTextLabel" parent="ui/dialogbox"]
+[node name="text" type="RichTextLabel" parent="ui/dialogbox" unique_id=48632341]
 offset_left = 206.0
 offset_top = 340.0
 offset_right = 585.0
@@ -134,9 +134,9 @@ bbcode_enabled = true
 text = "*You earned 0 EXP and 022 gold."
 script = ExtResource("2_kxugb")
 
-[node name="options" type="Node2D" parent="ui/dialogbox"]
+[node name="options" type="Node2D" parent="ui/dialogbox" unique_id=165170174]
 
-[node name="option0" type="RichTextLabel" parent="ui/dialogbox/options"]
+[node name="option0" type="RichTextLabel" parent="ui/dialogbox/options" unique_id=2072852796]
 offset_left = 206.0
 offset_top = 418.0
 offset_right = 394.0
@@ -146,7 +146,7 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "Yes"
 
-[node name="option1" type="RichTextLabel" parent="ui/dialogbox/options"]
+[node name="option1" type="RichTextLabel" parent="ui/dialogbox/options" unique_id=698721306]
 offset_left = 394.0
 offset_top = 418.0
 offset_right = 590.0
@@ -156,35 +156,35 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "No"
 
-[node name="sprite" type="AnimatedSprite2D" parent="ui/dialogbox"]
+[node name="sprite" type="AnimatedSprite2D" parent="ui/dialogbox" unique_id=1137489184]
 position = Vector2(106, 394)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_jydd7")
 animation = &"papyrus"
 
-[node name="box" type="Node2D" parent="ui"]
+[node name="box" type="Node2D" parent="ui" unique_id=746112115]
 visible = false
 
-[node name="panel" type="Panel" parent="ui/box"]
+[node name="panel" type="Panel" parent="ui/box" unique_id=272883983]
 offset_left = 15.0
 offset_top = 15.0
 offset_right = 625.0
 offset_bottom = 465.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="line0" type="ColorRect" parent="ui/box"]
+[node name="line0" type="ColorRect" parent="ui/box" unique_id=1603972126]
 offset_left = 320.0
 offset_top = 93.0
 offset_right = 321.0
 offset_bottom = 393.0
 
-[node name="line1" type="ColorRect" parent="ui/box"]
+[node name="line1" type="ColorRect" parent="ui/box" unique_id=1477092522]
 offset_left = 322.0
 offset_top = 93.0
 offset_right = 323.0
 offset_bottom = 393.0
 
-[node name="inventory" type="RichTextLabel" parent="ui/box"]
+[node name="inventory" type="RichTextLabel" parent="ui/box" unique_id=794972755]
 offset_left = 103.0
 offset_top = 29.0
 offset_right = 257.0
@@ -195,7 +195,7 @@ bbcode_enabled = true
 text = "INVENTORY"
 scroll_active = false
 
-[node name="box" type="RichTextLabel" parent="ui/box"]
+[node name="box" type="RichTextLabel" parent="ui/box" unique_id=1480000034]
 offset_left = 447.0
 offset_top = 29.0
 offset_right = 601.0
@@ -206,7 +206,7 @@ bbcode_enabled = true
 text = "BOX"
 scroll_active = false
 
-[node name="hint" type="RichTextLabel" parent="ui/box"]
+[node name="hint" type="RichTextLabel" parent="ui/box" unique_id=675915022]
 offset_left = 199.0
 offset_top = 405.0
 offset_right = 515.0
@@ -217,18 +217,18 @@ bbcode_enabled = true
 text = "Press[X]to Finish"
 scroll_active = false
 
-[node name="save" type="Node2D" parent="ui"]
+[node name="save" type="Node2D" parent="ui" unique_id=1131082759]
 
-[node name="panel" type="Panel" parent="ui/save"]
+[node name="panel" type="Panel" parent="ui/save" unique_id=1445949552]
 offset_left = 108.0
 offset_top = 118.0
 offset_right = 532.0
 offset_bottom = 292.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="text" type="Node2D" parent="ui/save"]
+[node name="text" type="Node2D" parent="ui/save" unique_id=1968184700]
 
-[node name="lv" type="RichTextLabel" parent="ui/save/text"]
+[node name="lv" type="RichTextLabel" parent="ui/save/text" unique_id=5419891]
 offset_left = 278.0
 offset_top = 140.0
 offset_right = 414.0
@@ -239,9 +239,9 @@ bbcode_enabled = true
 text = "LV"
 scroll_active = false
 
-[node name="options" type="Node2D" parent="ui/save/text"]
+[node name="options" type="Node2D" parent="ui/save/text" unique_id=741847711]
 
-[node name="save" type="RichTextLabel" parent="ui/save/text/options"]
+[node name="save" type="RichTextLabel" parent="ui/save/text/options" unique_id=1927007952]
 offset_left = 168.0
 offset_top = 240.0
 offset_right = 324.0
@@ -252,7 +252,7 @@ bbcode_enabled = true
 text = "Save"
 scroll_active = false
 
-[node name="return" type="RichTextLabel" parent="ui/save/text/options"]
+[node name="return" type="RichTextLabel" parent="ui/save/text/options" unique_id=1833998766]
 offset_left = 348.0
 offset_top = 240.0
 offset_right = 506.0
@@ -263,7 +263,7 @@ bbcode_enabled = true
 text = "Return"
 scroll_active = false
 
-[node name="name" type="RichTextLabel" parent="ui/save"]
+[node name="name" type="RichTextLabel" parent="ui/save" unique_id=1005168843]
 offset_left = 138.0
 offset_top = 140.0
 offset_right = 274.0
@@ -274,7 +274,7 @@ bbcode_enabled = true
 text = "NAME"
 scroll_active = false
 
-[node name="lv" type="RichTextLabel" parent="ui/save"]
+[node name="lv" type="RichTextLabel" parent="ui/save" unique_id=2003908692]
 offset_left = 312.0
 offset_top = 140.0
 offset_right = 401.0
@@ -285,7 +285,7 @@ bbcode_enabled = true
 text = "1"
 scroll_active = false
 
-[node name="area" type="RichTextLabel" parent="ui/save"]
+[node name="area" type="RichTextLabel" parent="ui/save" unique_id=637262919]
 offset_left = 138.0
 offset_top = 180.0
 offset_right = 394.0
@@ -296,7 +296,7 @@ bbcode_enabled = true
 text = "Ruins-Leaf Pile"
 scroll_active = false
 
-[node name="time" type="RichTextLabel" parent="ui/save"]
+[node name="time" type="RichTextLabel" parent="ui/save" unique_id=1147137700]
 offset_left = 334.0
 offset_top = 140.0
 offset_right = 500.0
@@ -307,18 +307,18 @@ bbcode_enabled = true
 text = "[right]3:37"
 scroll_active = false
 
-[node name="menu" type="Node2D" parent="ui"]
+[node name="menu" type="Node2D" parent="ui" unique_id=883574902]
 
-[node name="mini" type="Node2D" parent="ui/menu"]
+[node name="mini" type="Node2D" parent="ui/menu" unique_id=946679235]
 
-[node name="panel" type="Panel" parent="ui/menu/mini"]
+[node name="panel" type="Panel" parent="ui/menu/mini" unique_id=1956951677]
 offset_left = 32.0
 offset_top = 52.0
 offset_right = 174.0
 offset_bottom = 162.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="name" type="RichTextLabel" parent="ui/menu/mini"]
+[node name="name" type="RichTextLabel" parent="ui/menu/mini" unique_id=351792628]
 offset_left = 44.0
 offset_top = 60.0
 offset_right = 129.0
@@ -329,9 +329,9 @@ bbcode_enabled = true
 text = "Name"
 scroll_active = false
 
-[node name="desc" type="Node2D" parent="ui/menu/mini"]
+[node name="desc" type="Node2D" parent="ui/menu/mini" unique_id=1968352080]
 
-[node name="lvtext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+[node name="lvtext" type="RichTextLabel" parent="ui/menu/mini/desc" unique_id=240460974]
 offset_left = 46.0
 offset_top = 100.0
 offset_right = 70.0
@@ -342,7 +342,7 @@ bbcode_enabled = true
 text = "LV"
 scroll_active = false
 
-[node name="hptext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+[node name="hptext" type="RichTextLabel" parent="ui/menu/mini/desc" unique_id=1459483773]
 offset_left = 46.0
 offset_top = 118.0
 offset_right = 70.0
@@ -353,7 +353,7 @@ bbcode_enabled = true
 text = "HP"
 scroll_active = false
 
-[node name="gtext" type="RichTextLabel" parent="ui/menu/mini/desc"]
+[node name="gtext" type="RichTextLabel" parent="ui/menu/mini/desc" unique_id=1275898395]
 offset_left = 46.0
 offset_top = 136.0
 offset_right = 70.0
@@ -364,9 +364,9 @@ bbcode_enabled = true
 text = "G"
 scroll_active = false
 
-[node name="stats" type="Node2D" parent="ui/menu/mini"]
+[node name="stats" type="Node2D" parent="ui/menu/mini" unique_id=1809389517]
 
-[node name="lv" type="RichTextLabel" parent="ui/menu/mini/stats"]
+[node name="lv" type="RichTextLabel" parent="ui/menu/mini/stats" unique_id=620078494]
 offset_left = 82.0
 offset_top = 100.0
 offset_right = 164.0
@@ -377,7 +377,7 @@ bbcode_enabled = true
 text = "1"
 scroll_active = false
 
-[node name="hp" type="RichTextLabel" parent="ui/menu/mini/stats"]
+[node name="hp" type="RichTextLabel" parent="ui/menu/mini/stats" unique_id=470592215]
 offset_left = 82.0
 offset_top = 118.0
 offset_right = 164.0
@@ -388,7 +388,7 @@ bbcode_enabled = true
 text = "20/20"
 scroll_active = false
 
-[node name="g" type="RichTextLabel" parent="ui/menu/mini/stats"]
+[node name="g" type="RichTextLabel" parent="ui/menu/mini/stats" unique_id=822782726]
 offset_left = 82.0
 offset_top = 136.0
 offset_right = 164.0
@@ -399,18 +399,18 @@ bbcode_enabled = true
 text = "0"
 scroll_active = false
 
-[node name="selection" type="Node2D" parent="ui/menu"]
+[node name="selection" type="Node2D" parent="ui/menu" unique_id=1919758583]
 
-[node name="panel" type="Panel" parent="ui/menu/selection"]
+[node name="panel" type="Panel" parent="ui/menu/selection" unique_id=719882495]
 offset_left = 32.0
 offset_top = 168.0
 offset_right = 174.0
 offset_bottom = 316.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="selections" type="Node2D" parent="ui/menu/selection"]
+[node name="selections" type="Node2D" parent="ui/menu/selection" unique_id=773766731]
 
-[node name="item" type="RichTextLabel" parent="ui/menu/selection/selections"]
+[node name="item" type="RichTextLabel" parent="ui/menu/selection/selections" unique_id=98846771]
 offset_left = 82.0
 offset_top = 188.0
 offset_right = 167.0
@@ -421,7 +421,7 @@ bbcode_enabled = true
 text = "ITEM"
 scroll_active = false
 
-[node name="stat" type="RichTextLabel" parent="ui/menu/selection/selections"]
+[node name="stat" type="RichTextLabel" parent="ui/menu/selection/selections" unique_id=596776358]
 offset_left = 82.0
 offset_top = 224.0
 offset_right = 167.0
@@ -432,7 +432,7 @@ bbcode_enabled = true
 text = "STAT"
 scroll_active = false
 
-[node name="cell" type="RichTextLabel" parent="ui/menu/selection/selections"]
+[node name="cell" type="RichTextLabel" parent="ui/menu/selection/selections" unique_id=954349103]
 offset_left = 82.0
 offset_top = 260.0
 offset_right = 167.0
@@ -443,21 +443,21 @@ bbcode_enabled = true
 text = "CELL"
 scroll_active = false
 
-[node name="types" type="Node2D" parent="ui/menu"]
+[node name="types" type="Node2D" parent="ui/menu" unique_id=2072839330]
 
-[node name="items" type="Node2D" parent="ui/menu/types"]
+[node name="items" type="Node2D" parent="ui/menu/types" unique_id=1909356193]
 visible = false
 
-[node name="panel" type="Panel" parent="ui/menu/types/items"]
+[node name="panel" type="Panel" parent="ui/menu/types/items" unique_id=1137002972]
 offset_left = 188.0
 offset_top = 52.0
 offset_right = 534.0
 offset_bottom = 414.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="selections" type="Node2D" parent="ui/menu/types/items"]
+[node name="selections" type="Node2D" parent="ui/menu/types/items" unique_id=1113594344]
 
-[node name="use" type="RichTextLabel" parent="ui/menu/types/items/selections"]
+[node name="use" type="RichTextLabel" parent="ui/menu/types/items/selections" unique_id=357499066]
 offset_left = 230.0
 offset_top = 360.0
 offset_right = 315.0
@@ -468,7 +468,7 @@ bbcode_enabled = true
 text = "USE"
 scroll_active = false
 
-[node name="info" type="RichTextLabel" parent="ui/menu/types/items/selections"]
+[node name="info" type="RichTextLabel" parent="ui/menu/types/items/selections" unique_id=242016577]
 offset_left = 326.0
 offset_top = 360.0
 offset_right = 411.0
@@ -479,7 +479,7 @@ bbcode_enabled = true
 text = "INFO"
 scroll_active = false
 
-[node name="drop" type="RichTextLabel" parent="ui/menu/types/items/selections"]
+[node name="drop" type="RichTextLabel" parent="ui/menu/types/items/selections" unique_id=16668786]
 offset_left = 440.0
 offset_top = 360.0
 offset_right = 525.0
@@ -490,19 +490,19 @@ bbcode_enabled = true
 text = "DROP"
 scroll_active = false
 
-[node name="stat" type="Node2D" parent="ui/menu/types"]
+[node name="stat" type="Node2D" parent="ui/menu/types" unique_id=324219000]
 visible = false
 
-[node name="panel" type="Panel" parent="ui/menu/types/stat"]
+[node name="panel" type="Panel" parent="ui/menu/types/stat" unique_id=2081297181]
 offset_left = 188.0
 offset_top = 52.0
 offset_right = 534.0
 offset_bottom = 470.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="text" type="Node2D" parent="ui/menu/types/stat"]
+[node name="text" type="Node2D" parent="ui/menu/types/stat" unique_id=2067729454]
 
-[node name="lv" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="lv" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1012487561]
 offset_left = 214.0
 offset_top = 144.0
 offset_right = 299.0
@@ -513,7 +513,7 @@ bbcode_enabled = true
 text = "LV"
 scroll_active = false
 
-[node name="hp" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="hp" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=379087502]
 offset_left = 214.0
 offset_top = 176.0
 offset_right = 299.0
@@ -524,7 +524,7 @@ bbcode_enabled = true
 text = "HP"
 scroll_active = false
 
-[node name="at" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="at" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=996247745]
 offset_left = 214.0
 offset_top = 240.0
 offset_right = 299.0
@@ -535,7 +535,7 @@ bbcode_enabled = true
 text = "AT"
 scroll_active = false
 
-[node name="df" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="df" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1717207462]
 offset_left = 214.0
 offset_top = 272.0
 offset_right = 299.0
@@ -546,7 +546,7 @@ bbcode_enabled = true
 text = "DF"
 scroll_active = false
 
-[node name="exp" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="exp" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1920705494]
 offset_left = 382.0
 offset_top = 240.0
 offset_right = 467.0
@@ -557,7 +557,7 @@ bbcode_enabled = true
 text = "EXP"
 scroll_active = false
 
-[node name="next" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="next" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=632953120]
 offset_left = 382.0
 offset_top = 272.0
 offset_right = 467.0
@@ -568,7 +568,7 @@ bbcode_enabled = true
 text = "NEXT"
 scroll_active = false
 
-[node name="w" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="w" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=764846625]
 offset_left = 214.0
 offset_top = 332.0
 offset_right = 329.0
@@ -579,7 +579,7 @@ bbcode_enabled = true
 text = "W"
 scroll_active = false
 
-[node name="eapon" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="eapon" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1611449132]
 offset_left = 230.0
 offset_top = 332.0
 offset_right = 345.0
@@ -590,7 +590,7 @@ bbcode_enabled = true
 text = "EAPON"
 scroll_active = false
 
-[node name="colon" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="colon" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=464656099]
 offset_left = 296.0
 offset_top = 332.0
 offset_right = 324.0
@@ -601,7 +601,7 @@ bbcode_enabled = true
 text = ":"
 scroll_active = false
 
-[node name="arm" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="arm" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=302716400]
 offset_left = 214.0
 offset_top = 364.0
 offset_right = 329.0
@@ -612,7 +612,7 @@ bbcode_enabled = true
 text = "ARM"
 scroll_active = false
 
-[node name="or" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="or" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1441649052]
 offset_left = 258.0
 offset_top = 364.0
 offset_right = 373.0
@@ -623,7 +623,7 @@ bbcode_enabled = true
 text = "OR"
 scroll_active = false
 
-[node name="colon2" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="colon2" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1345864163]
 offset_left = 282.0
 offset_top = 364.0
 offset_right = 397.0
@@ -634,7 +634,7 @@ bbcode_enabled = true
 text = ":"
 scroll_active = false
 
-[node name="gold" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="gold" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=909153189]
 offset_left = 214.0
 offset_top = 404.0
 offset_right = 329.0
@@ -645,7 +645,7 @@ bbcode_enabled = true
 text = "GOLD"
 scroll_active = false
 
-[node name="colon3" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="colon3" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1968220579]
 offset_left = 266.0
 offset_top = 404.0
 offset_right = 381.0
@@ -656,7 +656,7 @@ bbcode_enabled = true
 text = ":"
 scroll_active = false
 
-[node name="colon4" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="colon4" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=67437481]
 offset_left = 434.0
 offset_top = 272.0
 offset_right = 549.0
@@ -667,7 +667,7 @@ bbcode_enabled = true
 text = ":"
 scroll_active = false
 
-[node name="colon5" type="RichTextLabel" parent="ui/menu/types/stat/text"]
+[node name="colon5" type="RichTextLabel" parent="ui/menu/types/stat/text" unique_id=1496807489]
 offset_left = 420.0
 offset_top = 240.0
 offset_right = 535.0
@@ -678,7 +678,7 @@ bbcode_enabled = true
 text = ":"
 scroll_active = false
 
-[node name="name" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="name" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=1562352821]
 offset_left = 214.0
 offset_top = 84.0
 offset_right = 525.0
@@ -689,7 +689,7 @@ bbcode_enabled = true
 text = "\"A\""
 scroll_active = false
 
-[node name="lv" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="lv" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=217988311]
 offset_left = 254.0
 offset_top = 144.0
 offset_right = 339.0
@@ -700,7 +700,7 @@ bbcode_enabled = true
 text = "1"
 scroll_active = false
 
-[node name="hp" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="hp" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=991528320]
 offset_left = 254.0
 offset_top = 176.0
 offset_right = 423.0
@@ -711,7 +711,7 @@ bbcode_enabled = true
 text = "20 / 20"
 scroll_active = false
 
-[node name="baseatk" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="baseatk" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=959890488]
 offset_left = 254.0
 offset_top = 240.0
 offset_right = 339.0
@@ -722,7 +722,7 @@ bbcode_enabled = true
 text = "0(0)"
 scroll_active = false
 
-[node name="basedef" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="basedef" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=1349649281]
 offset_left = 254.0
 offset_top = 272.0
 offset_right = 339.0
@@ -733,7 +733,7 @@ bbcode_enabled = true
 text = "0(0)"
 scroll_active = false
 
-[node name="exp" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="exp" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=1626063482]
 offset_left = 436.0
 offset_top = 240.0
 offset_right = 521.0
@@ -744,7 +744,7 @@ bbcode_enabled = true
 text = "0"
 scroll_active = false
 
-[node name="next" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="next" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=72839395]
 offset_left = 450.0
 offset_top = 272.0
 offset_right = 535.0
@@ -755,7 +755,7 @@ bbcode_enabled = true
 text = "10"
 scroll_active = false
 
-[node name="weapon" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="weapon" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=18896269]
 offset_left = 312.0
 offset_top = 332.0
 offset_right = 523.0
@@ -766,7 +766,7 @@ bbcode_enabled = true
 text = "Stick"
 scroll_active = false
 
-[node name="armor" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="armor" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=2059268208]
 offset_left = 298.0
 offset_top = 364.0
 offset_right = 524.0
@@ -777,7 +777,7 @@ bbcode_enabled = true
 text = "Bandage"
 scroll_active = false
 
-[node name="gold" type="RichTextLabel" parent="ui/menu/types/stat"]
+[node name="gold" type="RichTextLabel" parent="ui/menu/types/stat" unique_id=1779684493]
 offset_left = 282.0
 offset_top = 404.0
 offset_right = 367.0
@@ -788,64 +788,64 @@ bbcode_enabled = true
 text = "0"
 scroll_active = false
 
-[node name="cell" type="Node2D" parent="ui/menu/types"]
+[node name="cell" type="Node2D" parent="ui/menu/types" unique_id=1484891189]
 visible = false
 
-[node name="panel" type="Panel" parent="ui/menu/types/cell"]
+[node name="panel" type="Panel" parent="ui/menu/types/cell" unique_id=695445337]
 offset_left = 188.0
 offset_top = 52.0
 offset_right = 534.0
 offset_bottom = 322.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_degfk")
 
-[node name="menuitems" type="Node2D" parent="ui/menu"]
+[node name="menuitems" type="Node2D" parent="ui/menu" unique_id=43737230]
 
-[node name="soul" type="Sprite2D" parent="ui"]
+[node name="soul" type="Sprite2D" parent="ui" unique_id=150569231]
 visible = false
 modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 
-[node name="Screenshot2025-08-25235714" type="Sprite2D" parent="ui"]
+[node name="Screenshot2025-08-25235714" type="Sprite2D" parent="ui" unique_id=825126206]
 visible = false
 modulate = Color(1, 1, 1, 0.505882)
 position = Vector2(318.52, 239.495)
 texture = ExtResource("12_jydd7")
 metadata/_edit_lock_ = true
 
-[node name="ot_overlay" type="CanvasLayer" parent="."]
+[node name="ot_overlay" type="CanvasLayer" parent="." unique_id=573172899]
 layer = 2
 follow_viewport_enabled = true
 
-[node name="soul" type="Sprite2D" parent="ot_overlay"]
+[node name="soul" type="Sprite2D" parent="ot_overlay" unique_id=2118963221]
 modulate = Color(1, 0, 0, 1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_thj5c")
 
-[node name="bubble" type="Sprite2D" parent="ot_overlay"]
+[node name="bubble" type="Sprite2D" parent="ot_overlay" unique_id=114434610]
 position = Vector2(0, 10)
 scale = Vector2(2, 2)
 texture = ExtResource("13_asydo")
 offset = Vector2(0, -5)
 
-[node name="overlay" type="CanvasLayer" parent="."]
+[node name="overlay" type="CanvasLayer" parent="." unique_id=540205842]
 
-[node name="fade" type="ColorRect" parent="overlay"]
+[node name="fade" type="ColorRect" parent="overlay" unique_id=1441912262]
 modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="flash" type="ColorRect" parent="overlay"]
+[node name="flash" type="ColorRect" parent="overlay" unique_id=776142982]
 modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 480.0
 metadata/_edit_lock_ = true
 
-[node name="battle" type="CanvasLayer" parent="."]
+[node name="battle" type="CanvasLayer" parent="." unique_id=1668109945]
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="." unique_id=159704141]
 position = Vector2(320, 240)
 ignore_rotation = false
 script = ExtResource("11_ge22l")
