@@ -26,7 +26,7 @@ var speed = 0.02
 @export var override_font_size = -1
 
 # pauses for [character_pause_time] time on the characters listed in array
-var character_pause_time = 0.2
+var character_pause_time = 0.18
 var pause_characters = [
 	'!',
 	'?',
@@ -64,8 +64,6 @@ func _ready() -> void:
 func on_timeout() -> void:
 	var _text = get_parsed_text()
 	if visible_characters == len(_text): return
-	# account for speed change
-	character_pause_time = 0.18 + speed
 	
 	var text_length = len(_text)
 	var char = _text[visible_characters]
@@ -73,7 +71,7 @@ func on_timeout() -> void:
 	# checks if chr is in override dict, changes timer accordingly
 	if visible_characters < text_length - 1:
 		if visible_characters in override_pause.keys() and !override_pause.is_empty(): timer.start(override_pause[visible_characters])
-		elif char in pause_characters and override_pause.is_empty(): timer.start(character_pause_time)
+		elif char in pause_characters and override_pause.is_empty(): timer.start(character_pause_time + speed)
 		else: timer.start(speed)
 		if visible_characters in override_speed.keys() and !override_speed.is_empty(): speed = override_speed[visible_characters]
 	
