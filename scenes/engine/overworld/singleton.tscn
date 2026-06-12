@@ -132,6 +132,7 @@ theme_override_fonts/normal_font = SubResource("FontVariation_griv2")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "*You earned 0 EXP and 022 gold."
+visible_characters_behavior = 1
 script = ExtResource("2_kxugb")
 
 [node name="options" type="Node2D" parent="ui/dialogbox" unique_id=165170174]
