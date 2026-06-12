@@ -599,7 +599,7 @@ func create_dialog_box(text_array : Array, automatic : bool = false, oneshot : b
 		if oneshot: return
 		await text.completed
 		if automatic:
-			await get_tree().create_timer(text.text.length() / 0.35).timeout
+			await get_tree().create_timer(text.text.length() * 0.35).timeout
 			continue
 		while true:
 			var accept = Input.is_action_just_pressed("accept")

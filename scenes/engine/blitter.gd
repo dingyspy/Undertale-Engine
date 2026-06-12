@@ -64,6 +64,8 @@ func _ready() -> void:
 func on_timeout() -> void:
 	var _text = get_parsed_text()
 	if visible_characters == len(_text): return
+	# account for speed change
+	character_pause_time = 0.18 + speed
 	
 	var text_length = len(_text)
 	var char = _text[visible_characters]
