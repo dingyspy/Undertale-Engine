@@ -31,8 +31,10 @@ func _ready():
 			patch_margin_right = 0; patch_margin_bottom = 6
 		"papyrus":
 			texture = load("res://sprites/engine/battle/bullets/bone/bone_papyrus.png")
-			patch_margin_left = 0; patch_margin_top = 4
-			patch_margin_right = 0; patch_margin_bottom = 4
+			patch_margin_left = 0; patch_margin_top = 6
+			patch_margin_right = 0; patch_margin_bottom = 6
+			region_rect = Rect2(0,0,13,11)
+			size.x = 15
 
 func _process(delta: float) -> void:
 	_position += _direction * _speed * delta
