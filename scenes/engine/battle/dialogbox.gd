@@ -42,5 +42,7 @@ func _process(delta):
 			if flipped: text.position.x += text.size.x - 12
 	else:
 		text.position.x = 12
+		box.size.x = fixed_x + 12
+		box.size.y = fixed_y + 12
 		text.size.x = fixed_x
 		text.size.y = fixed_y
