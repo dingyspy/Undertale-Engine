@@ -86,6 +86,8 @@ func load_scene(scene, go_to_save : bool = false):
 		old_scene = current_scene.scene_file_path
 		current_scene.queue_free()
 	
+	# so player doesnt spawn inside the next / prev room's coll
+	var plrvec = player.prev_vector
 	# adds player to tilemaps (same y sort issue)
 	var player_dupe = player.duplicate()
 	tilemaps.add_child(player_dupe)
@@ -99,15 +101,14 @@ func load_scene(scene, go_to_save : bool = false):
 	container.add_child(loaded_scene)
 	current_scene = loaded_scene
 	
-	var cur_pos = player.position - player.prev_vector * 15
+	var cur_pos = player.position - plrvec * 15
 	var found = false
 	
 	# really confusing code that puts every scene you enter into an array WITH the player's position,
 	# if the next scene matches the old scene, the player's position is set to the old scene's player's position
 	for i in prev_scene:
 		if i[0] == scene:
-			print(i[1])
-			player.position = i[1]
+			player.position = i[1] + plrvec * 15
 			prev_scene.remove_at(prev_scene.find(i))
 			found = true
 	

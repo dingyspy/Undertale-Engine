@@ -209,6 +209,7 @@ func _process(delta: float) -> void:
 							# play the selected cell dialog
 							soul.visible = false
 							cell_node.visible = false
+							engine.is_in_event = true
 							
 							for i in menuitems.get_children(): i.queue_free()
 							Audio.play('select')
@@ -235,6 +236,7 @@ func _process(delta: float) -> void:
 							buffer = 2
 							menu_no = 1
 							
+							engine.is_in_event = false
 							cell_node.visible = true
 							soul.visible = true
 							for i in Global.cell.size():
