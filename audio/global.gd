@@ -274,6 +274,7 @@ var blitter_info = {
 
 func _ready() -> void:
 	# loads the game
+	_save()
 	_load()
 	Engine.max_fps = 30
 

@@ -7,6 +7,7 @@ func load_font(node : RichTextLabel, font_path : String, size : int):
 	__font.base_font = _font
 	node.add_theme_font_override("normal_font", __font)
 	node.add_theme_font_size_override("normal_font_size", size)
+	print(node,font_path,size)
 
 # used for linear "lerping"
 func calculate_diff(val, newval, add):

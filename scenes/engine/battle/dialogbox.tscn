@@ -37,7 +37,7 @@ bbcode_enabled = true
 text = "feafesw"
 visible_characters_behavior = 1
 script = ExtResource("4_tkl58")
-override_font_size = 16
+font = "sans"
 
 [node name="ref" type="RichTextLabel" parent="box" unique_id=976746255]
 visible = false

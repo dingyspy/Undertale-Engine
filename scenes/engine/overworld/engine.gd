@@ -108,7 +108,8 @@ func load_scene(scene, go_to_save : bool = false):
 	# if the next scene matches the old scene, the player's position is set to the old scene's player's position
 	for i in prev_scene:
 		if i[0] == scene:
-			player.position = i[1] + plrvec * 15
+			# omg why didnt i think of normalization in the first place
+			player.position = i[1] + (i[1] - player.position).normalized() * 15
 			prev_scene.remove_at(prev_scene.find(i))
 			found = true
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cvjs1yergx84p"]
+[gd_scene format=3 uid="uid://cvjs1yergx84p"]
 
 [ext_resource type="Texture2D" uid="uid://d1dlexibsau6c" path="res://sprites/engine/overworld/engine/mindtiles.png" id="1_lvgel"]
 [ext_resource type="Script" uid="uid://cmc08umsc0ufo" path="res://scenes/unique/overworld/scenes/test.gd" id="1_yfr2m"]
@@ -127,41 +127,41 @@ size = Vector2(20, 11.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvgel"]
 size = Vector2(44.5, 42.625)
 
-[node name="Test - Test" type="Node"]
+[node name="Test - Test" type="Node" unique_id=1926390668]
 script = ExtResource("1_yfr2m")
 
-[node name="bg" type="CanvasLayer" parent="."]
+[node name="bg" type="CanvasLayer" parent="." unique_id=851383094]
 layer = -1
 follow_viewport_enabled = true
 
-[node name="bg" type="ColorRect" parent="bg"]
+[node name="bg" type="ColorRect" parent="bg" unique_id=1473009626]
 offset_right = 640.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="spawn" type="Node2D" parent="."]
+[node name="spawn" type="Node2D" parent="." unique_id=1371133589]
 position = Vector2(57, 39)
 
-[node name="tilemaps" type="Node" parent="."]
+[node name="tilemaps" type="Node" parent="." unique_id=1988512336]
 
-[node name="npc" parent="tilemaps" instance=ExtResource("7_x5mkd")]
+[node name="npc" parent="tilemaps" unique_id=1186569771 instance=ExtResource("7_x5mkd")]
 position = Vector2(434, 180)
 
-[node name="test" type="TileMapLayer" parent="tilemaps"]
+[node name="test" type="TileMapLayer" parent="tilemaps" unique_id=520619905]
 y_sort_enabled = true
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray(0, 0, 6, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_rcg4a")
 
-[node name="box" type="Sprite2D" parent="tilemaps"]
+[node name="box" type="Sprite2D" parent="tilemaps" unique_id=1935684285]
 y_sort_enabled = true
 position = Vector2(33, 117)
 scale = Vector2(2, 2)
 texture = ExtResource("4_gg27x")
 offset = Vector2(0, -9)
 
-[node name="save" type="AnimatedSprite2D" parent="tilemaps"]
+[node name="save" type="AnimatedSprite2D" parent="tilemaps" unique_id=353610219]
 y_sort_enabled = true
 position = Vector2(88, 117)
 scale = Vector2(2, 2)
@@ -170,68 +170,73 @@ autoplay = "default"
 frame_progress = 0.524406
 offset = Vector2(0, -9)
 
-[node name="collisions" type="Node" parent="."]
+[node name="collisions" type="Node" parent="." unique_id=1600906559]
 
-[node name="physical" type="StaticBody2D" parent="collisions"]
+[node name="physical" type="StaticBody2D" parent="collisions" unique_id=757173160]
 
-[node name="collision" type="CollisionShape2D" parent="collisions/physical"]
+[node name="collision" type="CollisionShape2D" parent="collisions/physical" unique_id=1658360968]
 position = Vector2(450, 368)
 shape = SubResource("RectangleShape2D_rcg4a")
 
-[node name="collision2" type="CollisionShape2D" parent="collisions/physical"]
+[node name="collision2" type="CollisionShape2D" parent="collisions/physical" unique_id=1599226802]
 position = Vector2(33, 117.25)
 shape = SubResource("RectangleShape2D_6iiol")
 
-[node name="collision3" type="CollisionShape2D" parent="collisions/physical"]
+[node name="collision3" type="CollisionShape2D" parent="collisions/physical" unique_id=1253810157]
 position = Vector2(88, 117.25)
 shape = SubResource("RectangleShape2D_6iiol")
 
-[node name="events" type="Node2D" parent="collisions"]
+[node name="collision4" type="CollisionShape2D" parent="collisions/physical" unique_id=2146706553]
+position = Vector2(266, 47)
+shape = SubResource("RectangleShape2D_lvgel")
+debug_color = Color(0.234866, 0.376937, 1, 0.42)
 
-[node name="on_test_interact" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+[node name="events" type="Node2D" parent="collisions" unique_id=1122353537]
+
+[node name="on_test_interact" type="Area2D" parent="collisions/events" unique_id=1627316685 node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
 interactable = true
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_interact"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_interact" unique_id=1940221967]
 position = Vector2(42.75, 186)
 shape = SubResource("RectangleShape2D_lvgel")
 
-[node name="on_test_event" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+[node name="on_test_event" type="Area2D" parent="collisions/events" unique_id=1333466980 node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
 oneshot = true
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_event"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/on_test_event" unique_id=1816345242]
 position = Vector2(167, 34.6875)
 shape = SubResource("RectangleShape2D_lvgel")
 
-[node name="_box" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+[node name="_box" type="Area2D" parent="collisions/events" unique_id=1452967451 node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
 interactable = true
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/_box"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_box" unique_id=1948564207]
 position = Vector2(33, 99)
 shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.995903, 0, 0.19686, 0.42)
 
-[node name="_save" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+[node name="_save" type="Area2D" parent="collisions/events" unique_id=816396610 node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
 interactable = true
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/_save"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_save" unique_id=1006862452]
 position = Vector2(88, 99)
 shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.831067, 0.392513, 0, 0.42)
 
-[node name="_change_area" type="Area2D" parent="collisions/events" node_paths=PackedStringArray("reference_node") groups=["event"]]
+[node name="_change_area" type="Area2D" parent="collisions/events" unique_id=2073433702 node_paths=PackedStringArray("reference_node") groups=["event"]]
 script = ExtResource("3_eivt8")
 reference_node = NodePath("../../..")
 next_area_path = "res://scenes/unique/overworld/scenes/test2.tscn"
 
-[node name="collision" type="CollisionShape2D" parent="collisions/events/_change_area"]
+[node name="collision" type="CollisionShape2D" parent="collisions/events/_change_area" unique_id=1458089318]
 position = Vector2(266, 47)
 shape = SubResource("RectangleShape2D_lvgel")
 debug_color = Color(0.234866, 0.376937, 1, 0.42)
